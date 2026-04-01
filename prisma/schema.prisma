@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Organisation {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @db.VarChar(100)
+  slug      String   @unique @db.VarChar(60)
+  logoUrl   String?  @map("logo_url") @db.Text
+  plan      String   @default("free") @db.VarChar(20)
+  timezone  String   @default("Asia/Kolkata") @db.VarChar(50)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  members     OrgMember[]
+  invitations Invitation[]
+  projects    Project[]
+
+  @@map("organisations")
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique @db.VarChar(255)
+  passwordHash String?  @map("password_hash") @db.Text
+  name         String?  @db.VarChar(100)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  memberships OrgMember[]
+
+  @@map("users")
+}
+
+model OrgMember {
+  id     String @id @default(uuid()) @db.Uuid
+  orgId  String @map("org_id") @db.Uuid
+  userId String @map("user_id") @db.Uuid
+  role   String @default("member") @db.VarChar(20)
+
+  organisation Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([orgId, userId])
+  @@map("org_members")
+}
+
+model Invitation {
+  id        String   @id @default(uuid()) @db.Uuid
+  orgId     String   @map("org_id") @db.Uuid
+  email     String   @db.VarChar(255)
+  role      String   @default("member") @db.VarChar(20)
+  token     String   @unique @db.VarChar(100)
+  expiresAt DateTime @map("expires_at") @db.Timestamptz
+  accepted  Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  organisation Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@map("invitations")
+}
+
+model Project {
+  id        String   @id @default(uuid()) @db.Uuid
+  orgId     String   @map("org_id") @db.Uuid
+  name      String   @db.VarChar(100)
+  domain    String?  @db.VarChar(200)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  organisation Organisation @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  events       Event[]
+
+  @@map("projects")
+}
+
+model Event {
+  id         BigInt   @id @default(autoincrement())
+  projectId  String   @map("project_id") @db.Uuid
+  eventType  String   @map("event_type") @db.VarChar(50)
+  properties Json     @default("{}")
+  revenue    Decimal  @default(0) @db.Decimal(10, 2)
+  occurredAt DateTime @map("occurred_at") @db.Timestamptz
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, occurredAt(sort: Desc)], name: "idx_events_project_time")
+  @@map("events")
+}
