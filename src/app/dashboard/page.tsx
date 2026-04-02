@@ -15,8 +15,12 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-2xl font-bold text-slate-800">No Organization Found</h1>
-      <p className="text-slate-600">You are not a member of any organization.</p>
+      <h1 className="text-2xl font-bold text-slate-800">
+        No Organization Found
+      </h1>
+      <p className="text-slate-600">
+        You are not a member of any organization.
+      </p>
     </div>
   );
 }

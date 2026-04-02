@@ -17,7 +17,8 @@ Key variables required:
 - `DATABASE_URL`: Connection string for PostgreSQL.
 - `NEXTAUTH_SECRET`: Secret for session encryption.
 - `NEXTAUTH_URL`: Base URL of the application.
-- `RESEND_API_KEY`: API key for email notifications.
+- `GMAIL_USER`: Your Gmail address.
+- `GMAIL_PASS`: Your Google App Password.
 
 ### 3. Local Development (Host Machine)
 To run the project locally with a Dockerized database:

@@ -1,14 +1,8 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
+import { TenantContext } from "@/types";
 
-export interface TenantContext {
-  orgId: string;
-  orgSlug: string;
-  role: string;
-  userId: string;
-}
-
-export async function getTenantContext(req?: Request): Promise<TenantContext> {
+export async function getTenantContext(): Promise<TenantContext> {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {

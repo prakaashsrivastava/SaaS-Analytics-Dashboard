@@ -13,7 +13,9 @@ export default withAuth(
 
       // If the user's orgSlug doesn't match the URL slug, redirect to their dashboard
       if (userOrgSlug && slugFromUrl && slugFromUrl !== userOrgSlug) {
-        return NextResponse.redirect(new URL(`/dashboard/${userOrgSlug}`, req.url));
+        return NextResponse.redirect(
+          new URL(`/dashboard/${userOrgSlug}`, req.url)
+        );
       }
     }
 
