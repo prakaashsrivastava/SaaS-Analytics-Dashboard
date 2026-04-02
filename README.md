@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SaaS Analytics Dashboard
 
-## Getting Started
+A modern, multi-tenant SaaS Analytics Dashboard built with Next.js 16, Prisma, and NextAuth.js.
 
-First, run the development server:
+## 🚀 Quick Start
 
+### 1. Prerequisites
+- Node.js (v20+)
+- Docker & Docker Compose (for database and production-like deployment)
+
+### 2. Environment Setup
+Copy the example environment file and fill in the values:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env # If .env.example exists, otherwise create .env
 ```
+Key variables required:
+- `DATABASE_URL`: Connection string for PostgreSQL.
+- `NEXTAUTH_SECRET`: Secret for session encryption.
+- `NEXTAUTH_URL`: Base URL of the application.
+- `RESEND_API_KEY`: API key for email notifications.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Local Development (Host Machine)
+To run the project locally with a Dockerized database:
+```bash
+# Start only the database
+docker compose up -d db
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Install dependencies
+pnpm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Setup database schema
+pnpm prisma generate
+pnpm prisma db push
 
-## Learn More
+# Start the development server
+pnpm dev
+```
+Open [http://localhost:3000](http://localhost:3000) for the application.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🐳 Docker Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To deploy the full stack (App + DB + Nginx) using Docker:
 
-## Deploy on Vercel
+### Build and Start
+```bash
+docker compose up -d --build
+```
+This will start:
+- **db**: PostgreSQL database.
+- **app**: Next.js application (Multi-tenant logic).
+- **nginx**: Reverse proxy handling requests on port 80.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Useful Docker Commands
+- `docker compose stop`: Stops the running services.
+- `docker compose restart`: Restarts all services.
+- `docker compose logs -f`: Tails logs for all services.
+- `docker compose ps`: Lists status of all services.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🛠 Tech Stack & Architecture
+
+- **Framework**: Next.js 16 (App Router)
+- **Authentication**: NextAuth.js (Credentials Provider)
+- **Database**: PostgreSQL with Prisma ORM
+- **Styling**: Tailwind CSS & Shadcn UI
+- **Multi-tenancy**: Organization-based data isolation via slugs (e.g., `/dashboard/[slug]`)
+- **Proxy**: Nginx for production-grade routing and header management
+
+## 📦 Project Structure
+- `src/app`: Next.js 16 App Router pages and API routes.
+- `src/components`: UI components (Shadcn + custom).
+- `src/lib`: Core utilities (Prisma client, Auth options, slugs).
+- `prisma`: Database schema definition.
+- `nginx`: Configuration for the Nginx reverse proxy.
+
+## ⚠️ Important Notes
+> [!IMPORTANT]
+> The current Next.js version (16.2.2) uses the `App Router`. 
+>
+> [!WARNING]
+> If running on the host machine while the DB is in Docker, ensure your `DATABASE_URL` uses `localhost` instead of the service name `db`.
+
+---
+
+## 📄 License
+MIT

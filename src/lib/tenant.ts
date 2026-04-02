@@ -8,14 +8,13 @@ export interface TenantContext {
   userId: string;
 }
 
-export async function getTenantContext(): Promise<TenantContext> {
+export async function getTenantContext(req?: Request): Promise<TenantContext> {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
     throw new Error("UNAUTHORIZED");
   }
 
-  // NextAuth 4 augmented session types (orgId, etc.) should be in scope
   return {
     orgId: session.user.orgId as string,
     orgSlug: session.user.orgSlug as string,
