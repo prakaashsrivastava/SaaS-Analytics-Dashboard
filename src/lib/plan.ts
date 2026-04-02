@@ -7,7 +7,7 @@ export interface PlanLimits {
 export function getPlanLimits(plan: string): PlanLimits {
   const normalizedPlan = plan.toLowerCase();
 
-  if (normalizedPlan === 'pro') {
+  if (normalizedPlan === "pro") {
     return {
       maxProjects: Infinity,
       maxMembers: Infinity,

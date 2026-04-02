@@ -12,19 +12,20 @@ services:
   app:
     build: .
     restart: unless-stopped
-    depends_on: [db]
+    depends_on: [ db ]
     environment:
       DATABASE_URL: postgresql://saas_user:${DB_PASSWORD:-password}@db:5432/saas_dashboard
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-secret}
       NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
-      RESEND_API_KEY: ${RESEND_API_KEY:-re_xxxx}
-      EMAIL_FROM: ${EMAIL_FROM:-noreply@yourdomain.com}
+      GMAIL_USER: ${GMAIL_USER:-your-email@gmail.com}
+      GMAIL_PASS: ${GMAIL_PASS:-your-app-password}
+      EMAIL_FROM: ${EMAIL_FROM:-your-email@gmail.com}
     ports:
       - "3000:3000"
   nginx:
     image: nginx:alpine
     restart: unless-stopped
-    depends_on: [app]
+    depends_on: [ app ]
     ports:
       - "80:80"
       - "443:443"

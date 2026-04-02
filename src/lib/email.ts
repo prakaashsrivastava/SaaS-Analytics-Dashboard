@@ -1,19 +1,25 @@
-import { Resend } from 'resend';
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
+  },
+});
 
 export async function sendWelcomeEmail(email: string, name: string) {
   try {
-    const data = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_FROM || process.env.GMAIL_USER,
       to: email,
-      subject: 'Welcome to SaaS Analytics Dashboard',
+      subject: "Welcome to SaaS Analytics Dashboard",
       html: `<p>Hi ${name},</p><p>Welcome to your new dashboard! We're excited to have you on board.</p>`,
     });
 
-    return data;
+    return info;
   } catch (error) {
-    console.error('Failed to send welcome email:', error);
+    console.error("Failed to send welcome email:", error);
     return null;
   }
 }

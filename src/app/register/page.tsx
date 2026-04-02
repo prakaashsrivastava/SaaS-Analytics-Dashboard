@@ -74,8 +74,10 @@ export default function RegisterPage() {
         const slug = result.organisation.slug;
         router.push(`/dashboard/${slug}`);
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const errorMsg =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -85,7 +87,9 @@ export default function RegisterPage() {
     <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
+          <CardTitle className="text-2xl font-bold">
+            Create an account
+          </CardTitle>
           <CardDescription>
             Enter your details to register your organization and your account.
           </CardDescription>
@@ -116,7 +120,9 @@ export default function RegisterPage() {
               <Label htmlFor="name">Full Name</Label>
               <Input id="name" placeholder="John Doe" {...register("name")} />
               {errors.name && (
-                <p className="text-sm text-destructive">{errors.name.message}</p>
+                <p className="text-sm text-destructive">
+                  {errors.name.message}
+                </p>
               )}
             </div>
 
@@ -129,7 +135,9 @@ export default function RegisterPage() {
                 {...register("email")}
               />
               {errors.email && (
-                <p className="text-sm text-destructive">{errors.email.message}</p>
+                <p className="text-sm text-destructive">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 

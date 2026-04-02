@@ -8,14 +8,16 @@ RUN corepack enable
 FROM base AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
+RUN pnpm config set node-linker hoisted
 RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
 WORKDIR /app
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Generate Prisma Client
-RUN npx prisma generate
+RUN pnpm prisma generate
 # Build the application
 RUN pnpm build
 
