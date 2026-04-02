@@ -88,7 +88,10 @@ function LoginForm() {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium text-slate-700">
+            <Label
+              htmlFor="email"
+              className="text-sm font-medium text-slate-700"
+            >
               Email address
             </Label>
             <Input
