@@ -2,19 +2,34 @@ import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 export default withAuth(
-  function middleware(req) {
+  function proxy(req) {
     const { token } = req.nextauth;
     const { pathname } = req.nextUrl;
 
     // Check if the path is a dashboard path with a slug
     if (pathname.startsWith("/dashboard/")) {
-      const slugFromUrl = pathname.split("/")[2];
+      const parts = pathname.split("/");
+      const slugFromUrl = parts[2];
+      const isSettingsPage = parts[3] === "settings";
       const userOrgSlug = token?.orgSlug as string;
+      const userRole = token?.role as string;
 
-      // If the user's orgSlug doesn't match the URL slug, redirect to their dashboard
-      if (userOrgSlug && slugFromUrl && slugFromUrl !== userOrgSlug) {
+      // 1. Tenant Isolation: If the user's orgSlug doesn't match the URL slug, redirect to their dashboard
+      if (
+        userOrgSlug &&
+        slugFromUrl &&
+        slugFromUrl !== "unauthorized" &&
+        slugFromUrl !== userOrgSlug
+      ) {
         return NextResponse.redirect(
           new URL(`/dashboard/${userOrgSlug}`, req.url)
+        );
+      }
+
+      // 2. RBAC Guard: If they try to access /settings and are NOT an owner, redirect to unauthorized
+      if (isSettingsPage && userRole !== "owner") {
+        return NextResponse.redirect(
+          new URL("/dashboard/unauthorized", req.url)
         );
       }
     }
