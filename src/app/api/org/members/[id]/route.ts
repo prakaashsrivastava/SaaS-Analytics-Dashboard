@@ -10,7 +10,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const { authorized, context, response } = await ensurePermission("remove_member");
+  const { authorized, context, response } =
+    await ensurePermission("remove_member");
 
   if (!authorized) {
     return response;
@@ -21,7 +22,9 @@ export async function DELETE(
   // 2. Delete the record
   // 3. Return success
 
-  console.log(`[RBAC DEMO] User ${context!.userId} (Role: ${context!.role}) is removing member ${id}`);
+  console.log(
+    `[RBAC DEMO] User ${context!.userId} (Role: ${context!.role}) is removing member ${id}`
+  );
 
   return NextResponse.json({
     success: true,

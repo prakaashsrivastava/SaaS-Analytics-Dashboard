@@ -30,9 +30,7 @@ export default function ForbiddenPage() {
           <div className="w-full h-[1px] bg-white/10" />
 
           <Link href="/dashboard" className="w-full">
-            <Button
-              className="w-full h-12 bg-white text-slate-950 hover:bg-slate-200 transition-all font-semibold rounded-xl text-md flex items-center justify-center shadow-lg hover:shadow-white/10 active:scale-[0.98]"
-            >
+            <Button className="w-full h-12 bg-white text-slate-950 hover:bg-slate-200 transition-all font-semibold rounded-xl text-md flex items-center justify-center shadow-lg hover:shadow-white/10 active:scale-[0.98]">
               Return to Dashboard
             </Button>
           </Link>

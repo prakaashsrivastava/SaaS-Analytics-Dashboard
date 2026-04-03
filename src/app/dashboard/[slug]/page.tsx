@@ -4,7 +4,6 @@ import { redirect, notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { canDo } from "@/lib/permissions";
-import { AccessControl } from "@/components/dashboard/access-control";
 import {
   Users,
   Settings,
@@ -89,19 +88,26 @@ export default async function OrgDashboardPage({
       <main className="max-w-7xl mx-auto py-8 px-6 space-y-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 className="text-3xl font-extrabold text-slate-900">Dashboard</h2>
-            <p className="text-slate-500 font-medium">Manage your team and view growth metrics.</p>
+            <h2 className="text-3xl font-extrabold text-slate-900">
+              Dashboard
+            </h2>
+            <p className="text-slate-500 font-medium">
+              Manage your team and view growth metrics.
+            </p>
           </div>
-          
+
           <div className="flex items-center gap-3">
-            {canDo(session.user.role!, 'invite_member') && (
+            {canDo(session.user.role!, "invite_member") && (
               <Button className="bg-slate-900 text-white hover:bg-slate-800 shadow-md">
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Invite Member
               </Button>
             )}
-            {canDo(session.user.role!, 'change_settings') && (
-              <Button variant="outline" className="border-slate-200 hover:bg-slate-50">
+            {canDo(session.user.role!, "change_settings") && (
+              <Button
+                variant="outline"
+                className="border-slate-200 hover:bg-slate-50"
+              >
                 <Settings className="mr-2 h-4 w-4" />
                 Settings
               </Button>
@@ -135,21 +141,31 @@ export default async function OrgDashboardPage({
                     Slug ID
                   </p>
                   <div className="flex items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
-                    <code className="text-sm text-slate-600">{organisation.slug}</code>
+                    <code className="text-sm text-slate-600">
+                      {organisation.slug}
+                    </code>
                   </div>
                 </div>
               </CardContent>
-              {canDo(session.user.role!, 'upgrade_plan') && organisation.plan === 'free' && (
-                <CardFooter className="bg-slate-50 border-t border-slate-100 py-4 flex flex-col items-start gap-4">
-                  <div className="space-y-1">
-                    <p className="text-sm font-bold text-slate-900">Upgrade to Pro</p>
-                    <p className="text-xs text-slate-500 font-medium">Unlock 90-day history and unlimited projects.</p>
-                  </div>
-                  <Button size="sm" className="w-full bg-purple-600 hover:bg-purple-700 text-white shadow-sm font-bold">
-                    Upgrade Now
-                  </Button>
-                </CardFooter>
-              )}
+              {canDo(session.user.role!, "upgrade_plan") &&
+                organisation.plan === "free" && (
+                  <CardFooter className="bg-slate-50 border-t border-slate-100 py-4 flex flex-col items-start gap-4">
+                    <div className="space-y-1">
+                      <p className="text-sm font-bold text-slate-900">
+                        Upgrade to Pro
+                      </p>
+                      <p className="text-xs text-slate-500 font-medium">
+                        Unlock 90-day history and unlimited projects.
+                      </p>
+                    </div>
+                    <Button
+                      size="sm"
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white shadow-sm font-bold"
+                    >
+                      Upgrade Now
+                    </Button>
+                  </CardFooter>
+                )}
             </Card>
           </div>
 
@@ -162,11 +178,16 @@ export default async function OrgDashboardPage({
                     Team Members
                   </CardTitle>
                   <CardDescription className="text-slate-500 font-medium">
-                    {organisation.members.length} people have access to this workspace.
+                    {organisation.members.length} people have access to this
+                    workspace.
                   </CardDescription>
                 </div>
-                {canDo(session.user.role!, 'invite_member') && (
-                  <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 font-bold">
+                {canDo(session.user.role!, "invite_member") && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 font-bold"
+                  >
                     View Invitations
                   </Button>
                 )}
@@ -192,21 +213,30 @@ export default async function OrgDashboardPage({
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-4">
-                      <span className={`text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider ${
-                        member.role === 'owner' ? 'bg-purple-100 text-purple-700' :
-                        member.role === 'admin' ? 'bg-blue-100 text-blue-700' :
-                        'bg-slate-100 text-slate-600'
-                      }`}>
+                      <span
+                        className={`text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider ${
+                          member.role === "owner"
+                            ? "bg-purple-100 text-purple-700"
+                            : member.role === "admin"
+                              ? "bg-blue-100 text-blue-700"
+                              : "bg-slate-100 text-slate-600"
+                        }`}
+                      >
                         {member.role}
                       </span>
-                      
-                      {canDo(session.user.role!, 'remove_member') && member.user.id !== session.user.id && (
-                        <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      )}
+
+                      {canDo(session.user.role!, "remove_member") &&
+                        member.user.id !== session.user.id && (
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
                     </div>
                   </li>
                 ))}

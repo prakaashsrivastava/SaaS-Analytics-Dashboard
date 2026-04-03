@@ -15,7 +15,12 @@ export default withAuth(
       const userRole = token?.role as string;
 
       // 1. Tenant Isolation: If the user's orgSlug doesn't match the URL slug, redirect to their dashboard
-      if (userOrgSlug && slugFromUrl && slugFromUrl !== "unauthorized" && slugFromUrl !== userOrgSlug) {
+      if (
+        userOrgSlug &&
+        slugFromUrl &&
+        slugFromUrl !== "unauthorized" &&
+        slugFromUrl !== userOrgSlug
+      ) {
         return NextResponse.redirect(
           new URL(`/dashboard/${userOrgSlug}`, req.url)
         );
