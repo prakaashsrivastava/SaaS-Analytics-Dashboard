@@ -1,43 +1,44 @@
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 
-# Install pnpm
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+# Install pnpm globally
+RUN npm install -g pnpm@latest
 
+# Install pnpm and dependencies
 FROM base AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm config set node-linker hoisted
 RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
 WORKDIR /app
-ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Generate Prisma Client
-RUN pnpm prisma generate
+RUN pnpm exec prisma generate
 # Build the application
 RUN pnpm build
 
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-# Uncomment the following line if you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED=1
+
+# Install pnpm for migration in runner
+RUN corepack enable
+RUN npm install -g prisma
 
 COPY --from=builder /app/public ./public
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.js ./
+COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
-
 ENV PORT=3000
 
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
-CMD ["node", "server.js"]
+# Set environment for standalone output
+ENV HOSTNAME="0.0.0.0"
+
+# Use absolute path for prisma if necessary, but global install should work
+# Run db push then start the server
+CMD ["sh", "-c", "prisma db push && node server.js"]
