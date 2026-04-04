@@ -4,14 +4,10 @@ import { redirect, notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { canDo } from "@/lib/permissions";
-import {
-  Users,
-  Settings,
-  PlusCircle,
-  TrendingUp,
-  Trash2,
-  ShieldCheck,
-} from "lucide-react";
+import { DashboardActions } from "@/components/dashboard/DashboardActions";
+import { DashboardUpgradeAction } from "@/components/dashboard/DashboardUpgradeAction";
+import Link from "next/link";
+import { Users, TrendingUp, Trash2, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -96,23 +92,11 @@ export default async function OrgDashboardPage({
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            {canDo(session.user.role!, "invite_member") && (
-              <Button className="bg-slate-900 text-white hover:bg-slate-800 shadow-md">
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Invite Member
-              </Button>
-            )}
-            {canDo(session.user.role!, "change_settings") && (
-              <Button
-                variant="outline"
-                className="border-slate-200 hover:bg-slate-50"
-              >
-                <Settings className="mr-2 h-4 w-4" />
-                Settings
-              </Button>
-            )}
-          </div>
+          <DashboardActions
+            slug={slug}
+            canInvite={canDo(session.user.role!, "invite_member")}
+            canSettings={canDo(session.user.role!, "change_settings")}
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -158,12 +142,7 @@ export default async function OrgDashboardPage({
                         Unlock 90-day history and unlimited projects.
                       </p>
                     </div>
-                    <Button
-                      size="sm"
-                      className="w-full bg-purple-600 hover:bg-purple-700 text-white shadow-sm font-bold"
-                    >
-                      Upgrade Now
-                    </Button>
+                    <DashboardUpgradeAction />
                   </CardFooter>
                 )}
             </Card>
@@ -183,13 +162,15 @@ export default async function OrgDashboardPage({
                   </CardDescription>
                 </div>
                 {canDo(session.user.role!, "invite_member") && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 font-bold"
-                  >
-                    View Invitations
-                  </Button>
+                  <Link href={`/dashboard/${slug}/members`}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 font-bold"
+                    >
+                      View Invitations
+                    </Button>
+                  </Link>
                 )}
               </div>
             </CardHeader>
