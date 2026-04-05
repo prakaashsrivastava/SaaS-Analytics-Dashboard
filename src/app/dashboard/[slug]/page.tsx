@@ -6,8 +6,17 @@ import { LogoutButton } from "@/components/auth/logout-button";
 import { canDo } from "@/lib/permissions";
 import { DashboardActions } from "@/components/dashboard/DashboardActions";
 import { DashboardUpgradeAction } from "@/components/dashboard/DashboardUpgradeAction";
+import { HistoryBanner } from "@/components/dashboard/HistoryBanner";
+import { ProjectLimitButton } from "@/components/dashboard/ProjectLimitButton";
 import Link from "next/link";
-import { Users, TrendingUp, Trash2, ShieldCheck } from "lucide-react";
+import {
+  Users,
+  TrendingUp,
+  Trash2,
+  ShieldCheck,
+  LayoutGrid,
+  PlusCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -148,7 +157,37 @@ export default async function OrgDashboardPage({
             </Card>
           </div>
 
+          <Card className="col-span-1 md:col-span-3 shadow-xl border-slate-200 overflow-hidden bg-white/50 backdrop-blur-sm border-dashed">
+            <CardHeader className="pb-2">
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle className="text-slate-800 text-lg font-bold flex items-center">
+                    <LayoutGrid className="mr-2 h-5 w-5 text-indigo-600" />
+                    Projects
+                  </CardTitle>
+                  <CardDescription className="text-slate-500 font-medium">
+                    You are currently using 1 of{" "}
+                    {session.user.plan === "pro" ? "unlimited" : "1"} 프로젝트
+                    slots.
+                  </CardDescription>
+                </div>
+                <ProjectLimitButton />
+              </div>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="p-4 rounded-2xl border-2 border-slate-100 border-dashed flex flex-col items-center justify-center gap-2 text-slate-400 group hover:border-slate-300 transition-all cursor-not-allowed">
+                  <PlusCircle className="w-8 h-8 opacity-20 group-hover:opacity-40" />
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-300">
+                    Slot Locked
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           <Card className="col-span-1 md:col-span-2 shadow-sm border-slate-200 overflow-hidden">
+            {/* Existing Team Members Card */}
             <CardHeader className="border-b border-slate-100 bg-slate-50/50">
               <div className="flex justify-between items-center">
                 <div>
@@ -224,6 +263,11 @@ export default async function OrgDashboardPage({
               </ul>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Feature 5 Gating Demonstrations */}
+        <div className="pt-4">
+          <HistoryBanner />
         </div>
       </main>
     </div>
