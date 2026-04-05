@@ -60,6 +60,7 @@ export const authOptions: NextAuthOptions = {
           orgId: activeMembership?.orgId,
           orgSlug: activeMembership?.organisation?.slug,
           role: activeMembership?.role,
+          plan: activeMembership?.organisation?.plan,
         };
       },
     }),
@@ -71,6 +72,7 @@ export const authOptions: NextAuthOptions = {
         token.orgId = user.orgId;
         token.orgSlug = user.orgSlug;
         token.role = user.role;
+        token.plan = user.plan;
       }
 
       // Handle session updates (e.g. after upgrade or org switch)
@@ -86,6 +88,7 @@ export const authOptions: NextAuthOptions = {
         session.user.orgId = token.orgId as string;
         session.user.orgSlug = token.orgSlug as string;
         session.user.role = token.role as string;
+        session.user.plan = token.plan as string;
       }
       return session;
     },
