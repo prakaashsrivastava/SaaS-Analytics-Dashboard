@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import {
   Card,
   CardContent,
@@ -18,15 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-
-const registerSchema = z.object({
-  orgName: z.string().min(2, "Organisation name must be at least 2 characters"),
-  name: z.string().min(2, "Full name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
-
-type RegisterValues = z.infer<typeof registerSchema>;
+import { registerSchema, RegisterValues } from "@/types";
 
 export default function RegisterPage() {
   const router = useRouter();

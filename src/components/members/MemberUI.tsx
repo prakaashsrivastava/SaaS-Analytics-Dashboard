@@ -1,10 +1,7 @@
 "use client";
 
 import React from "react";
-
-interface RoleBadgeProps {
-  role: string;
-}
+import { RoleBadgeProps, UserAvatarProps } from "@/types";
 
 export function RoleBadge({ role }: RoleBadgeProps) {
   const styles = {
@@ -23,12 +20,6 @@ export function RoleBadge({ role }: RoleBadgeProps) {
       {role}
     </span>
   );
-}
-
-interface UserAvatarProps {
-  name?: string | null;
-  email: string;
-  className?: string;
 }
 
 export function UserAvatar({ name, email, className = "" }: UserAvatarProps) {

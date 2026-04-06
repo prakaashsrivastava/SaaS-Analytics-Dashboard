@@ -11,10 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle } from "lucide-react";
-
-interface InviteStatusViewProps {
-  status: "invalid" | "expired" | "accepted";
-}
+import { InviteStatusViewProps } from "@/types";
 
 export function InviteStatusView({ status }: InviteStatusViewProps) {
   const router = useRouter();

@@ -11,14 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Zap, CheckCircle2 } from "lucide-react";
+import { UpgradeModalProps } from "@/types";
 import { DashboardUpgradeAction } from "./DashboardUpgradeAction";
-
-interface UpgradeModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  feature?: string;
-  limit?: number;
-}
 
 export function UpgradeModal({
   isOpen,

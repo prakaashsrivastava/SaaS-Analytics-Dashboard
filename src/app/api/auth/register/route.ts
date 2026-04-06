@@ -5,12 +5,7 @@ import { generateBaseSlug, generateRandomSuffix } from "@/lib/slug";
 import { sendWelcomeEmail } from "@/lib/email";
 import { z } from "zod";
 
-const registerSchema = z.object({
-  orgName: z.string().min(2, "Organisation name must be at least 2 characters"),
-  name: z.string().min(2, "Full name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
+import { registerSchema } from "@/types";
 
 export async function POST(req: Request) {
   try {

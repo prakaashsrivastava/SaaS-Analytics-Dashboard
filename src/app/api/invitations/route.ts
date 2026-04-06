@@ -4,6 +4,8 @@ import { getPlanLimits } from "@/lib/plan";
 import { sendInvitationEmail } from "@/lib/email";
 import prisma from "@/lib/prisma";
 import { nanoid } from "nanoid";
+import { inviteSchema } from "@/types";
+import { z } from "zod";
 
 /**
  * POST /api/invitations
@@ -18,14 +20,9 @@ export async function POST(req: NextRequest) {
       return response;
     }
 
-    const { email, role } = await req.json();
-
-    if (!email || !role) {
-      return NextResponse.json(
-        { error: "MISSING_FIELDS", message: "Email and role are required." },
-        { status: 400 }
-      );
-    }
+    const body = await req.json();
+    const validatedData = inviteSchema.parse(body);
+    const { email, role } = validatedData;
 
     const orgId = context!.orgId;
 
@@ -117,6 +114,12 @@ export async function POST(req: NextRequest) {
       invitationId: invitation.id,
     });
   } catch (error: unknown) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", details: error.issues },
+        { status: 400 }
+      );
+    }
     console.error("Failed to create invitation:", error);
     return NextResponse.json(
       { error: "INTERNAL_SERVER_ERROR" },

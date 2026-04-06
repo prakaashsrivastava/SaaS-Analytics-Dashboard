@@ -7,18 +7,9 @@ import { Users, PlusCircle, TrendingUp, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { InviteMemberModal } from "@/components/invite/InviteMemberModal";
-import { MemberTable } from "@/components/dashboard/MemberTable";
+import { MemberTable } from "@/components/members/MemberTable";
 import Link from "next/link";
-
-interface Member {
-  id: string;
-  userId: string | null;
-  email: string;
-  name: string | null;
-  role: string;
-  joinedAt: string;
-  status: "active" | "pending";
-}
+import { Member } from "@/types";
 
 export default function MembersPage({
   params: paramsPromise,

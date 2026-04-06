@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/lib/tenant";
 import prisma from "@/lib/prisma";
+import { Member } from "@/types";
 
 /**
  * GET /api/org/members
@@ -50,7 +51,7 @@ export async function GET() {
       email: membership.user.email,
       name: membership.user.name,
       role: membership.role,
-      joinedAt: membership.user.createdAt,
+      joinedAt: membership.user.createdAt.toISOString(),
       status: "active",
     }));
 
@@ -60,11 +61,14 @@ export async function GET() {
       email: invite.email,
       name: null,
       role: invite.role,
-      joinedAt: invite.createdAt,
+      joinedAt: invite.createdAt.toISOString(),
       status: "pending",
     }));
 
-    return NextResponse.json([...formattedMembers, ...formattedInvites]);
+    return NextResponse.json([
+      ...formattedMembers,
+      ...formattedInvites,
+    ] as Member[]);
   } catch (error: unknown) {
     if (error instanceof Error && error.message === "UNAUTHORIZED") {
       return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });

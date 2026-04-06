@@ -6,12 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { X, Loader2, Send } from "lucide-react";
-
-interface InviteMemberModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSuccess: () => void;
-}
+import { InviteMemberModalProps } from "@/types";
 
 export function InviteMemberModal({
   isOpen,

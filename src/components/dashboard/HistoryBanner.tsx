@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { Zap, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { UpgradeModal } from "./UpgradeModal";
+import { UpgradeModal } from "@/components/plan/UpgradeModal";
 
 export function HistoryBanner() {
   const { data: session } = useSession();
