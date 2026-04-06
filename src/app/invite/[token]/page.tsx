@@ -5,11 +5,7 @@ import { Loader2 } from "lucide-react";
 import { InviteStatusView } from "@/components/invite/InviteStatusView";
 import { AcceptInviteForm } from "@/components/invite/AcceptInviteForm";
 
-interface InviteData {
-  orgName: string;
-  email: string;
-  role: string;
-}
+import { InviteData } from "@/types";
 
 export default function InviteAcceptancePage({
   params: paramsPromise,

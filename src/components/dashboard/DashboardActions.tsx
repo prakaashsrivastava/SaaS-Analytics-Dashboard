@@ -5,11 +5,7 @@ import { useRouter } from "next/navigation";
 import { PlusCircle, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface DashboardActionsProps {
-  slug: string;
-  canInvite: boolean;
-  canSettings: boolean;
-}
+import { DashboardActionsProps } from "@/types";
 
 export function DashboardActions({
   slug,

@@ -4,10 +4,7 @@ import { useSession } from "next-auth/react";
 import { canDo } from "@/lib/permissions";
 import React from "react";
 
-interface AccessControlProps {
-  action: string;
-  children: React.ReactNode;
-}
+import { AccessControlProps } from "@/types";
 
 /**
  * AccessControl component hides children if the user does not have permission.

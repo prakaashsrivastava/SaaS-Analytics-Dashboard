@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { signIn, useSession, signOut } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import {
   Card,
   CardDescription,
@@ -17,20 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, Users, ArrowRight, CheckCircle2, LogOut } from "lucide-react";
-
-const acceptSchema = z.object({
-  name: z.string().min(2, "Full name must be at least 2 characters"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
-
-type AcceptValues = z.infer<typeof acceptSchema>;
-
-interface AcceptInviteFormProps {
-  token: string;
-  orgName: string;
-  email: string;
-  role: string;
-}
+import { AcceptInviteFormProps, AcceptValues, acceptSchema } from "@/types";
 
 export function AcceptInviteForm({
   token,
@@ -49,6 +35,11 @@ export function AcceptInviteForm({
     formState: { errors },
   } = useForm<AcceptValues>({
     resolver: zodResolver(acceptSchema),
+    defaultValues: {
+      token: token,
+      name: "",
+      password: "",
+    },
   });
 
   const isCorrectUserLoggedIn = session?.user?.email === email;

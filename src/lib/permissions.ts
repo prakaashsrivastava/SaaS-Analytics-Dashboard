@@ -1,4 +1,4 @@
-export type Role = "owner" | "admin" | "member";
+import { Role } from "@/types";
 
 const PERMISSIONS: Record<Role, string[]> = {
   owner: [

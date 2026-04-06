@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as bcryptjs from "bcryptjs";
-import prisma from "@/lib/prisma";
 import { z } from "zod";
-
-const acceptSchema = z.object({
-  token: z.string(),
-  name: z.string().min(2, "Full name must be at least 2 characters"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
+import prisma from "@/lib/prisma";
+import { acceptSchema } from "@/types";
 
 /**
  * POST /api/invitations/accept

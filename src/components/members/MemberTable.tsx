@@ -13,23 +13,7 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RoleBadge, UserAvatar } from "./MemberUI";
-
-interface Member {
-  id: string;
-  userId: string | null;
-  email: string;
-  name: string | null;
-  role: string;
-  joinedAt: string;
-  status: string;
-}
-
-interface MemberTableProps {
-  members: Member[];
-  currentUserId?: string;
-  canDelete: boolean;
-  onDeleteItem: (id: string, isInvite: boolean) => void;
-}
+import { MemberTableProps } from "@/types";
 
 export function MemberTable({
   members,

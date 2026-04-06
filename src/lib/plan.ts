@@ -1,8 +1,4 @@
-export interface PlanLimits {
-  maxProjects: number;
-  maxMembers: number;
-  dataWindowDays: number;
-}
+import { PlanLimits } from "@/types";
 
 export function getPlanLimits(plan: string): PlanLimits {
   const normalizedPlan = plan.toLowerCase();
