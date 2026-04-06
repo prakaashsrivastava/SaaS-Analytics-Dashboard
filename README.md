@@ -6,7 +6,8 @@ A modern, multi-tenant SaaS Analytics Dashboard built with Next.js 16, Prisma, a
 
 ### 1. Prerequisites
 - Node.js (v20+)
-- Docker & Docker Compose (for database and production-like deployment)
+- External PostgreSQL Database
+- Docker & Docker Compose (optional, for production-like deployment)
 
 ### 2. Environment Setup
 Copy the example environment file and fill in the values:
@@ -21,11 +22,8 @@ Key variables required:
 - `GMAIL_PASS`: Your Google App Password.
 
 ### 3. Local Development (Host Machine)
-To run the project locally with a Dockerized database:
+To run the project locally using your external PostgreSQL database:
 ```bash
-# Start only the database
-docker compose up -d db
-
 # Install dependencies
 pnpm install
 
@@ -42,14 +40,13 @@ Open [http://localhost:3000](http://localhost:3000) for the application.
 
 ## 🐳 Docker Deployment
 
-To deploy the full stack (App + DB + Nginx) using Docker:
+To deploy the application and reverse proxy (App + Nginx) using Docker:
 
 ### Build and Start
 ```bash
 docker compose up -d --build
 ```
 This will start:
-- **db**: PostgreSQL database.
 - **app**: Next.js application (Multi-tenant logic).
 - **nginx**: Reverse proxy handling requests on port 80.
 
@@ -82,7 +79,7 @@ This will start:
 > The current Next.js version (16.2.2) uses the `App Router`. 
 >
 > [!WARNING]
-> If running on the host machine while the DB is in Docker, ensure your `DATABASE_URL` uses `localhost` instead of the service name `db`.
+> Ensure your `DATABASE_URL` in the `.env` file points to your external PostgreSQL database.
 
 ---
 

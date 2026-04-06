@@ -29,7 +29,6 @@ export function Sidebar({ orgSlug, orgName, userRole, plan }: SidebarProps) {
         const response = await fetch("/api/projects");
         if (response.ok) {
           const data = await response.json();
-          // Ensuring data is treated as SidebarProject array
           setProjects(data as SidebarProject[]);
         }
       } catch (error) {
@@ -40,6 +39,10 @@ export function Sidebar({ orgSlug, orgName, userRole, plan }: SidebarProps) {
     }
 
     fetchProjects();
+
+    const handleOpenModal = () => setIsModalOpen(true);
+    window.addEventListener("open-project-modal", handleOpenModal);
+    return () => window.removeEventListener("open-project-modal", handleOpenModal);
   }, []);
 
   const navItems = [
