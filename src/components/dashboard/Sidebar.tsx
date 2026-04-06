@@ -42,7 +42,8 @@ export function Sidebar({ orgSlug, orgName, userRole, plan }: SidebarProps) {
 
     const handleOpenModal = () => setIsModalOpen(true);
     window.addEventListener("open-project-modal", handleOpenModal);
-    return () => window.removeEventListener("open-project-modal", handleOpenModal);
+    return () =>
+      window.removeEventListener("open-project-modal", handleOpenModal);
   }, []);
 
   const navItems = [
