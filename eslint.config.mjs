@@ -13,6 +13,8 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "prisma/client/**",
+    "scripts-dist-test/**",
+    "scripts-dist-test-ncc/**",
   ]),
 ]);
 

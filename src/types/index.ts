@@ -3,6 +3,7 @@ export * from "./models";
 export * from "./props";
 export * from "./forms";
 export * from "./plan";
+export * from "./analytics";
 
 // Explicitly re-exporting everything important to ensure resolution
 export type { Role, TenantContext } from "./auth";

@@ -26,3 +26,33 @@ services:
       - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+  cron:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - app
+    environment:
+      DB_HOST: ${DB_HOST:-host.docker.internal}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-admin}
+      DB_NAME: ${DB_NAME:-saas_database}
+      DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-admin}@${DB_HOST:-host.docker.internal}:${DB_PORT:-5432}/${DB_NAME:-saas_database}?schema=public
+    command: >
+      sh -c "
+      mkdir -p /app/logs &&
+      echo '[$(date)] Starting cron scheduler...' >> /app/logs/sync.log &&
+      while true; do
+        current_hour=$(date +%H)
+        if [ \"$$current_hour\" = \"01\" ]; then
+          echo \"[$(date)] Running 1 AM data sync...\" >> /app/logs/sync.log
+          pnpm exec tsx src/scripts/sync-analytics.ts >> /app/logs/sync.log 2>&1
+          echo \"[$(date)] Sync task finished. Sleeping until tomorrow.\" >> /app/logs/sync.log
+          sleep 82800  # sleep for 23 hours
+        else
+          sleep 60
+        fi
+      done"
+    volumes:
+      - ./logs:/app/logs
