@@ -24,8 +24,18 @@ export async function GET(
 
     const limits = getPlanLimits(org.plan);
     const days = limits.dataWindowDays;
-    // Hardcoded Asia/Kolkata as requested, or fallback to org.timezone if available
-    const timezone = "Asia/Kolkata";
+
+    // --- Double-Scoping Security Check ---
+    const project = await prisma.project.findFirst({
+      where: { id: projectId, orgId: context.orgId },
+    });
+
+    if (!project) {
+      return NextResponse.json({ error: "PROJECT_NOT_FOUND" }, { status: 404 });
+    }
+    // -------------------------------------
+    // Use organization's timezone or fallback to Asia/Kolkata
+    const timezone = org.timezone || "Asia/Kolkata";
 
     // Use raw query for date_trunc with timezone (PostgreSQL)
     const results = await prisma.$queryRaw`

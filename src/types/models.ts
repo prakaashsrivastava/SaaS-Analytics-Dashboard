@@ -28,6 +28,8 @@ export interface InviteData {
   orgName: string;
   email: string;
   role: Role;
+  userExists?: boolean;
+  userName?: string | null;
 }
 
 export interface InviteDetails {

@@ -13,6 +13,58 @@ export interface OverviewData {
   windowDays: number;
 }
 
+export interface FunnelData {
+  step: string;
+  count: number;
+  percentage: number;
+}
+
+export interface RetentionData {
+  name: string;
+  value: number;
+}
+
+export interface FunnelChartProps {
+  data: FunnelData[];
+  loading?: boolean;
+}
+
+export interface FunnelTooltipProps {
+  active?: boolean;
+  payload?: {
+    payload: FunnelData;
+    value: number;
+    name: string;
+  }[];
+}
+
+export interface RetentionChartProps {
+  data: RetentionData[];
+  loading?: boolean;
+}
+
+export interface RetentionTooltipProps {
+  active?: boolean;
+  payload?: {
+    payload: RetentionData;
+    value: number;
+    name: string;
+  }[];
+}
+
+export interface RealtimeEvent {
+  id: string;
+  projectId: string;
+  eventType: string;
+  properties: Record<string, string | number | boolean | null>;
+  revenue: string | number;
+  occurredAt: string;
+}
+
+export interface RealtimeStreamProps {
+  projectId: string;
+}
+
 export interface TimeseriesData {
   day: string;
   event_count: number;

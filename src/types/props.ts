@@ -5,6 +5,7 @@ import { Role } from "./auth";
 export interface SidebarProps {
   orgSlug: string;
   orgName: string;
+  logoUrl?: string | null;
   userRole: Role | string;
   plan: string;
 }
@@ -71,4 +72,24 @@ export interface AcceptInviteFormProps {
   orgName: string;
   email: string;
   role: Role | string;
+  userExists?: boolean;
+  userName?: string | null;
+}
+
+export interface TrackingGuideProps {
+  projectId: string;
+}
+
+export interface ProjectAnalyticsProps {
+  projectId: string;
+  orgPlan: string;
+}
+
+export interface OrgSettingsFormProps {
+  organisation: {
+    id: string;
+    name: string;
+    timezone: string;
+    logoUrl?: string | null;
+  };
 }

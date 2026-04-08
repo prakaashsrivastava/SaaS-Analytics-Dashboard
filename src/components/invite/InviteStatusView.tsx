@@ -62,12 +62,25 @@ export function InviteStatusView({ status }: InviteStatusViewProps) {
           </CardDescription>
         </CardHeader>
         <CardFooter className="pt-6">
-          <Button
-            className="w-full bg-slate-900 hover:bg-slate-800 font-bold"
-            onClick={() => router.push("/login")}
-          >
-            Go to Login
-          </Button>
+          <div className="space-y-4">
+            <Button
+              className="w-full bg-slate-900 hover:bg-slate-800 font-bold"
+              onClick={() => router.push("/login")}
+            >
+              Go to Login
+            </Button>
+            {(status === "expired" || status === "invalid") && (
+              <p className="text-center text-xs font-medium text-slate-500 italic">
+                Need a new invite?{" "}
+                <a
+                  href="mailto:admin@example.com?subject=Request for New Invitation"
+                  className="text-indigo-600 hover:underline font-bold"
+                >
+                  Contact Administrator
+                </a>
+              </p>
+            )}
+          </div>
         </CardFooter>
       </Card>
     </div>

@@ -23,18 +23,31 @@ export default function MembersPage({
   const searchParams = useSearchParams();
 
   const [members, setMembers] = useState<Member[]>([]);
+  const [organisation, setOrganisation] = useState<{ plan: string } | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+  const [isUpgrading, setIsUpgrading] = useState(false);
 
-  const fetchMembers = async () => {
+  const fetchData = async () => {
+    setIsLoading(true);
     try {
-      const response = await fetch("/api/org/members");
-      if (response.ok) {
-        const data = await response.json();
+      // 1. Fetch Members
+      const membersRes = await fetch("/api/org/members");
+      if (membersRes.ok) {
+        const data = await membersRes.json();
         setMembers(data);
       }
+
+      // 2. Fetch Org Info for plan gating
+      const settingsRes = await fetch("/api/org/settings");
+      if (settingsRes.ok) {
+        const data = await settingsRes.json();
+        setOrganisation({ plan: data.plan });
+      }
     } catch (error) {
-      console.error("Failed to fetch members:", error);
+      console.error("Failed to fetch data:", error);
     } finally {
       setIsLoading(false);
     }
@@ -44,7 +57,7 @@ export default function MembersPage({
     if (status === "unauthenticated") {
       router.push("/login");
     } else if (status === "authenticated") {
-      fetchMembers();
+      fetchData();
     }
   }, [status, router]);
 
@@ -54,6 +67,24 @@ export default function MembersPage({
       setIsInviteModalOpen(true);
     }
   }, [searchParams]);
+
+  const handleUpgrade = async () => {
+    setIsUpgrading(true);
+    try {
+      const response = await fetch("/api/org/upgrade", { method: "POST" });
+      if (response.ok) {
+        setOrganisation({ plan: "pro" });
+        alert("Success! Workspace upgraded to Pro.");
+        router.refresh();
+      } else {
+        alert("Failed to upgrade workspace.");
+      }
+    } catch (error) {
+      console.error("Upgrade error:", error);
+    } finally {
+      setIsUpgrading(false);
+    }
+  };
 
   const handleDeleteItem = async (itemId: string, isInvite: boolean) => {
     const confirmMsg = isInvite
@@ -72,7 +103,7 @@ export default function MembersPage({
       });
 
       if (response.ok) {
-        fetchMembers();
+        fetchData();
       } else {
         const data = await response.json();
         alert(data.message || `Failed to ${isInvite ? "revoke" : "remove"}`);
@@ -98,6 +129,7 @@ export default function MembersPage({
   const userRole = session?.user?.role as string;
   const canInvite = userRole === "owner" || userRole === "admin";
   const canDelete = userRole === "owner";
+  const isFreePlan = organisation?.plan === "free";
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -124,6 +156,17 @@ export default function MembersPage({
                 <div className="px-1.5 py-0.5 bg-slate-100 rounded text-[8px] font-black uppercase text-slate-400 border border-slate-200">
                   Role: {session?.user?.role || "UNKNOWN"}
                 </div>
+                {organisation && (
+                  <div
+                    className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase border ${
+                      isFreePlan
+                        ? "bg-slate-50 text-slate-400 border-slate-200"
+                        : "bg-indigo-50 text-indigo-500 border-indigo-100"
+                    }`}
+                  >
+                    Plan: {organisation.plan}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -183,32 +226,31 @@ export default function MembersPage({
             </Card>
           </Link>
 
-          <div className="bg-blue-600 rounded-3xl p-6 text-white flex flex-col justify-between shadow-xl shadow-blue-600/20">
-            <div className="space-y-1">
-              <h4 className="text-lg font-bold">Limit Warning</h4>
-              <p className="text-blue-100 text-sm font-medium">
-                Free plan is limited to 3 members. Upgrade to Pro for unlimited
-                team slots.
-              </p>
+          {isFreePlan && (
+            <div className="bg-indigo-600 rounded-3xl p-6 text-white flex flex-col justify-between shadow-xl shadow-indigo-600/20">
+              <div className="space-y-1">
+                <h4 className="text-lg font-bold">Free Plan Limit</h4>
+                <p className="text-indigo-100 text-sm font-medium">
+                  Free plan is limited to 3 members. Upgrade to Pro for
+                  unlimited team slots and premium features.
+                </p>
+              </div>
+              <Button
+                onClick={handleUpgrade}
+                disabled={isUpgrading}
+                className="w-full mt-4 bg-white text-indigo-600 hover:bg-indigo-50 font-extrabold shadow-sm"
+              >
+                {isUpgrading ? "Upgrading..." : "Upgrade Workspace"}
+              </Button>
             </div>
-            <Button
-              onClick={() =>
-                alert(
-                  "Upgrade Workspace - Integration with Stripe coming soon!"
-                )
-              }
-              className="w-full mt-4 bg-white text-blue-600 hover:bg-blue-50 font-extrabold shadow-sm"
-            >
-              Upgrade Workspace
-            </Button>
-          </div>
+          )}
         </div>
       </main>
 
       <InviteMemberModal
         isOpen={isInviteModalOpen}
         onClose={() => setIsInviteModalOpen(false)}
-        onSuccess={fetchMembers}
+        onSuccess={fetchData}
       />
     </div>
   );

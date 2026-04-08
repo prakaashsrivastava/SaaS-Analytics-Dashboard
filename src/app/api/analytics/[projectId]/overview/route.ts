@@ -25,6 +25,16 @@ export async function GET(
     const limits = getPlanLimits(org.plan);
     const days = limits.dataWindowDays;
 
+    // --- Double-Scoping Security Check ---
+    const project = await prisma.project.findFirst({
+      where: { id: projectId, orgId: context.orgId },
+    });
+
+    if (!project) {
+      return NextResponse.json({ error: "PROJECT_NOT_FOUND" }, { status: 404 });
+    }
+    // -------------------------------------
+
     // Use raw query for conditional aggregation (PostgreSQL)
     // We run two queries: one for the current period and one for the previous period to calculate delta
     const currentPeriodQuery = prisma.$queryRaw`
