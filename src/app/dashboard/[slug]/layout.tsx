@@ -25,6 +25,12 @@ export default async function DashboardSlugLayout({
 
   const organisation = await prisma.organisation.findUnique({
     where: { slug },
+    select: {
+      id: true,
+      name: true,
+      logoUrl: true,
+      plan: true,
+    },
   });
 
   if (!organisation) {
@@ -36,6 +42,7 @@ export default async function DashboardSlugLayout({
       <Sidebar
         orgSlug={slug}
         orgName={organisation.name}
+        logoUrl={organisation.logoUrl}
         userRole={session.user.role as string}
         plan={organisation.plan as string}
       />

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -17,7 +18,13 @@ import { ProjectModal } from "@/components/projects/ProjectModal";
 import { canDo } from "@/lib/permissions";
 import { SidebarProject, SidebarProps } from "@/types";
 
-export function Sidebar({ orgSlug, orgName, userRole, plan }: SidebarProps) {
+export function Sidebar({
+  orgSlug,
+  orgName,
+  logoUrl,
+  userRole,
+  plan,
+}: SidebarProps) {
   const pathname = usePathname();
   const [projects, setProjects] = useState<SidebarProject[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,24 +59,28 @@ export function Sidebar({ orgSlug, orgName, userRole, plan }: SidebarProps) {
       icon: LayoutDashboard,
       href: `/dashboard/${orgSlug}`,
       active: pathname === `/dashboard/${orgSlug}`,
+      show: true,
     },
     {
       label: "Projects",
       icon: Box,
       href: `/dashboard/${orgSlug}/projects`,
       active: pathname.startsWith(`/dashboard/${orgSlug}/projects`),
+      show: true,
     },
     {
       label: "Team Members",
       icon: Users,
       href: `/dashboard/${orgSlug}/members`,
       active: pathname.startsWith(`/dashboard/${orgSlug}/members`),
+      show: true,
     },
     {
       label: "Settings",
       icon: Settings,
       href: `/dashboard/${orgSlug}/settings`,
       active: pathname.startsWith(`/dashboard/${orgSlug}/settings`),
+      show: canDo(userRole, "change_settings"),
     },
   ];
 
@@ -79,9 +90,22 @@ export function Sidebar({ orgSlug, orgName, userRole, plan }: SidebarProps) {
     <aside className="w-64 bg-white border-r border-slate-200 flex flex-col h-full shadow-sm shrink-0">
       <div className="p-6">
         <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-extrabold shadow-lg shadow-indigo-200">
-            {orgName[0]}
-          </div>
+          {logoUrl ? (
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-slate-200 overflow-hidden border border-slate-100">
+              <Image
+                src={logoUrl}
+                alt={orgName}
+                width={40}
+                height={40}
+                unoptimized
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-extrabold shadow-lg shadow-indigo-200">
+              {orgName[0]}
+            </div>
+          )}
           <div className="overflow-hidden">
             <h1 className="font-extrabold text-slate-900 truncate tracking-tight">
               {orgName}
@@ -93,28 +117,30 @@ export function Sidebar({ orgSlug, orgName, userRole, plan }: SidebarProps) {
         </div>
 
         <nav className="space-y-1">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-bold transition-all group",
-                item.active
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-100"
-                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-              )}
-            >
-              <item.icon
+          {navItems
+            .filter((i) => i.show)
+            .map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
                 className={cn(
-                  "w-4 h-4",
+                  "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-bold transition-all group",
                   item.active
-                    ? "text-white"
-                    : "text-slate-400 group-hover:text-slate-900"
+                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-100"
+                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                 )}
-              />
-              {item.label}
-            </Link>
-          ))}
+              >
+                <item.icon
+                  className={cn(
+                    "w-4 h-4",
+                    item.active
+                      ? "text-white"
+                      : "text-slate-400 group-hover:text-slate-900"
+                  )}
+                />
+                {item.label}
+              </Link>
+            ))}
         </nav>
       </div>
 

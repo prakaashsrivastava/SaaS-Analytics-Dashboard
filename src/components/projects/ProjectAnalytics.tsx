@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { MetricCard } from "@/components/charts/MetricCard";
 import { TimeseriesChart } from "@/components/charts/TimeseriesChart";
 import { EventBreakdownChart } from "@/components/charts/EventBreakdownChart";
+import { FunnelChart } from "@/components/charts/FunnelChart";
+import { RetentionChart } from "@/components/charts/RetentionChart";
 import {
   Users,
   MousePointer2,
@@ -11,14 +13,18 @@ import {
   Eye,
   AlertCircle,
   ArrowUpRight,
+  Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TrackingGuide } from "@/components/projects/TrackingGuide";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   ProjectAnalyticsProps,
   OverviewData,
   TimeseriesData,
   BreakdownData,
+  FunnelData,
+  RetentionData,
 } from "@/types";
 
 export function ProjectAnalytics({
@@ -28,32 +34,45 @@ export function ProjectAnalytics({
   const [overview, setOverview] = useState<OverviewData | null>(null);
   const [timeseries, setTimeseries] = useState<TimeseriesData[]>([]);
   const [breakdown, setBreakdown] = useState<BreakdownData[]>([]);
+  const [funnel, setFunnel] = useState<FunnelData[]>([]);
+  const [retention, setRetention] = useState<RetentionData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
-        const [ovRes, tsRes, bdRes] = await Promise.all([
+        const isPro = orgPlan.toLowerCase() === "pro";
+
+        const requests = [
           fetch(`/api/analytics/${projectId}/overview`),
           fetch(`/api/analytics/${projectId}/timeseries`),
           fetch(`/api/analytics/${projectId}/breakdown`),
-        ]);
+        ];
 
-        if (!ovRes.ok || !tsRes.ok || !bdRes.ok) {
-          throw new Error("Failed to fetch analytics data");
+        if (isPro) {
+          requests.push(fetch(`/api/analytics/${projectId}/funnel`));
+          requests.push(fetch(`/api/analytics/${projectId}/retention`));
         }
 
-        const [ovData, tsData, bdData] = await Promise.all([
-          ovRes.json(),
-          tsRes.json(),
-          bdRes.json(),
-        ]);
+        const responses = await Promise.all(requests);
 
-        setOverview(ovData);
-        setTimeseries(tsData);
-        setBreakdown(bdData);
+        if (responses.some((r) => !r.ok)) {
+          throw new Error("Failed to fetch some analytics data");
+        }
+
+        const data = await Promise.all(responses.map((r) => r.json()));
+
+        setOverview(data[0]);
+        setTimeseries(data[1]);
+        setBreakdown(data[2]);
+
+        if (isPro) {
+          setFunnel(data[3]);
+          setRetention(data[4]);
+        }
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "An unknown error occurred"
@@ -64,7 +83,28 @@ export function ProjectAnalytics({
     }
 
     fetchData();
-  }, [projectId]);
+  }, [projectId, orgPlan]);
+
+  const handleExport = async () => {
+    setIsExporting(true);
+    try {
+      const response = await fetch(`/api/analytics/${projectId}/export`);
+      if (!response.ok) throw new Error("Export failed");
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `analytics-export-${projectId}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch {
+      alert("Failed to export data. Please try again.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   if (error) {
     return (
@@ -75,10 +115,28 @@ export function ProjectAnalytics({
     );
   }
 
-  const isFreePlan = orgPlan.toLowerCase() === "free";
+  const isPro = orgPlan?.toLowerCase() === "pro";
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
+      {/* Header Actions */}
+      <div className="flex justify-end">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleExport}
+          disabled={isExporting}
+          className="h-10 px-4 border-slate-200 bg-white hover:bg-slate-50 font-bold text-slate-600 gap-2"
+        >
+          {isExporting ? (
+            <AlertCircle className="w-4 h-4 animate-spin" />
+          ) : (
+            <Download className="w-4 h-4" />
+          )}
+          Export CSV
+        </Button>
+      </div>
+
       {/* Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
@@ -111,7 +169,7 @@ export function ProjectAnalytics({
         />
       </div>
 
-      {/* Charts Row */}
+      {/* Charts Rows */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           <TimeseriesChart data={timeseries} loading={loading} />
@@ -121,31 +179,48 @@ export function ProjectAnalytics({
         </div>
       </div>
 
+      {isPro && !loading && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in slide-in-from-bottom-4 duration-1000">
+          <FunnelChart data={funnel} />
+          <RetentionChart data={retention} />
+        </div>
+      )}
+
       {/* Upgrade Banner for FREE users */}
-      {isFreePlan && !loading && (
-        <Card className="bg-indigo-600 border-none shadow-xl overflow-hidden relative group cursor-pointer hover:bg-indigo-700 transition-colors duration-500">
-          <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
-            <ArrowUpRight className="w-40 h-40 text-white" />
-          </div>
-          <CardContent className="p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
-            <div className="space-y-2 text-center md:text-left">
-              <h3 className="text-2xl font-black text-white tracking-tight">
-                Unlock 90-day Data History
-              </h3>
-              <p className="text-indigo-100 font-medium text-lg leading-relaxed">
-                You are currently viewing data for the last{" "}
-                <span className="text-white font-black underline decoration-indigo-300">
-                  7 days
-                </span>
-                . Upgrade to Pro to unlock full 90-day analytics and funnel
-                insights.
-              </p>
+      {!isPro &&
+        !loading &&
+        overview &&
+        Number(overview.pageviews.value) > 0 && (
+          <Card className="bg-indigo-600 border-none shadow-xl overflow-hidden relative group cursor-pointer hover:bg-indigo-700 transition-colors duration-500">
+            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
+              <ArrowUpRight className="w-40 h-40 text-white" />
             </div>
-            <Button className="bg-white text-indigo-600 hover:bg-slate-50 font-black px-10 h-14 text-lg rounded-xl shadow-lg hover:shadow-indigo-500/20 transition-all duration-300">
-              Upgrade to Pro
-            </Button>
-          </CardContent>
-        </Card>
+            <CardContent className="p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+              <div className="space-y-2 text-center md:text-left">
+                <h3 className="text-2xl font-black text-white tracking-tight">
+                  Unlock 90-day Data History
+                </h3>
+                <p className="text-indigo-100 font-medium text-lg leading-relaxed">
+                  You are currently viewing data for the last{" "}
+                  <span className="text-white font-black underline decoration-indigo-300">
+                    7 days
+                  </span>
+                  . Upgrade to Pro to unlock full 90-day analytics, funnel
+                  insights, and retention metrics.
+                </p>
+              </div>
+              <Button className="bg-white text-indigo-600 hover:bg-slate-50 font-black px-10 h-14 text-lg rounded-xl shadow-lg hover:shadow-indigo-500/20 transition-all duration-300">
+                Upgrade to Pro
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+      {/* Onboarding Guide if no data */}
+      {!loading && overview && overview.pageviews.value === 0 && (
+        <div className="pt-8 border-t border-slate-100 italic">
+          <TrackingGuide projectId={projectId} />
+        </div>
       )}
     </div>
   );

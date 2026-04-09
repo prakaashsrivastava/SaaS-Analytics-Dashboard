@@ -20,7 +20,6 @@ COPY . .
 RUN pnpm exec prisma generate
 # Build the application
 RUN pnpm build
-# No need to bundle sync script with NCC anymore, we use tsx in production runner.
 
 FROM base AS runner
 WORKDIR /app

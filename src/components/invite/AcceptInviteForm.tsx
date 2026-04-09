@@ -23,6 +23,8 @@ export function AcceptInviteForm({
   orgName,
   email,
   role,
+  userExists,
+  userName,
 }: AcceptInviteFormProps) {
   const router = useRouter();
   const { data: session } = useSession();
@@ -58,8 +60,6 @@ export function AcceptInviteForm({
         },
         body: JSON.stringify({
           token,
-          // For existing users, name and password aren't used for creation but required by schema
-          // We can send placeholders if the API handles it (which it does via Prisma transaction)
           name: session?.user?.name || "Member",
           password: "PRE_AUTHENTICATED_USER",
         }),
@@ -106,18 +106,23 @@ export function AcceptInviteForm({
         throw new Error(result.error || "Failed to accept invitation");
       }
 
-      alert("Account created and successfully joined " + orgName + "!");
+      // If they were creating an account (not just joining as existing)
+      if (data.password !== "EXISTING_USER_BYPASS") {
+        alert("Account created and successfully joined " + orgName + "!");
+        // Automatically sign in
+        const signInResult = await signIn("credentials", {
+          redirect: false,
+          email: result.email,
+          password: data.password,
+        });
 
-      // Automatically sign in
-      const signInResult = await signIn("credentials", {
-        redirect: false,
-        email: result.email,
-        password: data.password,
-      });
-
-      if (signInResult?.error) {
-        router.push("/login?error=auth_failed");
+        if (signInResult?.error) {
+          router.push("/login?error=auth_failed");
+        } else {
+          router.push(`/dashboard/${result.orgSlug}`);
+        }
       } else {
+        alert("Successfully joined " + orgName + "!");
         router.push(`/dashboard/${result.orgSlug}`);
       }
     } catch (err: unknown) {
@@ -158,15 +163,13 @@ export function AcceptInviteForm({
             </Alert>
           )}
 
-          {isCorrectUserLoggedIn ? (
-            <div className="space-y-6 text-center">
+          {/* CASE 1: Correct user is already logged in */}
+          {isCorrectUserLoggedIn && (
+            <div className="space-y-6 text-center animate-in fade-in">
               <div className="p-4 bg-green-50 border border-green-100 rounded-xl flex flex-col items-center gap-2">
                 <CheckCircle2 className="w-8 h-8 text-green-500" />
-                <p className="text-sm font-bold text-green-800">
-                  You&apos;re already logged in!
-                </p>
-                <p className="text-xs text-green-600 font-medium italic">
-                  {email}
+                <p className="text-sm font-bold text-green-800 text-center">
+                  You&apos;re already logged in as {email}!
                 </p>
               </div>
               <Button
@@ -184,12 +187,15 @@ export function AcceptInviteForm({
                 )}
               </Button>
             </div>
-          ) : isWrongUserLoggedIn ? (
-            <div className="space-y-6 text-center">
+          )}
+
+          {/* CASE 2: Wrong user is logged in */}
+          {isWrongUserLoggedIn && !isCorrectUserLoggedIn && (
+            <div className="space-y-6 text-center animate-in fade-in">
               <Alert className="bg-amber-50 border-amber-100 mb-6">
                 <AlertDescription className="text-xs font-bold text-amber-800 flex flex-col gap-1">
                   <span>You are currently logged in as:</span>
-                  <span className="italic">{session.user.email}</span>
+                  <span className="italic">{session?.user?.email}</span>
                   <span className="mt-2 text-[10px] uppercase">
                     This invite is for {email}
                   </span>
@@ -204,83 +210,134 @@ export function AcceptInviteForm({
                 Logout to Switch Account
               </Button>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="email"
-                  className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic opacity-60"
-                >
-                  Email address (Verified)
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  disabled
-                  className="bg-slate-100/50 border-slate-200 text-slate-400 font-medium italic cursor-not-allowed"
-                />
-              </div>
+          )}
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="name"
-                  className="text-[10px] font-bold text-slate-500 uppercase tracking-widest"
-                >
-                  Your Full Name
-                </Label>
-                <Input
-                  id="name"
-                  placeholder="Enter your name"
-                  {...register("name")}
-                  className="bg-slate-50 border-slate-200 focus:bg-white focus:ring-purple-500/10"
-                />
-                {errors.name && (
-                  <p className="text-[10px] font-bold text-red-500 uppercase">
-                    {errors.name.message}
+          {/* CASE 3 & 4: Not logged in */}
+          {!session && (
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+              {userExists ? (
+                /* CASE 3: User exists but not logged in */
+                <div className="space-y-6 text-center">
+                  <div className="p-4 bg-indigo-50 border border-indigo-100 rounded-xl flex flex-col items-center gap-2">
+                    <CheckCircle2 className="w-8 h-8 text-indigo-500" />
+                    <p className="text-sm font-bold text-indigo-900 text-center">
+                      Welcome back, {userName || "Member"}!
+                    </p>
+                    <p className="text-xs text-indigo-600 font-medium italic text-center">
+                      Just click below to join {orgName}. We will link this to
+                      your existing account.
+                    </p>
+                  </div>
+                  <Button
+                    onClick={() =>
+                      onSubmit({
+                        token,
+                        name: userName || "Member",
+                        password: "EXISTING_USER_BYPASS",
+                      })
+                    }
+                    disabled={submitting}
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-6 shadow-xl shadow-slate-900/10 group"
+                  >
+                    {submitting ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <>
+                        Join Organization
+                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
+                  </Button>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
+                    Not you? <br />
+                    <button
+                      onClick={() => router.push("/login")}
+                      className="text-indigo-500 hover:underline"
+                    >
+                      Login with another account
+                    </button>
                   </p>
-                )}
-              </div>
+                </div>
+              ) : (
+                /* CASE 4: New user registration */
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="email"
+                      className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic opacity-60"
+                    >
+                      Email address (Verified)
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={email}
+                      disabled
+                      className="bg-slate-100/50 border-slate-200 text-slate-400 font-medium italic cursor-not-allowed"
+                    />
+                  </div>
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="password"
-                  className="text-[10px] font-bold text-slate-500 uppercase tracking-widest"
-                >
-                  Set Password
-                </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Min. 8 characters"
-                  {...register("password")}
-                  className="bg-slate-50 border-slate-200 focus:bg-white focus:ring-purple-500/10"
-                />
-                {errors.password && (
-                  <p className="text-[10px] font-bold text-red-500 uppercase">
-                    {errors.password.message}
-                  </p>
-                )}
-              </div>
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="name"
+                      className="text-[10px] font-bold text-slate-500 uppercase tracking-widest"
+                    >
+                      Your Full Name
+                    </Label>
+                    <Input
+                      id="name"
+                      placeholder="Enter your name"
+                      {...register("name")}
+                      className="bg-slate-50 border-slate-200 focus:bg-white focus:ring-purple-500/10"
+                    />
+                    {errors.name && (
+                      <p className="text-[10px] font-bold text-red-500 uppercase">
+                        {errors.name.message}
+                      </p>
+                    )}
+                  </div>
 
-              <Button
-                className="w-full mt-4 bg-slate-900 hover:bg-slate-800 text-white font-black py-6 shadow-xl shadow-slate-900/10 group"
-                type="submit"
-                disabled={submitting}
-              >
-                {submitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Creating Account...
-                  </>
-                ) : (
-                  <>
-                    Complete Registration
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </>
-                )}
-              </Button>
-            </form>
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="password"
+                      className="text-[10px] font-bold text-slate-500 uppercase tracking-widest"
+                    >
+                      Set Password
+                    </Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Min. 8 characters"
+                      {...register("password")}
+                      className="bg-slate-50 border-slate-200 focus:bg-white focus:ring-purple-500/10"
+                    />
+                    {errors.password && (
+                      <p className="text-[10px] font-bold text-red-500 uppercase">
+                        {errors.password.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <Button
+                    className="w-full mt-4 bg-slate-900 hover:bg-slate-800 text-white font-black py-6 shadow-xl shadow-slate-900/10 group"
+                    type="submit"
+                    disabled={submitting}
+                  >
+                    {submitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Creating Account...
+                      </>
+                    ) : (
+                      <>
+                        Complete Registration
+                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
+                  </Button>
+                </form>
+              )}
+            </div>
           )}
         </div>
       </Card>

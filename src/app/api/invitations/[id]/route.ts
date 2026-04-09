@@ -39,10 +39,18 @@ export async function GET(
       return NextResponse.json({ error: "EXPIRED" }, { status: 400 });
     }
 
+    // Check if user already exists
+    const user = await prisma.user.findUnique({
+      where: { email: invitation.email },
+      select: { id: true, name: true },
+    });
+
     return NextResponse.json({
       orgName: invitation.organisation.name,
       email: invitation.email,
       role: invitation.role,
+      userExists: !!user,
+      userName: user?.name || null,
     });
   } catch (error) {
     console.error("Failed to validate invitation:", error);

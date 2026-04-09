@@ -69,6 +69,8 @@ export default function InviteAcceptancePage({
         orgName={inviteData.orgName}
         email={inviteData.email}
         role={inviteData.role}
+        userExists={inviteData.userExists}
+        userName={inviteData.userName}
       />
     );
   }

@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 import {
   Code,
   Box,
@@ -83,15 +84,19 @@ export default async function ProjectDashboardPage({
         </div>
 
         <div className="flex gap-4">
-          <Button
-            variant="outline"
-            className="h-11 px-6 font-bold border-slate-200 bg-white hover:bg-slate-50"
-          >
-            Project Settings
-          </Button>
-          <Button className="h-11 px-6 font-bold bg-slate-900 text-white hover:bg-slate-800 shadow-md">
-            View Realtime
-          </Button>
+          <Link href={`/dashboard/${slug}/projects/${id}/settings`}>
+            <Button
+              variant="outline"
+              className="h-11 px-6 font-bold border-slate-200 bg-white hover:bg-slate-50"
+            >
+              Project Settings
+            </Button>
+          </Link>
+          <Link href={`/dashboard/${slug}/projects/${id}/realtime`}>
+            <Button className="h-11 px-6 font-bold bg-slate-900 text-white hover:bg-slate-800 shadow-md">
+              View Realtime
+            </Button>
+          </Link>
         </div>
       </div>
 
