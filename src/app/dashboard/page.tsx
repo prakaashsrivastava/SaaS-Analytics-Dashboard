@@ -14,12 +14,12 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-2xl font-bold text-slate-800">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-surface-raised font-sans p-6 text-center">
+      <h1 className="text-3xl font-black text-text-primary tracking-tight mb-2">
         No Organization Found
       </h1>
-      <p className="text-slate-600">
-        You are not a member of any organization.
+      <p className="text-text-secondary font-medium max-w-sm">
+        You are not a member of any organization. Please contact your administrator or create a new account.
       </p>
     </div>
   );

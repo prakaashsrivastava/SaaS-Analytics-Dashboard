@@ -22,7 +22,7 @@ export function DashboardActions({
             console.log("Navigating to members with invite intent...");
             router.push(`/dashboard/${slug}/members?openInvite=true`);
           }}
-          className="bg-slate-900 text-white hover:bg-slate-800 shadow-md h-9"
+          className="bg-primary text-white hover:bg-primary-dark shadow-card h-9"
         >
           <PlusCircle className="mr-2 h-4 w-4" />
           Invite Member
@@ -32,7 +32,7 @@ export function DashboardActions({
         <Button
           variant="outline"
           onClick={() => alert("Settings page coming soon!")}
-          className="border-slate-200 hover:bg-slate-50 h-9"
+          className="border-border hover:bg-surface-hover h-9"
         >
           <Settings className="mr-2 h-4 w-4" />
           Settings

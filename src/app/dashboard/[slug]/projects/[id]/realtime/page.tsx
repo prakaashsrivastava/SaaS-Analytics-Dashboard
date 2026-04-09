@@ -33,43 +33,43 @@ export default async function RealtimePage({
   }
 
   return (
-    <div className="py-10 px-6 max-w-5xl mx-auto space-y-10 min-h-screen bg-slate-50/20">
+    <div className="py-10 px-6 space-y-10 min-h-screen bg-primary-subtle font-sans">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           <Link
             href={`/dashboard/${slug}/projects/${id}`}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-500"
+            className="p-3 hover:bg-primary-tint rounded-2xl transition-all text-text-secondary hover:text-primary group"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           </Link>
-          <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-slate-200">
-            <Zap className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+          <div className="w-14 h-14 bg-sidebar-bg rounded-2xl flex items-center justify-center text-white shadow-xl shadow-sidebar-bg/20">
+            <Zap className="w-7 h-7 text-primary fill-primary animate-pulse" />
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold text-slate-900 flex items-center gap-3">
+            <h1 className="text-3xl font-black text-text-primary flex items-center gap-4 tracking-tight">
               Real-time Analytics
-              <span className="flex h-3 w-3 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              <span className="flex h-4 w-4 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-4 w-4 bg-success shadow-lg shadow-success/50"></span>
               </span>
             </h1>
-            <p className="text-slate-500 font-medium mt-1">
+            <p className="text-text-secondary font-medium mt-1">
               Live event stream for{" "}
-              <span className="text-slate-900 font-bold">{project.name}</span>.
+              <span className="text-text-primary font-black">{project.name}</span>.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 gap-12">
         <section className="space-y-6">
-          <div className="flex items-center justify-between text-xs font-black text-slate-400 uppercase tracking-widest pb-2 border-b border-slate-100">
+          <div className="flex items-center justify-between text-xs font-black text-text-muted uppercase tracking-widest pb-3 border-b border-border">
             <div className="flex items-center gap-2">
-              <Activity className="w-4 h-4" />
+              <Activity className="w-4 h-4 text-primary" />
               Incoming Activity
             </div>
-            <div className="flex items-center gap-2 text-indigo-500">
-              <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+            <div className="flex items-center gap-2 text-primary bg-primary-tint px-3 py-1 rounded-full border border-primary/10">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               Live Updates
             </div>
           </div>

@@ -115,10 +115,10 @@ export default function MembersPage({
 
   if (status === "loading" || isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen bg-primary-subtle flex items-center justify-center">
         <div className="flex flex-col items-center gap-2">
-          <div className="w-8 h-8 border-4 border-slate-900 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-sm text-text-muted font-bold uppercase tracking-widest">
             Loading Team...
           </p>
         </div>
@@ -132,38 +132,39 @@ export default function MembersPage({
   const isFreePlan = organisation?.plan === "free";
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-200 py-4 px-6 sticky top-0 z-10 shadow-sm">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-4">
+    <div className="min-h-screen bg-primary-subtle font-sans">
+      <header className="bg-surface border-b border-border py-6 px-6 sticky top-0 z-10 shadow-card backdrop-blur-md bg-surface/90">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-5">
             <Link
               href={`/dashboard/${slug}`}
-              className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-500"
+              className="p-3 hover:bg-primary-tint rounded-2xl transition-all text-text-secondary hover:text-primary group"
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             </Link>
-            <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white">
-              <Users className="w-5 h-5" />
+            <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
+              <Users className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-slate-900 leading-none">
+              <h1 className="text-xl font-black text-text-primary leading-none tracking-tight">
                 Team Management
               </h1>
-              <div className="flex items-center gap-2 mt-1">
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+              <div className="flex items-center gap-2 mt-2">
+                <p className="text-[10px] text-text-muted font-black uppercase tracking-widest">
                   {slug}
                 </p>
-                <div className="px-1.5 py-0.5 bg-slate-100 rounded text-[8px] font-black uppercase text-slate-400 border border-slate-200">
+                <div className="px-2 py-0.5 bg-surface-raised rounded-full text-[8px] font-black uppercase text-text-muted border border-border">
                   Role: {session?.user?.role || "UNKNOWN"}
                 </div>
                 {organisation && (
                   <div
-                    className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase border ${
+                    className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase border flex items-center gap-1.5 ${
                       isFreePlan
-                        ? "bg-slate-50 text-slate-400 border-slate-200"
-                        : "bg-indigo-50 text-indigo-500 border-indigo-100"
+                        ? "bg-surface-raised text-text-secondary border-border"
+                        : "bg-primary-tint text-primary-dark border-primary/10"
                     }`}
                   >
+                    {!isFreePlan && <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />}
                     Plan: {organisation.plan}
                   </div>
                 )}
@@ -173,11 +174,11 @@ export default function MembersPage({
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto py-10 px-6 space-y-8">
+      <main className="py-12 px-6 space-y-12">
         <div className="flex justify-between items-end">
-          <div>
-            <h2 className="text-3xl font-extrabold text-slate-900">Members</h2>
-            <p className="text-slate-500 font-medium mt-1">
+          <div className="space-y-1">
+            <h2 className="text-4xl font-black text-text-primary tracking-tight">Members</h2>
+            <p className="text-text-secondary font-medium text-lg leading-tight">
               Manage permissions and team access.
             </p>
           </div>
@@ -188,13 +189,13 @@ export default function MembersPage({
                 console.log("Opening invite modal...");
                 setIsInviteModalOpen(true);
               }}
-              className="bg-slate-900 text-white hover:bg-slate-800 shadow-lg shadow-slate-900/10 font-bold"
+              className="bg-primary text-white hover:bg-primary-dark shadow-xl shadow-primary/20 font-black py-6 px-8 rounded-2xl h-14 text-base transition-all hover:-translate-y-1"
             >
-              <PlusCircle className="mr-2 h-4 w-4" />
+              <PlusCircle className="mr-2 h-5 w-5" />
               Invite Member
             </Button>
           ) : (
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">
+            <div className="text-[10px] font-black text-text-muted uppercase tracking-widest bg-surface-raised px-4 py-2 rounded-xl border border-border">
               Restricted to Admin/Owner
             </div>
           )}
@@ -207,18 +208,18 @@ export default function MembersPage({
           onDeleteItem={handleDeleteItem}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
           <Link href={`/dashboard/${slug}`} className="group">
-            <Card className="hover:border-slate-300 transition-all cursor-pointer bg-white">
-              <CardContent className="p-6 flex items-center gap-4">
-                <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center group-hover:bg-slate-100 transition-colors">
-                  <TrendingUp className="w-6 h-6 text-slate-900" />
+            <Card className="hover:border-primary/30 transition-all cursor-pointer bg-surface border-border shadow-card rounded-3xl overflow-hidden group-hover:shadow-xl">
+              <CardContent className="p-8 flex items-center gap-6">
+                <div className="w-16 h-16 bg-surface-raised rounded-2xl flex items-center justify-center group-hover:bg-primary-tint transition-all group-hover:scale-110">
+                  <TrendingUp className="w-8 h-8 text-text-primary group-hover:text-primary transition-colors" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900">
+                  <h4 className="font-black text-xl text-text-primary tracking-tight group-hover:text-primary transition-colors">
                     Back to Dashboard
                   </h4>
-                  <p className="text-xs text-slate-500 font-medium">
+                  <p className="text-sm text-text-secondary font-medium">
                     View your analytics overview
                   </p>
                 </div>
@@ -227,10 +228,13 @@ export default function MembersPage({
           </Link>
 
           {isFreePlan && (
-            <div className="bg-indigo-600 rounded-3xl p-6 text-white flex flex-col justify-between shadow-xl shadow-indigo-600/20">
-              <div className="space-y-1">
-                <h4 className="text-lg font-bold">Free Plan Limit</h4>
-                <p className="text-indigo-100 text-sm font-medium">
+            <div className="bg-sidebar-bg rounded-3xl p-8 text-white flex flex-col justify-between shadow-2xl shadow-sidebar-bg/30 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
+                <Users className="w-24 h-24" />
+              </div>
+              <div className="space-y-3 relative z-10">
+                <h4 className="text-2xl font-black tracking-tight">Free Plan Limit</h4>
+                <p className="text-sidebar-text text-sm font-medium leading-relaxed max-w-xs">
                   Free plan is limited to 3 members. Upgrade to Pro for
                   unlimited team slots and premium features.
                 </p>
@@ -238,7 +242,7 @@ export default function MembersPage({
               <Button
                 onClick={handleUpgrade}
                 disabled={isUpgrading}
-                className="w-full mt-4 bg-white text-indigo-600 hover:bg-indigo-50 font-extrabold shadow-sm"
+                className="w-full mt-8 bg-primary hover:bg-primary-dark text-white font-black py-4 rounded-2xl shadow-xl shadow-primary/20 h-14 relative z-10 transition-all hover:scale-[1.02]"
               >
                 {isUpgrading ? "Upgrading..." : "Upgrade Workspace"}
               </Button>

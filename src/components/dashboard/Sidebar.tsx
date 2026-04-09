@@ -87,11 +87,11 @@ export function Sidebar({
   const canCreate = canDo(userRole, "create_project");
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 flex flex-col h-full shadow-sm shrink-0">
+    <aside className="w-64 bg-sidebar-bg border-r border-sidebar-border flex flex-col h-full shrink-0">
       <div className="p-6">
         <div className="flex items-center gap-3 mb-8">
           {logoUrl ? (
-            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-slate-200 overflow-hidden border border-slate-100">
+            <div className="w-10 h-10 bg-sidebar-hover rounded-xl flex items-center justify-center overflow-hidden border border-sidebar-border">
               <Image
                 src={logoUrl}
                 alt={orgName}
@@ -102,15 +102,15 @@ export function Sidebar({
               />
             </div>
           ) : (
-            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-extrabold shadow-lg shadow-indigo-200">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-extrabold">
               {orgName[0]}
             </div>
           )}
           <div className="overflow-hidden">
-            <h1 className="font-extrabold text-slate-900 truncate tracking-tight">
+            <h1 className="font-extrabold text-white truncate tracking-tight">
               {orgName}
             </h1>
-            <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest bg-indigo-50 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] font-bold text-primary-light uppercase tracking-widest bg-sidebar-hover px-1.5 py-0.5 rounded">
               {plan}
             </span>
           </div>
@@ -126,16 +126,16 @@ export function Sidebar({
                 className={cn(
                   "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-bold transition-all group",
                   item.active
-                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-100"
-                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                    ? "bg-sidebar-hover text-sidebar-active border-l-3 border-primary"
+                    : "text-sidebar-text hover:bg-sidebar-hover hover:text-white"
                 )}
               >
                 <item.icon
                   className={cn(
                     "w-4 h-4",
                     item.active
-                      ? "text-white"
-                      : "text-slate-400 group-hover:text-slate-900"
+                      ? "text-sidebar-active"
+                      : "text-sidebar-text group-hover:text-white"
                   )}
                 />
                 {item.label}
@@ -144,15 +144,15 @@ export function Sidebar({
         </nav>
       </div>
 
-      <div className="mt-4 px-6 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-100">
+      <div className="mt-4 px-6 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-sidebar-hover">
         <div className="flex items-center justify-between mb-4 px-2">
-          <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+          <h2 className="text-[10px] font-bold text-sidebar-text uppercase tracking-widest">
             Recent Projects
           </h2>
           {canCreate && (
             <button
               onClick={() => setIsModalOpen(true)}
-              className="p-1 hover:bg-slate-100 rounded-md text-slate-400 hover:text-indigo-600 transition-colors"
+              className="p-1 hover:bg-sidebar-hover rounded-md text-sidebar-text hover:text-primary-light transition-colors"
             >
               <PlusCircle className="w-3 h-3" />
             </button>
@@ -161,13 +161,13 @@ export function Sidebar({
 
         <div className="space-y-1">
           {isLoading ? (
-            <div className="flex items-center gap-3 px-2 py-4 text-slate-300">
+            <div className="flex items-center gap-3 px-2 py-4 text-sidebar-text/50">
               <Loader2 className="w-3 h-3 animate-spin" />
               <span className="text-xs font-medium">Loading projects...</span>
             </div>
           ) : projects.length === 0 ? (
-            <div className="px-2 py-4 text-center border border-dashed border-slate-100 rounded-lg">
-              <p className="text-[10px] text-slate-400 font-medium italic">
+            <div className="px-2 py-4 text-center border border-dashed border-sidebar-border rounded-lg">
+              <p className="text-[10px] text-sidebar-text font-medium">
                 No projects yet.
               </p>
             </div>
@@ -179,8 +179,8 @@ export function Sidebar({
                 className={cn(
                   "flex items-center justify-between group px-3 py-2 rounded-lg text-xs font-bold transition-all",
                   pathname === `/dashboard/${orgSlug}/projects/${project.id}`
-                    ? "bg-indigo-50 text-indigo-700"
-                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                    ? "bg-sidebar-hover text-sidebar-active"
+                    : "text-sidebar-text hover:bg-sidebar-hover hover:text-white"
                 )}
               >
                 <div className="flex items-center gap-3 overflow-hidden">
@@ -189,8 +189,8 @@ export function Sidebar({
                       "w-2 h-2 rounded-full",
                       pathname ===
                         `/dashboard/${orgSlug}/projects/${project.id}`
-                        ? "bg-indigo-600"
-                        : "bg-slate-200 group-hover:bg-slate-400"
+                        ? "bg-primary"
+                        : "bg-sidebar-text group-hover:bg-white"
                     )}
                   />
                   <span className="truncate">{project.name}</span>
@@ -210,16 +210,16 @@ export function Sidebar({
       </div>
 
       <div className="p-6 mt-auto">
-        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+        <div className="bg-sidebar-hover rounded-2xl p-4 border border-sidebar-border">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white text-xs font-bold uppercase">
+            <div className="w-8 h-8 rounded-lg bg-primary-tint flex items-center justify-center text-primary-dark text-xs font-black uppercase">
               {userRole[0]}
             </div>
             <div className="overflow-hidden">
-              <p className="text-xs font-bold text-slate-900 truncate uppercase">
+              <p className="text-xs font-bold text-white truncate uppercase">
                 {userRole}
               </p>
-              <p className="text-[10px] text-slate-500">Active Member</p>
+              <p className="text-[10px] text-sidebar-text">Active Member</p>
             </div>
           </div>
         </div>

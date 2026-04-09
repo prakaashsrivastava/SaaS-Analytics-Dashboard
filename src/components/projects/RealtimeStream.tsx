@@ -33,13 +33,13 @@ const getEventIcon = (type: string) => {
 const getEventColor = (type: string) => {
   const t = type.toLowerCase();
   if (t.includes("signup") || t.includes("register"))
-    return "bg-green-100 text-green-600 border-green-200";
+    return "bg-success-tint text-success-text border-success/30";
   if (t.includes("purchase") || t.includes("revenue"))
-    return "bg-amber-100 text-amber-600 border-amber-200";
-  if (t.includes("click")) return "bg-blue-100 text-blue-600 border-blue-200";
+    return "bg-warning-tint text-warning-text border-warning/30";
+  if (t.includes("click")) return "bg-primary-tint text-primary border-primary-light/30";
   if (t.includes("error") || t.includes("fail"))
-    return "bg-red-100 text-red-600 border-red-200";
-  return "bg-slate-100 text-slate-600 border-slate-200";
+    return "bg-danger-tint text-danger-text border-danger/30";
+  return "bg-surface-raised text-text-secondary border-border";
 };
 
 export function RealtimeStream({ projectId }: RealtimeStreamProps) {
@@ -86,7 +86,7 @@ export function RealtimeStream({ projectId }: RealtimeStreamProps) {
         {[1, 2, 3, 4, 5].map((i) => (
           <div
             key={i}
-            className="h-24 bg-white/50 animate-pulse rounded-3xl border border-slate-100 shadow-sm"
+            className="h-24 bg-surface-raised/50 animate-pulse rounded-3xl border border-border shadow-sm"
           />
         ))}
       </div>
@@ -95,15 +95,15 @@ export function RealtimeStream({ projectId }: RealtimeStreamProps) {
 
   if (events.length === 0) {
     return (
-      <Card className="bg-white border-dashed border-slate-200 rounded-3xl p-12 text-center shadow-sm">
+      <Card className="bg-surface border-dashed border-border rounded-3xl p-12 text-center shadow-card">
         <CardContent className="flex flex-col items-center gap-4">
-          <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300">
+          <div className="w-16 h-16 bg-surface-raised rounded-2xl flex items-center justify-center text-text-muted">
             <Zap className="w-8 h-8" />
           </div>
-          <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">
+          <p className="text-text-secondary font-bold uppercase tracking-widest text-xs">
             Waiting for incoming events...
           </p>
-          <p className="text-slate-400 text-sm max-w-xs">
+          <p className="text-text-muted text-sm max-w-xs">
             No tracked activity detected in the last hour. Start your tracker to
             see live data here.
           </p>
@@ -115,8 +115,8 @@ export function RealtimeStream({ projectId }: RealtimeStreamProps) {
   return (
     <div className="space-y-4 relative">
       {hasNew && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-4">
-          <div className="bg-indigo-600 text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-2xl flex items-center gap-2">
+        <div className="fixed top-24 left-[calc(50%+120px)] -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-4">
+          <div className="bg-primary text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-card flex items-center gap-2">
             <Zap className="w-3 h-3 fill-white" />
             New Event Detected
           </div>
@@ -131,9 +131,9 @@ export function RealtimeStream({ projectId }: RealtimeStreamProps) {
           <Card
             key={event.id}
             className={cn(
-              "group bg-white hover:border-indigo-300 transition-all duration-500 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-indigo-500/5",
+              "group bg-surface hover:border-primary-light transition-all duration-500 rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover",
               index === 0 &&
-                "ring-2 ring-indigo-500 ring-offset-4 ring-offset-slate-50/20"
+                "ring-2 ring-primary ring-offset-4 ring-offset-surface-raised/20"
             )}
           >
             <CardContent className="p-0">
@@ -141,7 +141,7 @@ export function RealtimeStream({ projectId }: RealtimeStreamProps) {
                 {/* Event Type Icon */}
                 <div
                   className={cn(
-                    "w-full md:w-20 p-6 flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-50 shrink-0 transition-colors group-hover:bg-slate-50/50",
+                    "w-full md:w-20 p-6 flex items-center justify-center border-b md:border-b-0 md:border-r border-border shrink-0 transition-colors group-hover:bg-surface-raised/50",
                     colorClass.split(" ")[0] // Extract bg- color
                   )}
                 >
@@ -153,21 +153,21 @@ export function RealtimeStream({ projectId }: RealtimeStreamProps) {
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div className="space-y-1">
                       <div className="flex items-center gap-3">
-                        <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight group-hover:text-indigo-600 transition-colors">
+                        <h3 className="text-lg font-black text-text-primary uppercase tracking-tight group-hover:text-primary transition-colors">
                           {event.eventType.replace(/_/g, " ")}
                         </h3>
                         {Number(event.revenue) > 0 && (
-                          <span className="px-3 py-1 bg-emerald-500 text-white text-[10px] font-black uppercase rounded-full shadow-lg shadow-emerald-500/20">
+                          <span className="px-3 py-1 bg-success text-white text-[10px] font-black uppercase rounded-full shadow-card">
                             +₹{event.revenue}
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">
+                      <p className="text-xs text-text-muted font-bold uppercase tracking-widest">
                         Event ID: {event.id}
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 text-slate-500 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
+                    <div className="flex items-center gap-2 text-text-secondary bg-surface-raised px-3 py-1.5 rounded-xl border border-border">
                       <Clock className="w-3.5 h-3.5" />
                       <span className="text-xs font-bold leading-none">
                         {formatDistanceToNow(new Date(event.occurredAt), {
@@ -184,18 +184,18 @@ export function RealtimeStream({ projectId }: RealtimeStreamProps) {
                       .map(([key, value]) => (
                         <div
                           key={key}
-                          className="flex items-center gap-2 bg-slate-50/50 px-3 py-1.5 rounded-lg border border-slate-100 text-[10px] font-bold text-slate-500"
+                          className="flex items-center gap-2 bg-surface-raised/50 px-3 py-1.5 rounded-lg border border-border text-[10px] font-bold text-text-secondary"
                         >
-                          <span className="uppercase tracking-widest text-slate-300">
+                          <span className="uppercase tracking-widest text-text-muted">
                             {key}:
                           </span>
-                          <span className="text-slate-700 truncate max-w-[120px]">
+                          <span className="text-text-primary truncate max-w-[120px]">
                             {String(value)}
                           </span>
                         </div>
                       ))}
                     {Object.keys(event.properties || {}).length > 4 && (
-                      <div className="flex items-center gap-1 text-[10px] font-black text-indigo-400 uppercase tracking-widest pl-2">
+                      <div className="flex items-center gap-1 text-[10px] font-black text-primary-light uppercase tracking-widest pl-2">
                         +{Object.keys(event.properties || {}).length - 4} more
                         attributes
                       </div>
@@ -204,8 +204,8 @@ export function RealtimeStream({ projectId }: RealtimeStreamProps) {
                 </div>
 
                 {/* Vertical Action / Details */}
-                <div className="hidden md:flex flex-col items-center justify-center w-16 bg-slate-50/30 group-hover:bg-slate-50 transition-colors border-l border-slate-50">
-                  <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-indigo-400 transform group-hover:translate-x-1 transition-all" />
+                <div className="hidden md:flex flex-col items-center justify-center w-16 bg-surface-raised/30 group-hover:bg-surface-raised transition-colors border-l border-border">
+                  <ChevronRight className="w-5 h-5 text-text-muted group-hover:text-primary transform group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
             </CardContent>

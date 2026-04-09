@@ -60,12 +60,12 @@ function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-md shadow-lg border-slate-200">
+    <Card className="w-full max-w-md shadow-card border-border">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-3xl font-bold tracking-tight text-slate-900">
+        <CardTitle className="text-3xl font-black tracking-tight text-text-primary">
           Welcome back
         </CardTitle>
-        <CardDescription className="text-slate-500">
+        <CardDescription className="text-text-secondary font-medium">
           Enter your credentials to access your dashboard.
         </CardDescription>
       </CardHeader>
@@ -74,16 +74,16 @@ function LoginForm() {
           {error && (
             <Alert
               variant="destructive"
-              className="bg-red-50 border-red-200 text-red-800"
+              className="bg-danger-tint border-danger-tint text-danger-text rounded-xl"
             >
-              <AlertDescription>{error}</AlertDescription>
+              <AlertDescription className="font-bold">{error}</AlertDescription>
             </Alert>
           )}
 
           <div className="space-y-2">
             <Label
               htmlFor="email"
-              className="text-sm font-medium text-slate-700"
+              className="text-sm font-bold text-text-primary"
             >
               Email address
             </Label>
@@ -91,11 +91,11 @@ function LoginForm() {
               id="email"
               type="email"
               placeholder="name@example.com"
-              className="w-full"
+              className="w-full rounded-xl border-border focus:ring-primary/20"
               {...register("email")}
             />
             {errors.email && (
-              <p className="text-xs font-medium text-red-600">
+              <p className="text-xs font-bold text-danger-text">
                 {errors.email.message}
               </p>
             )}
@@ -103,18 +103,18 @@ function LoginForm() {
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password" text-sm font-medium text-slate-700>
+              <Label htmlFor="password" className="text-sm font-bold text-text-primary">
                 Password
               </Label>
             </div>
             <Input
               id="password"
               type="password"
-              className="w-full"
+              className="w-full rounded-xl border-border focus:ring-primary/20"
               {...register("password")}
             />
             {errors.password && (
-              <p className="text-xs font-medium text-red-600">
+              <p className="text-xs font-bold text-danger-text">
                 {errors.password.message}
               </p>
             )}
@@ -122,17 +122,17 @@ function LoginForm() {
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <Button
-            className="w-full bg-slate-900 text-white hover:bg-slate-800 transition-colors"
+            className="w-full bg-primary text-white hover:bg-primary-dark transition-all rounded-xl h-12 font-black shadow-lg shadow-primary/20"
             type="submit"
             disabled={loading}
           >
             {loading ? "Signing in..." : "Sign in"}
           </Button>
-          <div className="text-center text-sm text-slate-500">
+          <div className="text-center text-sm text-text-secondary font-medium">
             Don&apos;t have an account?{" "}
             <Link
               href="/register"
-              className="font-semibold text-slate-900 hover:text-slate-700 hover:underline transition-all"
+              className="font-bold text-primary hover:text-primary-dark hover:underline transition-all"
             >
               Create an account
             </Link>
@@ -145,13 +145,13 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-surface-raised p-4 font-sans">
       <Suspense
         fallback={
-          <Card className="w-full max-w-md shadow-lg border-slate-200 animate-pulse">
-            <CardHeader className="space-y-1 text-center h-24 bg-slate-100" />
-            <CardContent className="space-y-4 h-48 bg-slate-50" />
-            <CardFooter className="h-16 bg-slate-100" />
+          <Card className="w-full max-w-md shadow-card border-border animate-pulse rounded-2xl">
+            <CardHeader className="space-y-1 text-center h-24 bg-surface-hover rounded-t-2xl" />
+            <CardContent className="space-y-4 h-48 bg-surface" />
+            <CardFooter className="h-16 bg-surface-hover rounded-b-2xl" />
           </Card>
         }
       >

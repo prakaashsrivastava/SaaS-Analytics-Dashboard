@@ -67,10 +67,10 @@ export default async function OrgDashboardPage({
     <div className="py-8 px-6 space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-3xl font-black text-text-primary tracking-tight">
             Dashboard
           </h2>
-          <p className="text-slate-500 font-medium">
+          <p className="text-text-secondary font-medium">
             Manage your team and view growth metrics across your projects.
           </p>
         </div>
@@ -84,29 +84,28 @@ export default async function OrgDashboardPage({
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="space-y-8">
-          <Card className="shadow-sm border-slate-200">
+          <Card className="shadow-card border-border rounded-2xl">
             <CardHeader className="pb-4">
-              <CardTitle className="text-slate-800 text-lg font-bold flex items-center">
-                <ShieldCheck className="mr-2 h-5 w-5 text-purple-600" />
+              <CardTitle icon={<ShieldCheck className="h-5 w-5" />}>
                 Organization
               </CardTitle>
-              <CardDescription>Details about your workspace.</CardDescription>
+              <CardDescription className="font-medium text-text-secondary">Details about your workspace.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
+                <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">
                   Name
                 </p>
-                <p className="text-slate-900 font-bold text-lg">
+                <p className="text-text-primary font-black text-lg">
                   {organisation.name}
                 </p>
               </div>
               <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
+                <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">
                   Slug
                 </p>
-                <div className="flex items-center p-2 bg-slate-50 rounded-lg border border-slate-100">
-                  <code className="text-sm text-slate-600">
+                <div className="flex items-center p-2 bg-surface-raised rounded-xl border border-border">
+                  <code className="text-sm text-text-secondary font-mono">
                     {organisation.slug}
                   </code>
                 </div>
@@ -114,12 +113,12 @@ export default async function OrgDashboardPage({
             </CardContent>
             {canDo(session.user.role!, "upgrade_plan") &&
               organisation.plan === "free" && (
-                <CardFooter className="bg-slate-50 border-t border-slate-100 py-4 flex flex-col items-start gap-4">
+                <CardFooter className="bg-surface-raised border-t border-border py-4 flex flex-col items-start gap-4">
                   <div className="space-y-1">
-                    <p className="text-sm font-bold text-slate-900">
+                    <p className="text-sm font-black text-text-primary">
                       Upgrade to Pro
                     </p>
-                    <p className="text-xs text-slate-500 font-medium">
+                    <p className="text-xs text-text-secondary font-medium">
                       Unlock 90-day history and unlimited projects.
                     </p>
                   </div>
@@ -129,15 +128,14 @@ export default async function OrgDashboardPage({
           </Card>
         </div>
 
-        <Card className="col-span-1 md:col-span-3 shadow-xl border-slate-200 overflow-hidden bg-white/50 backdrop-blur-sm border-dashed">
+        <Card className="col-span-1 md:col-span-3 shadow-card border-border overflow-hidden bg-surface/50 backdrop-blur-sm border-dashed rounded-3xl">
           <CardHeader className="pb-2">
             <div className="flex justify-between items-center">
               <div>
-                <CardTitle className="text-slate-800 text-lg font-bold flex items-center">
-                  <LayoutGrid className="mr-2 h-5 w-5 text-indigo-600" />
+                <CardTitle icon={<LayoutGrid className="h-5 w-5" />}>
                   Your Projects
                 </CardTitle>
-                <CardDescription className="text-slate-500 font-medium">
+                <CardDescription className="text-text-secondary font-medium">
                   {projects.length} active project(s). You are currently using{" "}
                   {projects.length} of{" "}
                   {organisation.plan === "pro" ? "unlimited" : "1"} project
@@ -159,19 +157,19 @@ export default async function OrgDashboardPage({
                     key={project.id}
                     href={`/dashboard/${slug}/projects/${project.id}`}
                   >
-                    <Card className="hover:border-indigo-200 hover:shadow-md transition-all group cursor-pointer h-full">
+                    <Card className="hover:border-primary-light hover:shadow-card transition-all group cursor-pointer h-full rounded-2xl border-border">
                       <CardHeader className="pb-4">
-                        <CardTitle className="text-slate-900 text-base font-bold truncate group-hover:text-indigo-600">
+                        <CardTitle className="text-text-primary text-lg font-black truncate group-hover:text-primary transition-colors">
                           {project.name}
                         </CardTitle>
                         {project.domain && (
-                          <p className="text-xs text-slate-400 font-medium">
+                          <p className="text-xs text-text-muted font-bold tracking-tight">
                             {project.domain}
                           </p>
                         )}
                       </CardHeader>
                       <CardContent>
-                        <p className="text-sm text-slate-500 line-clamp-2">
+                        <p className="text-sm text-text-secondary font-medium line-clamp-2">
                           {project.description || "No description provided."}
                         </p>
                       </CardContent>
@@ -179,12 +177,12 @@ export default async function OrgDashboardPage({
                   </Link>
                 ))
               ) : (
-                <div className="p-4 rounded-2xl border-2 border-slate-100 border-dashed flex flex-col items-center justify-center gap-2 text-slate-400 group hover:border-slate-300 transition-all cursor-not-allowed col-span-full">
-                  <PlusCircle className="w-8 h-8 opacity-20 group-hover:opacity-40" />
-                  <p className="text-base font-bold text-slate-300">
+                <div className="p-8 rounded-3xl border-2 border-border border-dashed flex flex-col items-center justify-center gap-2 text-text-muted group hover:border-primary/30 transition-all cursor-not-allowed col-span-full">
+                  <PlusCircle className="w-12 h-12 opacity-20 group-hover:opacity-40 mb-2" />
+                  <p className="text-lg font-black text-text-muted/50 uppercase tracking-widest">
                     No Projects Found
                   </p>
-                  <p className="text-xs text-slate-300 font-medium">
+                  <p className="text-xs text-text-muted/50 font-bold">
                     Create your first project to start tracking analytics.
                   </p>
                 </div>
@@ -193,16 +191,15 @@ export default async function OrgDashboardPage({
           </CardContent>
         </Card>
 
-        <Card className="col-span-1 md:col-span-2 shadow-sm border-slate-200 overflow-hidden">
+        <Card className="col-span-1 md:col-span-2 shadow-card border-border overflow-hidden rounded-3xl">
           {/* Existing Team Members Card */}
-          <CardHeader className="border-b border-slate-100 bg-slate-50/50">
+          <CardHeader className="border-b border-border bg-surface-raised/50">
             <div className="flex justify-between items-center">
               <div>
-                <CardTitle className="text-slate-800 text-lg font-bold flex items-center">
-                  <Users className="mr-2 h-5 w-5 text-blue-600" />
+                <CardTitle icon={<Users className="h-5 w-5" />}>
                   Team Members
                 </CardTitle>
-                <CardDescription className="text-slate-500 font-medium">
+                <CardDescription className="text-text-secondary font-medium">
                   {organisation.members.length} people have access to this
                   workspace.
                 </CardDescription>
@@ -212,30 +209,30 @@ export default async function OrgDashboardPage({
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 font-bold"
+                    className="text-primary hover:text-primary-dark hover:bg-primary-tint font-black rounded-lg"
                   >
-                    View Invitations
+                    Manage
                   </Button>
                 </Link>
               )}
             </div>
           </CardHeader>
           <CardContent className="p-0">
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y divide-border">
               {organisation.members.map((member) => (
                 <li
                   key={member.id}
-                  className="p-6 flex items-center justify-between hover:bg-slate-50/50 transition-colors"
+                  className="p-6 flex items-center justify-between hover:bg-surface-hover/50 transition-colors"
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="h-10 w-10 rounded-xl bg-slate-900 flex items-center justify-center text-white text-sm font-extrabold uppercase shadow-sm">
+                    <div className="h-12 w-12 rounded-2xl bg-sidebar-bg flex items-center justify-center text-white text-base font-black uppercase shadow-lg shadow-sidebar-bg/20">
                       {member.user.name?.[0]}
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-slate-900">
+                      <p className="text-sm font-black text-text-primary">
                         {member.user.name}
                       </p>
-                      <p className="text-xs text-slate-500 font-medium">
+                      <p className="text-xs text-text-secondary font-medium">
                         {member.user.email}
                       </p>
                     </div>
@@ -243,13 +240,12 @@ export default async function OrgDashboardPage({
 
                   <div className="flex items-center gap-4">
                     <span
-                      className={`text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider ${
-                        member.role === "owner"
-                          ? "bg-purple-100 text-purple-700"
+                      className={`text-[10px] px-3 py-1 rounded-full font-black uppercase tracking-widest ${member.role === "owner"
+                          ? "bg-primary-tint text-primary border border-primary/10"
                           : member.role === "admin"
-                            ? "bg-blue-100 text-blue-700"
-                            : "bg-slate-100 text-slate-600"
-                      }`}
+                            ? "bg-primary-tint/50 text-primary border border-primary/10"
+                            : "bg-surface-raised text-text-secondary border border-border"
+                        }`}
                     >
                       {member.role}
                     </span>
@@ -259,7 +255,7 @@ export default async function OrgDashboardPage({
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50"
+                          className="h-9 w-9 text-text-muted hover:text-danger-text hover:bg-danger-tint rounded-xl transition-all"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

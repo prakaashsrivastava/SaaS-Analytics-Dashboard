@@ -42,33 +42,33 @@ export default async function ProjectSettingsPage({
   }
 
   return (
-    <div className="py-10 px-6 max-w-4xl mx-auto space-y-10">
+    <div className="py-10 px-6 space-y-10 font-sans">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           <Link
             href={`/dashboard/${slug}/projects/${id}`}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-500"
+            className="p-3 hover:bg-primary-tint rounded-2xl transition-all text-text-secondary hover:text-primary group"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           </Link>
-          <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
-            <Settings className="w-6 h-6" />
+          <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
+            <Settings className="w-7 h-7" />
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold text-slate-900">
-              Project Settings
+            <h1 className="text-3xl font-black text-text-primary tracking-tight">
+              Settings
             </h1>
-            <p className="text-slate-500 font-medium mt-1">
+            <p className="text-text-secondary font-medium mt-1">
               Configuration for {project.name}.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-12">
+      <div className="grid grid-cols-1 gap-14">
         <section className="space-y-6">
-          <div className="flex items-center gap-2 text-xs font-black text-slate-400 uppercase tracking-widest pb-2 border-b border-slate-100">
-            <ShieldCheck className="w-4 h-4" />
+          <div className="flex items-center gap-2 text-xs font-black text-text-muted uppercase tracking-widest pb-3 border-b border-border">
+            <ShieldCheck className="w-4 h-4 text-primary" />
             General Information
           </div>
           {/* Passing isOwner for deletion permission */}
@@ -81,16 +81,16 @@ export default async function ProjectSettingsPage({
 
         {isOwner && (
           <section className="space-y-6">
-            <div className="flex items-center gap-2 text-xs font-black text-red-400 uppercase tracking-widest pb-2 border-b border-red-50">
-              <Trash2 className="w-4 h-4" />
+            <div className="flex items-center gap-2 text-xs font-black text-danger-text uppercase tracking-widest pb-3 border-b border-danger-tint">
+              <Trash2 className="w-4 h-4 text-danger animate-pulse" />
               Danger Zone
             </div>
-            <div className="bg-red-50 border border-red-200 rounded-3xl p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-sm">
-              <div>
-                <h4 className="text-lg font-bold text-red-900">
+            <div className="bg-danger-tint/50 border border-danger-tint rounded-3xl p-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 shadow-card transition-all group">
+              <div className="space-y-2">
+                <h4 className="text-2xl font-black text-danger-text tracking-tight">
                   Delete Project
                 </h4>
-                <p className="text-red-600 text-sm font-medium mt-1 max-w-md leading-relaxed">
+                <p className="text-danger-text/80 text-sm font-medium mt-1 max-w-md leading-relaxed">
                   Permanently remove this project and all its associated
                   tracking data. This action is irreversible and cannot be
                   undone.
@@ -98,7 +98,7 @@ export default async function ProjectSettingsPage({
               </div>
               <button
                 id="delete-project-btn"
-                className="px-8 py-3 bg-red-600 text-white font-black rounded-xl hover:bg-red-700 transition-all shadow-lg shadow-red-200 hover:-translate-y-0.5"
+                className="px-10 py-4 bg-danger text-white font-black rounded-2xl hover:bg-danger/90 transition-all shadow-xl shadow-danger/20 hover:-translate-y-2 active:translate-y-0 group-hover:scale-105"
               >
                 Delete {project.name}
               </button>

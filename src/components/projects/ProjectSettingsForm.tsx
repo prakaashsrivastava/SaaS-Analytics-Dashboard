@@ -123,8 +123,8 @@ export function ProjectSettingsForm({
   // For simplicity, let's keep the delete logic here and wire it to a button if needed.
 
   return (
-    <Card className="bg-white border-slate-200 rounded-3xl overflow-hidden shadow-sm">
-      <CardContent className="p-8">
+    <Card className="bg-surface border-border rounded-3xl overflow-hidden shadow-card">
+      <CardContent className="px-6 py-10">
         <form
           id="project-settings-form"
           onSubmit={handleSubmit(onSubmit)}
@@ -135,22 +135,22 @@ export function ProjectSettingsForm({
             <div className="space-y-4">
               <Label
                 htmlFor="name"
-                className="text-xs font-black uppercase text-slate-400 tracking-widest pl-1"
+                className="text-xs font-black uppercase text-text-muted tracking-widest"
               >
                 Project Name
               </Label>
               <div className="relative group">
-                <div className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-indigo-600 transition-colors pointer-events-none">
+                <div className="absolute left-4 top-3.5 text-text-muted group-focus-within:text-primary transition-colors pointer-events-none">
                   <Type className="w-5 h-5" />
                 </div>
                 <Input
                   id="name"
                   {...register("name")}
-                  className="pl-12 h-12 rounded-xl border-slate-200 bg-white font-bold text-slate-900 focus:ring-2 focus:ring-indigo-500 transition-all"
+                  className="pl-12 h-12 rounded-xl border-border bg-surface font-bold text-text-primary focus:ring-2 focus:ring-primary transition-all"
                   placeholder="e.g. My Awesome App"
                 />
                 {errors.name && (
-                  <p className="mt-2 text-xs font-bold text-red-500 pl-1">
+                  <p className="mt-2 text-xs font-bold text-danger">
                     {errors.name.message}
                   </p>
                 )}
@@ -161,22 +161,22 @@ export function ProjectSettingsForm({
             <div className="space-y-4">
               <Label
                 htmlFor="domain"
-                className="text-xs font-black uppercase text-slate-400 tracking-widest pl-1"
+                className="text-xs font-black uppercase text-text-muted tracking-widest"
               >
                 Website Domain
               </Label>
               <div className="relative group">
-                <div className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-indigo-600 transition-colors pointer-events-none">
+                <div className="absolute left-4 top-3.5 text-text-muted group-focus-within:text-primary transition-colors pointer-events-none">
                   <Globe className="w-5 h-5" />
                 </div>
                 <Input
                   id="domain"
                   {...register("domain")}
-                  className="pl-12 h-12 rounded-xl border-slate-200 bg-white font-bold text-slate-900 focus:ring-2 focus:ring-indigo-500 transition-all"
+                  className="pl-12 h-12 rounded-xl border-border bg-surface font-bold text-text-primary focus:ring-2 focus:ring-primary transition-all"
                   placeholder="e.g. app.example.com"
                 />
                 {errors.domain && (
-                  <p className="mt-2 text-xs font-bold text-red-500 pl-1">
+                  <p className="mt-2 text-xs font-bold text-danger">
                     {errors.domain.message}
                   </p>
                 )}
@@ -184,11 +184,11 @@ export function ProjectSettingsForm({
             </div>
           </div>
 
-          <div className="pt-6 flex flex-col md:flex-row items-center gap-6 border-t border-slate-50">
+          <div className="pt-6 flex flex-col md:flex-row items-center gap-6 border-t border-border">
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full md:w-auto h-12 px-10 bg-slate-900 text-white hover:bg-slate-800 rounded-xl font-black shadow-xl shadow-slate-900/10 transition-all disabled:opacity-50"
+              className="w-full md:w-auto h-9 px-10 bg-primary text-white hover:bg-primary-dark rounded-xl font-black shadow-card transition-all disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
@@ -202,11 +202,10 @@ export function ProjectSettingsForm({
 
             {feedback && (
               <div
-                className={`flex items-center gap-2 p-3 rounded-xl border animate-in fade-in slide-in-from-left-2 ${
-                  feedback.type === "success"
-                    ? "bg-green-50 border-green-200 text-green-700"
-                    : "bg-red-50 border-red-200 text-red-700"
-                }`}
+                className={`flex items-center gap-2 p-3 rounded-xl border animate-in fade-in slide-in-from-left-2 ${feedback.type === "success"
+                    ? "bg-success-tint border-success text-success-text"
+                    : "bg-danger-tint border-danger text-danger-text"
+                  }`}
               >
                 {feedback.type === "success" ? (
                   <CheckCircle2 className="w-5 h-5" />
@@ -224,7 +223,7 @@ export function ProjectSettingsForm({
                 onClick={handleDelete}
                 disabled={isDeleting}
                 variant="destructive"
-                className="w-full md:w-auto h-12 px-10 bg-red-600 text-white hover:bg-red-700 rounded-xl font-black shadow-xl shadow-red-900/10 transition-all ml-auto md:hidden"
+                className="w-full md:w-auto h-9 px-10 bg-danger text-white hover:bg-danger-dark rounded-xl font-black shadow-card transition-all ml-auto md:hidden"
               >
                 {isDeleting ? "Deleting..." : "Delete Project"}
               </Button>

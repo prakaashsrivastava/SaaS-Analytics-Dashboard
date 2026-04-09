@@ -38,7 +38,7 @@ export default async function DashboardSlugLayout({
   }
 
   return (
-    <div className="flex h-screen bg-slate-50/50">
+    <div className="flex h-screen bg-primary-subtle">
       <Sidebar
         orgSlug={slug}
         orgName={organisation.name}
@@ -48,8 +48,8 @@ export default async function DashboardSlugLayout({
       />
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <main className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
-          <div className="mx-auto max-w-7xl">{children}</div>
+        <main className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-primary-tint">
+          <div className="mx-auto max-w-6xl">{children}</div>
         </main>
       </div>
     </div>

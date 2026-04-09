@@ -75,82 +75,84 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
-      <Card className="w-full max-w-md">
+    <div className="flex items-center justify-center min-h-screen bg-surface-raised p-4 font-sans">
+      <Card className="w-full max-w-md shadow-card border-border">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold">
+          <CardTitle className="text-3xl font-black tracking-tight text-text-primary">
             Create an account
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-text-secondary font-medium">
             Enter your details to register your organization and your account.
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
             {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
+              <Alert variant="destructive" className="bg-danger-tint border-danger-tint text-danger-text rounded-xl">
+                <AlertDescription className="font-bold">{error}</AlertDescription>
               </Alert>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="orgName">Organisation Name</Label>
+              <Label htmlFor="orgName" className="font-bold text-text-primary">Organisation Name</Label>
               <Input
                 id="orgName"
                 placeholder="Acme Corp"
+                className="rounded-xl border-border focus:ring-primary/20"
                 {...register("orgName")}
               />
               {errors.orgName && (
-                <p className="text-sm text-destructive">
+                <p className="text-xs font-bold text-danger-text">
                   {errors.orgName.message}
                 </p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input id="name" placeholder="John Doe" {...register("name")} />
+              <Label htmlFor="name" className="font-bold text-text-primary">Full Name</Label>
+              <Input id="name" placeholder="John Doe" className="rounded-xl border-border focus:ring-primary/20" {...register("name")} />
               {errors.name && (
-                <p className="text-sm text-destructive">
+                <p className="text-xs font-bold text-danger-text">
                   {errors.name.message}
                 </p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email address</Label>
+              <Label htmlFor="email" className="font-bold text-text-primary">Email address</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="name@example.com"
+                className="rounded-xl border-border focus:ring-primary/20"
                 {...register("email")}
               />
               {errors.email && (
-                <p className="text-sm text-destructive">
+                <p className="text-xs font-bold text-danger-text">
                   {errors.email.message}
                 </p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" {...register("password")} />
+              <Label htmlFor="password" className="font-bold text-text-primary">Password</Label>
+              <Input id="password" type="password" className="rounded-xl border-border focus:ring-primary/20" {...register("password")} />
               {errors.password && (
-                <p className="text-sm text-destructive">
+                <p className="text-xs font-bold text-danger-text">
                   {errors.password.message}
                 </p>
               )}
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button className="w-full" type="submit" disabled={loading}>
+            <Button className="w-full bg-primary text-white hover:bg-primary-dark transition-all rounded-xl h-12 font-black shadow-lg shadow-primary/20" type="submit" disabled={loading}>
               {loading ? "Creating account..." : "Register"}
             </Button>
-            <div className="text-center text-sm text-muted-foreground">
+            <div className="text-center text-sm text-text-secondary font-medium">
               Already have an account?{" "}
               <a
                 href="/login"
-                className="font-medium text-primary hover:underline"
+                className="font-bold text-primary hover:text-primary-dark hover:underline transition-all"
               >
                 Sign in
               </a>
