@@ -47,7 +47,7 @@ export default async function DashboardSlugLayout({
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen bg-primary-subtle selection:bg-primary/10">
+    <div className="flex flex-col lg:flex-row h-screen bg-white selection:bg-primary/10">
       {/* Mobile Header */}
       <MobileHeader {...sidebarProps} />
 

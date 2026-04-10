@@ -2,8 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
-import { Activity, ArrowLeft, Zap } from "lucide-react";
-import Link from "next/link";
+import { Activity } from "lucide-react";
 import { RealtimeStream } from "@/components/projects/RealtimeStream";
 
 export default async function RealtimePage({
@@ -33,29 +32,23 @@ export default async function RealtimePage({
   }
 
   return (
-    <div className="py-10 px-6 space-y-10 min-h-screen bg-primary-subtle font-sans">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-5">
-          <Link
-            href={`/dashboard/${slug}/projects/${id}`}
-            className="p-3 hover:bg-primary-tint rounded-2xl transition-all text-text-secondary hover:text-primary group"
-          >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          </Link>
-          <div className="w-14 h-14 bg-sidebar-bg rounded-2xl flex items-center justify-center text-white shadow-xl shadow-sidebar-bg/20">
-            <Zap className="w-7 h-7 text-primary fill-primary animate-pulse" />
+    <div className="w-full py-6 px-6 md:py-8 md:px-8 space-y-6 md:space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-primary-tint/20 rounded-2xl border border-primary/10 shrink-0 shadow-sm">
+            <Activity className="w-6 h-6 text-primary" strokeWidth={2} />
           </div>
           <div>
-            <h1 className="text-3xl font-black text-text-primary flex items-center gap-4 tracking-tight">
+            <h2 className="text-2xl font-bold text-premium tracking-tight flex items-center gap-4">
               Real-time Analytics
-              <span className="flex h-4 w-4 relative">
+              <span className="flex h-3 w-3 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-4 w-4 bg-success shadow-lg shadow-success/50"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-success shadow-lg shadow-success/50"></span>
               </span>
-            </h1>
-            <p className="text-text-secondary font-medium mt-1">
+            </h2>
+            <p className="text-text-secondary font-medium">
               Live event stream for{" "}
-              <span className="text-text-primary font-black">
+              <span className="text-text-primary font-bold">
                 {project.name}
               </span>
               .

@@ -3,17 +3,11 @@ import { authOptions } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { Box, LayoutGrid, ExternalLink } from "lucide-react";
+import { Monitor, ArrowUpRight, LayoutGrid, Calendar, Box } from "lucide-react";
 import { canDo } from "@/lib/permissions";
 import { ProjectLimitButton } from "@/components/projects/ProjectLimitButton";
 import { ProjectWithDescription } from "@/types";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 export default async function ProjectsPage({
   params,
@@ -50,15 +44,20 @@ export default async function ProjectsPage({
     []) as unknown as ProjectWithDescription[];
 
   return (
-    <div className="py-8 px-6 space-y-8 font-sans">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h2 className="text-3xl font-bold text-premium tracking-tight">
-            Projects
-          </h2>
-          <p className="text-text-secondary font-medium">
-            Manage your tracked applications and websites.
-          </p>
+    <div className="w-full py-6 px-6 md:py-8 md:px-8 space-y-6 md:space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-primary-tint/20 rounded-2xl border border-primary/10 shrink-0 shadow-sm">
+            <Box className="w-6 h-6 text-primary" strokeWidth={2} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-premium tracking-tight">
+              Projects
+            </h2>
+            <p className="text-text-secondary font-medium">
+              Manage your tracked applications and websites.
+            </p>
+          </div>
         </div>
         <ProjectLimitButton
           orgSlug={slug}
@@ -67,7 +66,7 @@ export default async function ProjectsPage({
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.length > 0 ? (
           projects.map((project) => (
             <Link
@@ -75,37 +74,45 @@ export default async function ProjectsPage({
               href={`/dashboard/${slug}/projects/${project.id}`}
               className="group"
             >
-              <Card className="h-full premium-card transition-all duration-500 cursor-pointer border-border group-hover:bg-primary-tint/10 rounded-2xl overflow-hidden active:scale-[0.98]">
-                <CardHeader className="pb-4">
-                  <div className="flex justify-between items-start">
-                    <div className="w-12 h-12 bg-surface-raised rounded-xl flex items-center justify-center text-text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm border border-border/50">
-                      <Box className="w-6 h-6" />
-                    </div>
-                    <ExternalLink className="w-5 h-5 text-text-muted group-hover:text-primary transition-colors duration-500" />
+              <div className="relative bg-surface-raised rounded-2xl border border-border p-5 hover:border-primary/40 hover:shadow-card-hover transition-all duration-300 h-full flex flex-col gap-4 overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-primary/0 group-hover:bg-primary transition-all duration-300" />
+
+                <div className="flex justify-between items-start">
+                  <div className="space-y-1">
+                    <h4 className="text-md font-bold text-text-primary group-hover:text-primary transition-colors">
+                      {project.name}
+                    </h4>
+                    {project.domain && (
+                      <div className="flex items-center gap-1.5">
+                        <Monitor className="w-3 h-3 text-text-muted" />
+                        <span className="text-[10px] text-text-muted font-bold tracking-tight uppercase">
+                          {project.domain}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                  <CardTitle className="mt-6 text-text-primary text-xl font-bold group-hover:text-primary transition-colors tracking-tight">
-                    {project.name}
-                  </CardTitle>
-                  <CardDescription className="font-semibold truncate text-text-secondary">
-                    {project.domain || "No domain set"}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-text-secondary font-medium line-clamp-3 min-h-[3rem] leading-relaxed">
-                    {project.description ||
-                      "No description provided for this project."}
-                  </p>
-                  <div className="mt-8 flex items-center gap-4">
-                    <div className="premium-badge bg-success-tint text-success-text border-success/10 flex items-center gap-1.5">
-                      <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+                  <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-y-1 group-hover:translate-y-0" />
+                </div>
+
+                <p className="text-sm text-text-secondary font-medium line-clamp-2">
+                  {project.description || "No description provided."}
+                </p>
+
+                <div className="mt-auto pt-2 flex items-center gap-3">
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 bg-success-tint/30 rounded-full border border-success/10">
+                    <div className="w-1 h-1 rounded-full bg-success animate-pulse" />
+                    <span className="text-[9px] font-bold text-success-text uppercase">
                       Active
-                    </div>
-                    <div className="premium-badge bg-surface-raised text-text-muted border-border">
-                      {project.createdAt?.toLocaleDateString()}
-                    </div>
+                    </span>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="flex items-center gap-1 px-2 py-0.5 bg-surface text-text-muted border border-border rounded-full">
+                    <Calendar className="w-2.5 h-2.5" />
+                    <span className="text-[9px] font-bold uppercase">
+                      {project.createdAt?.toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </Link>
           ))
         ) : (

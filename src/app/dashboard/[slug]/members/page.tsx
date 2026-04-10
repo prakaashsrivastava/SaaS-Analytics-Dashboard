@@ -3,7 +3,7 @@
 import React, { useEffect, useState, use } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Users, PlusCircle, TrendingUp, ArrowLeft } from "lucide-react";
+import { Users, PlusCircle, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -136,79 +136,41 @@ export default function MembersPage({
   const isFreePlan = organisation?.plan === "free";
 
   return (
-    <div className="min-h-screen bg-primary-subtle font-sans">
-      <header className="bg-surface border-b border-border py-6 px-6 sticky top-0 z-10 shadow-card backdrop-blur-md bg-surface/90">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-5">
-            <Link
-              href={`/dashboard/${slug}`}
-              className="p-3 hover:bg-primary-tint rounded-2xl transition-all text-text-secondary hover:text-primary group"
-            >
-              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-            </Link>
-            <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
-              <Users className="w-6 h-6" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-premium leading-none tracking-tight">
-                Team Management
-              </h1>
-              <div className="flex items-center gap-2 mt-2">
-                <p className="text-[10px] text-text-muted font-semibold uppercase tracking-widest">
-                  {slug}
-                </p>
-                <div className="px-2 py-0.5 bg-surface-raised rounded-full text-[8px] font-semibold uppercase text-text-muted border border-border">
-                  Role: {session?.user?.role || "UNKNOWN"}
-                </div>
-                {organisation && (
-                  <div
-                    className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase border flex items-center gap-1.5 ${
-                      isFreePlan
-                        ? "bg-surface-raised text-text-secondary border-border"
-                        : "bg-primary-tint/50 text-primary border-primary/10"
-                    }`}
-                  >
-                    {!isFreePlan && (
-                      <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
-                    )}
-                    Plan: {organisation.plan}
-                  </div>
-                )}
-              </div>
-            </div>
+    <div className="w-full py-6 px-6 md:py-8 md:px-8 space-y-6 md:space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-primary-tint/20 rounded-2xl border border-primary/10 shrink-0 shadow-sm">
+            <Users className="w-6 h-6 text-primary" strokeWidth={2} />
           </div>
-        </div>
-      </header>
-
-      <main className="py-12 px-6 space-y-12">
-        <div className="flex justify-between items-end">
-          <div className="space-y-1">
-            <h2 className="text-3xl font-bold text-premium tracking-tight">
-              Members
+          <div>
+            <h2 className="text-2xl font-bold text-premium tracking-tight">
+              Team Members
             </h2>
-            <p className="text-text-secondary font-medium text-base leading-tight">
-              Manage permissions and team access.
+            <p className="text-text-secondary font-medium">
+              Manage permissions and team access for this workspace.
             </p>
           </div>
-
-          {canInvite ? (
-            <Button
-              onClick={() => {
-                console.log("Opening invite modal...");
-                setIsInviteModalOpen(true);
-              }}
-              className="bg-primary text-white hover:bg-primary-dark shadow-card font-bold px-6 rounded-xl h-11 transition-all hover:-translate-y-0.5"
-            >
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Invite Member
-            </Button>
-          ) : (
-            <div className="text-[10px] font-black text-text-muted uppercase tracking-widest bg-surface-raised px-4 py-2 rounded-xl border border-border">
-              Restricted to Admin/Owner
-            </div>
-          )}
         </div>
 
+        {canInvite ? (
+          <Button
+            onClick={() => {
+              console.log("Opening invite modal...");
+              setIsInviteModalOpen(true);
+            }}
+            className="bg-primary text-white hover:bg-primary-dark shadow-card font-bold px-6 rounded-xl h-11 transition-all hover:-translate-y-0.5"
+          >
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Invite Member
+          </Button>
+        ) : (
+          <div className="text-[10px] font-black text-text-muted uppercase tracking-widest bg-surface-raised px-4 py-2 rounded-xl border border-border">
+            Restricted to Admin/Owner
+          </div>
+        )}
+      </div>
+
+      <main className="space-y-12">
         <MemberTable
           members={members}
           currentUserId={session?.user?.id}

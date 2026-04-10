@@ -19,6 +19,8 @@ import {
   PlusCircle,
   ArrowUpRight,
   Monitor,
+  Mail,
+  LayoutDashboard,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,15 +63,20 @@ export default async function OrgDashboardPage({
     []) as unknown as ProjectWithDescription[];
 
   return (
-    <div className="py-6 px-4 md:py-8 md:px-6 space-y-6 md:space-y-8">
+    <div className="w-full py-6 px-6 md:py-8 md:px-8 space-y-6 md:space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <h2 className="text-2xl font-bold text-premium tracking-tight">
-            Dashboard
-          </h2>
-          <p className="text-text-secondary font-medium">
-            Manage your team and view growth metrics across your projects.
-          </p>
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-primary-tint/20 rounded-2xl border border-primary/10 shrink-0 shadow-sm">
+            <LayoutDashboard className="w-6 h-6 text-primary" strokeWidth={2} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-premium tracking-tight">
+              Dashboard
+            </h2>
+            <p className="text-text-secondary font-medium">
+              Manage your team and view growth metrics across your projects.
+            </p>
+          </div>
         </div>
 
         <DashboardActions
@@ -333,7 +340,8 @@ export default async function OrgDashboardPage({
                       <p className="text-sm font-bold text-text-primary group-hover:text-primary transition-colors truncate">
                         {member.user.name}
                       </p>
-                      <p className="text-[11px] text-text-muted font-medium truncate">
+                      <p className="text-[11px] text-text-muted font-medium truncate flex items-center gap-1">
+                        <Mail className="h-2.5 w-2.5" />
                         {member.user.email}
                       </p>
                     </div>

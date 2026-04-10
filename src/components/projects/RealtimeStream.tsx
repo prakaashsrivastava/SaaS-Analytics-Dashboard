@@ -9,7 +9,6 @@ import {
   UserPlus,
   ShoppingCart,
   MousePointer2,
-  ChevronRight,
   TrendingUp,
   CreditCard,
 } from "lucide-react";
@@ -127,86 +126,98 @@ export function RealtimeStream({ projectId }: RealtimeStreamProps) {
       {events.map((event, index) => {
         const Icon = getEventIcon(event.eventType);
         const colorClass = getEventColor(event.eventType);
+        const { session_id, ...otherProps } = event.properties || {};
 
         return (
           <Card
             key={event.id}
             className={cn(
-              "group bg-surface hover:border-primary-light transition-all duration-500 rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover",
+              "group bg-surface hover:border-primary-light transition-all duration-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-card",
               index === 0 &&
-                "ring-2 ring-primary ring-offset-4 ring-offset-surface-raised/20"
+                "ring-1 ring-primary ring-offset-2 ring-offset-surface-raised/10"
             )}
           >
-            <CardContent className="p-0">
-              <div className="flex flex-col md:flex-row items-stretch">
-                {/* Event Type Icon */}
+            <CardContent className="p-3 md:p-4">
+              <div className="flex items-center gap-4">
+                {/* Compact Icon */}
                 <div
                   className={cn(
-                    "w-full md:w-20 p-6 flex items-center justify-center border-b md:border-b-0 md:border-r border-border shrink-0 transition-colors group-hover:bg-surface-raised/50",
-                    colorClass.split(" ")[0] // Extract bg- color
+                    "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-105 duration-300 border-b-2 border-r border-border/10",
+                    colorClass.split(" ")[0] || "bg-surface-raised",
+                    colorClass.split(" ")[1] || "text-text-primary"
                   )}
                 >
-                  <Icon className={cn("w-7 h-7", colorClass.split(" ")[1])} />
+                  <Icon className="w-5 h-5" />
                 </div>
 
-                {/* Main Content */}
-                <div className="flex-1 p-6 space-y-4">
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-3">
-                        <h3 className="text-lg font-black text-text-primary uppercase tracking-tight group-hover:text-primary transition-colors">
-                          {event.eventType.replace(/_/g, " ")}
-                        </h3>
-                        {Number(event.revenue) > 0 && (
-                          <span className="px-3 py-1 bg-success text-white text-[10px] font-black uppercase rounded-full shadow-card">
-                            +₹{event.revenue}
+                {/* Info Area */}
+                <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-4">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <h3 className="text-sm font-bold text-text-primary uppercase tracking-tight truncate group-hover:text-primary transition-colors">
+                        {event.eventType.replace(/_/g, " ")}
+                      </h3>
+                      {Number(event.revenue) > 0 && (
+                        <span className="shrink-0 px-2 py-0.5 bg-success/10 text-success text-[9px] font-black uppercase rounded-lg border border-success/20">
+                          +₹{event.revenue}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 content-start">
+                      {/* Event ID */}
+                      <span className="text-[10px] font-bold text-text-muted border-r border-border pr-2.5">
+                        EVENT ID: {event.id}
+                      </span>
+
+                      {/* Highly Visible Session ID */}
+                      {session_id && (
+                        <div className="flex items-center gap-1.5 bg-primary-subtle px-2 py-0.5 rounded-lg border border-primary/10">
+                          <span className="text-[8px] font-black text-primary/60 uppercase tracking-widest whitespace-nowrap">
+                            SESSION ID:
+                          </span>
+                          <span className="text-[10px] font-black text-primary truncate max-w-[80px] sm:max-w-[100px]">
+                            {String(session_id)}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Other Props */}
+                      <div className="flex flex-wrap gap-x-2.5 gap-y-1">
+                        {Object.entries(otherProps)
+                          .slice(0, 3)
+                          .map(([key, value]) => (
+                            <div
+                              key={key}
+                              className="flex items-center gap-1 text-[10px] font-medium text-text-secondary"
+                            >
+                              <span className="text-text-muted lowercase">
+                                {key}:
+                              </span>
+                              <span className="text-text-primary truncate max-w-[60px] sm:max-w-[80px]">
+                                {String(value)}
+                              </span>
+                            </div>
+                          ))}
+
+                        {Object.keys(otherProps).length > 3 && (
+                          <span className="text-[9px] font-black text-text-muted/60 uppercase pl-1">
+                            +{Object.keys(otherProps).length - 3}
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-text-muted font-bold uppercase tracking-widest">
-                        Event ID: {event.id}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-text-secondary bg-surface-raised px-3 py-1.5 rounded-xl border border-border">
-                      <Clock className="w-3.5 h-3.5" />
-                      <span className="text-xs font-bold leading-none">
-                        {formatDistanceToNow(new Date(event.occurredAt), {
-                          addSuffix: true,
-                        })}
-                      </span>
                     </div>
                   </div>
 
-                  {/* Properties / Metadata */}
-                  <div className="flex flex-wrap gap-3">
-                    {Object.entries(event.properties || {})
-                      .slice(0, 4)
-                      .map(([key, value]) => (
-                        <div
-                          key={key}
-                          className="flex items-center gap-2 bg-surface-raised/50 px-3 py-1.5 rounded-lg border border-border text-[10px] font-bold text-text-secondary"
-                        >
-                          <span className="uppercase tracking-widest text-text-muted">
-                            {key}:
-                          </span>
-                          <span className="text-text-primary truncate max-w-[120px]">
-                            {String(value)}
-                          </span>
-                        </div>
-                      ))}
-                    {Object.keys(event.properties || {}).length > 4 && (
-                      <div className="flex items-center gap-1 text-[10px] font-black text-primary-light uppercase tracking-widest pl-2">
-                        +{Object.keys(event.properties || {}).length - 4} more
-                        attributes
-                      </div>
-                    )}
+                  {/* Responsive Time Badge */}
+                  <div className="shrink-0 self-start sm:self-center flex items-center gap-1.5 text-text-muted bg-surface-raised px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-border shadow-sm">
+                    <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    <span className="text-[9px] sm:text-[10px] font-bold whitespace-nowrap">
+                      {formatDistanceToNow(new Date(event.occurredAt), {
+                        addSuffix: true,
+                      })}
+                    </span>
                   </div>
-                </div>
-
-                {/* Vertical Action / Details */}
-                <div className="hidden md:flex flex-col items-center justify-center w-16 bg-surface-raised/30 group-hover:bg-surface-raised transition-colors border-l border-border">
-                  <ChevronRight className="w-5 h-5 text-text-muted group-hover:text-primary transform group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
             </CardContent>

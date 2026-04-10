@@ -44,7 +44,7 @@ export const projectSchema = z.object({
 
 export type ProjectValues = z.infer<typeof projectSchema>;
 
-// Organization settings schema
+// settings schema
 export const settingsSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
   timezone: z.string().min(1, "Please select a timezone"),
