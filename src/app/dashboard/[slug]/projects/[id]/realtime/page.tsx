@@ -55,7 +55,10 @@ export default async function RealtimePage({
             </h1>
             <p className="text-text-secondary font-medium mt-1">
               Live event stream for{" "}
-              <span className="text-text-primary font-black">{project.name}</span>.
+              <span className="text-text-primary font-black">
+                {project.name}
+              </span>
+              .
             </p>
           </div>
         </div>

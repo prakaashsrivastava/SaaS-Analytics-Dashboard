@@ -18,11 +18,11 @@ import { FunnelChartProps, FunnelTooltipProps } from "@/types";
 const CustomTooltip = ({ active, payload }: FunnelTooltipProps) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-surface border border-border rounded-[8px] p-4 shadow-card">
-        <p className="text-[10px] font-black uppercase text-primary tracking-widest mb-1">
+      <div className="bg-surface border border-border rounded-[12px] p-4 shadow-card">
+        <p className="text-[10px] font-bold uppercase text-primary tracking-widest mb-1">
           {payload[0].payload.step}
         </p>
-        <p className="text-xl font-black text-text-primary">
+        <p className="text-xl font-bold text-text-primary">
           {payload[0].value.toLocaleString()}
         </p>
         <p className="text-[10px] font-bold text-text-muted mt-1">
@@ -37,7 +37,7 @@ const CustomTooltip = ({ active, payload }: FunnelTooltipProps) => {
 export function FunnelChart({ data, loading }: FunnelChartProps) {
   if (loading) {
     return (
-      <Card className="bg-surface border-border rounded-3xl overflow-hidden shadow-card h-[400px]">
+      <Card className="premium-card rounded-2xl overflow-hidden h-[400px]">
         <div className="p-6 h-full flex flex-col">
           <div className="h-6 w-32 bg-surface-raised animate-pulse rounded mb-8" />
           <div className="flex-1 space-y-4">
@@ -53,18 +53,18 @@ export function FunnelChart({ data, loading }: FunnelChartProps) {
   const COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)"];
 
   return (
-    <Card className="bg-surface border-border rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500">
+    <Card className="premium-card rounded-2xl overflow-hidden">
       <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-border">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-primary-subtle rounded-lg">
             <Filter className="w-4 h-4 text-primary" />
           </div>
           <div>
-            <CardTitle className="text-lg font-black text-text-primary tracking-tight">
-              CONVERSION FUNNEL
+            <CardTitle className="text-lg font-bold text-premium tracking-tight uppercase">
+              Conversion Funnel
             </CardTitle>
-            <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest leading-none mt-0.5">
-              LAST 30 DAYS
+            <p className="text-[10px] font-semibold text-text-muted uppercase tracking-widest leading-none mt-0.5">
+              Last 30 Days
             </p>
           </div>
         </div>
@@ -83,7 +83,11 @@ export function FunnelChart({ data, loading }: FunnelChartProps) {
                 type="category"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 11, fontWeight: 700, fill: "var(--color-text-muted)" }}
+                tick={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  fill: "var(--color-text-muted)",
+                }}
                 width={100}
                 dx={-20}
               />
@@ -101,7 +105,11 @@ export function FunnelChart({ data, loading }: FunnelChartProps) {
                 <LabelList
                   dataKey="count"
                   position="right"
-                  style={{ fontSize: 12, fontWeight: 800, fill: "var(--color-text-primary)" }}
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    fill: "var(--color-text-primary)",
+                  }}
                   formatter={(
                     val:
                       | string
@@ -123,19 +131,19 @@ export function FunnelChart({ data, loading }: FunnelChartProps) {
 
         <div className="mt-6 flex justify-between items-center bg-surface-raised p-4 rounded-2xl border border-border">
           <div className="text-center flex-1">
-            <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">
+            <p className="text-[10px] font-semibold text-text-muted uppercase tracking-widest mb-1">
               Drop-off Rate
             </p>
-            <p className="text-xl font-black text-text-primary">
+            <p className="text-xl font-bold text-text-primary">
               {data.length > 2 ? 100 - data[2].percentage : 0}%
             </p>
           </div>
           <div className="w-px h-8 bg-border" />
           <div className="text-center flex-1">
-            <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">
+            <p className="text-[10px] font-semibold text-text-muted uppercase tracking-widest mb-1">
               Top Segment
             </p>
-            <p className="text-xl font-black text-primary">
+            <p className="text-xl font-bold text-primary">
               {data[0]?.step || "N/A"}
             </p>
           </div>

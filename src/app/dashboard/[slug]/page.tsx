@@ -67,7 +67,7 @@ export default async function OrgDashboardPage({
     <div className="py-8 px-6 space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-black text-text-primary tracking-tight">
+          <h2 className="text-2xl font-bold text-premium tracking-tight">
             Dashboard
           </h2>
           <p className="text-text-secondary font-medium">
@@ -84,19 +84,21 @@ export default async function OrgDashboardPage({
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="space-y-8">
-          <Card className="shadow-card border-border rounded-2xl">
-            <CardHeader className="pb-4">
+          <Card className="premium-card rounded-2xl">
+            <CardHeader className="pb-6">
               <CardTitle icon={<ShieldCheck className="h-5 w-5" />}>
                 Organization
               </CardTitle>
-              <CardDescription className="font-medium text-text-secondary">Details about your workspace.</CardDescription>
+              <CardDescription className="font-medium text-text-secondary">
+                Details about your workspace.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
                 <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">
                   Name
                 </p>
-                <p className="text-text-primary font-black text-lg">
+                <p className="text-text-primary font-bold text-lg">
                   {organisation.name}
                 </p>
               </div>
@@ -104,7 +106,7 @@ export default async function OrgDashboardPage({
                 <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">
                   Slug
                 </p>
-                <div className="flex items-center p-2 bg-surface-raised rounded-xl border border-border">
+                <div className="flex items-center p-2.5 bg-surface-raised/50 rounded-xl border border-border/50 backdrop-blur-sm">
                   <code className="text-sm text-text-secondary font-mono">
                     {organisation.slug}
                   </code>
@@ -113,9 +115,9 @@ export default async function OrgDashboardPage({
             </CardContent>
             {canDo(session.user.role!, "upgrade_plan") &&
               organisation.plan === "free" && (
-                <CardFooter className="bg-surface-raised border-t border-border py-4 flex flex-col items-start gap-4">
+                <CardFooter className="bg-primary-tint/20 border-t border-primary/10 py-4 flex flex-col items-start gap-4">
                   <div className="space-y-1">
-                    <p className="text-sm font-black text-text-primary">
+                    <p className="text-sm font-bold text-text-primary">
                       Upgrade to Pro
                     </p>
                     <p className="text-xs text-text-secondary font-medium">
@@ -128,8 +130,8 @@ export default async function OrgDashboardPage({
           </Card>
         </div>
 
-        <Card className="col-span-1 md:col-span-3 shadow-card border-border overflow-hidden bg-surface/50 backdrop-blur-sm border-dashed rounded-3xl">
-          <CardHeader className="pb-2">
+        <Card className="col-span-1 md:col-span-3 glass-card overflow-hidden rounded-3xl">
+          <CardHeader className="pb-6">
             <div className="flex justify-between items-center">
               <div>
                 <CardTitle icon={<LayoutGrid className="h-5 w-5" />}>
@@ -157,9 +159,9 @@ export default async function OrgDashboardPage({
                     key={project.id}
                     href={`/dashboard/${slug}/projects/${project.id}`}
                   >
-                    <Card className="hover:border-primary-light hover:shadow-card transition-all group cursor-pointer h-full rounded-2xl border-border">
+                    <Card className="premium-card hover:border-primary/50 hover:scale-[1.01] transition-all group cursor-pointer h-full rounded-2xl">
                       <CardHeader className="pb-4">
-                        <CardTitle className="text-text-primary text-lg font-black truncate group-hover:text-primary transition-colors">
+                        <CardTitle className="text-text-primary text-lg font-bold truncate group-hover:text-primary transition-colors">
                           {project.name}
                         </CardTitle>
                         {project.domain && (
@@ -179,7 +181,7 @@ export default async function OrgDashboardPage({
               ) : (
                 <div className="p-8 rounded-3xl border-2 border-border border-dashed flex flex-col items-center justify-center gap-2 text-text-muted group hover:border-primary/30 transition-all cursor-not-allowed col-span-full">
                   <PlusCircle className="w-12 h-12 opacity-20 group-hover:opacity-40 mb-2" />
-                  <p className="text-lg font-black text-text-muted/50 uppercase tracking-widest">
+                  <p className="text-lg font-bold text-text-muted/50 uppercase tracking-widest">
                     No Projects Found
                   </p>
                   <p className="text-xs text-text-muted/50 font-bold">
@@ -191,9 +193,9 @@ export default async function OrgDashboardPage({
           </CardContent>
         </Card>
 
-        <Card className="col-span-1 md:col-span-2 shadow-card border-border overflow-hidden rounded-3xl">
+        <Card className="col-span-1 md:col-span-2 premium-card overflow-hidden rounded-3xl">
           {/* Existing Team Members Card */}
-          <CardHeader className="border-b border-border bg-surface-raised/50">
+          <CardHeader className="border-b border-border bg-surface-raised/30 backdrop-blur-md pb-6">
             <div className="flex justify-between items-center">
               <div>
                 <CardTitle icon={<Users className="h-5 w-5" />}>
@@ -209,7 +211,7 @@ export default async function OrgDashboardPage({
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-primary hover:text-primary-dark hover:bg-primary-tint font-black rounded-lg"
+                    className="text-primary hover:text-primary-dark hover:bg-primary-tint font-bold rounded-xl h-11 px-6 transition-all"
                   >
                     Manage
                   </Button>
@@ -222,14 +224,14 @@ export default async function OrgDashboardPage({
               {organisation.members.map((member) => (
                 <li
                   key={member.id}
-                  className="p-6 flex items-center justify-between hover:bg-surface-hover/50 transition-colors"
+                  className="p-6 flex items-center justify-between hover:bg-primary-tint/10 transition-colors"
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="h-12 w-12 rounded-2xl bg-sidebar-bg flex items-center justify-center text-white text-base font-black uppercase shadow-lg shadow-sidebar-bg/20">
+                    <div className="h-12 w-12 premium-avatar bg-sidebar-bg text-white text-base">
                       {member.user.name?.[0]}
                     </div>
                     <div>
-                      <p className="text-sm font-black text-text-primary">
+                      <p className="text-sm font-bold text-text-primary">
                         {member.user.name}
                       </p>
                       <p className="text-xs text-text-secondary font-medium">
@@ -240,12 +242,13 @@ export default async function OrgDashboardPage({
 
                   <div className="flex items-center gap-4">
                     <span
-                      className={`text-[10px] px-3 py-1 rounded-full font-black uppercase tracking-widest ${member.role === "owner"
-                          ? "bg-primary-tint text-primary border border-primary/10"
+                      className={`premium-badge ${
+                        member.role === "owner"
+                          ? "bg-primary-tint text-primary border-primary/20"
                           : member.role === "admin"
-                            ? "bg-primary-tint/50 text-primary border border-primary/10"
-                            : "bg-surface-raised text-text-secondary border border-border"
-                        }`}
+                            ? "bg-primary-tint/50 text-primary border-primary/10"
+                            : "bg-surface-raised text-text-secondary border-border"
+                      }`}
                     >
                       {member.role}
                     </span>

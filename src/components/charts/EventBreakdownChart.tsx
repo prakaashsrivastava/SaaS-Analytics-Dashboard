@@ -33,7 +33,7 @@ export function EventBreakdownChart({
 }: EventBreakdownChartProps) {
   if (loading) {
     return (
-      <Card className="shadow-card border-border bg-surface-raised animate-pulse">
+      <Card className="premium-card bg-surface-raised animate-pulse">
         <CardHeader className="h-20 bg-surface-raised opacity-50" />
         <CardContent className="h-64 flex items-center justify-center">
           <div className="w-1/2 h-1/2 bg-surface rounded-2xl" />
@@ -46,9 +46,9 @@ export function EventBreakdownChart({
   const formattedData = data.slice(0, 6);
 
   return (
-    <Card className="shadow-card border-border bg-surface overflow-hidden group">
+    <Card className="premium-card overflow-hidden group">
       <CardHeader className="pb-4 border-b border-border">
-        <CardTitle className="text-xl font-extrabold text-text-primary group-hover:text-primary transition-colors">
+        <CardTitle className="text-xl font-bold text-premium tracking-tight">
           Event Breakdown
         </CardTitle>
         <CardDescription className="text-text-secondary font-medium tracking-tight">
@@ -86,24 +86,29 @@ export function EventBreakdownChart({
               <Tooltip
                 cursor={{ fill: "var(--color-surface-raised)" }}
                 contentStyle={{
-                  borderRadius: "8px",
+                  borderRadius: "12px",
                   border: "1px solid var(--color-border)",
                   boxShadow: "var(--shadow-card)",
                   padding: "12px",
                   backgroundColor: "var(--color-surface)",
                 }}
-                itemStyle={{ color: "var(--color-primary)", fontWeight: "bold" }}
-                labelStyle={{
-                  marginBottom: "4px",
+                itemStyle={{
+                  color: "var(--color-primary)",
                   fontWeight: "bold",
-                  fontSize: "14px",
+                }}
+                labelStyle={{
+                  marginBottom: "6px",
+                  fontWeight: "700",
+                  fontSize: "13px",
                   color: "var(--color-text-primary)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
                 }}
               />
               <Bar
                 dataKey="count"
                 name="Total"
-                radius={[0, 8, 8, 0]}
+                radius={[0, 6, 6, 0]}
                 barSize={20}
                 animationDuration={1500}
               >

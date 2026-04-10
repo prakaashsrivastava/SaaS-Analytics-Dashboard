@@ -103,7 +103,10 @@ function LoginForm() {
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="text-sm font-bold text-text-primary">
+              <Label
+                htmlFor="password"
+                className="text-sm font-bold text-text-primary"
+              >
                 Password
               </Label>
             </div>

@@ -88,13 +88,20 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
             {error && (
-              <Alert variant="destructive" className="bg-danger-tint border-danger-tint text-danger-text rounded-xl">
-                <AlertDescription className="font-bold">{error}</AlertDescription>
+              <Alert
+                variant="destructive"
+                className="bg-danger-tint border-danger-tint text-danger-text rounded-xl"
+              >
+                <AlertDescription className="font-bold">
+                  {error}
+                </AlertDescription>
               </Alert>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="orgName" className="font-bold text-text-primary">Organisation Name</Label>
+              <Label htmlFor="orgName" className="font-bold text-text-primary">
+                Organisation Name
+              </Label>
               <Input
                 id="orgName"
                 placeholder="Acme Corp"
@@ -109,8 +116,15 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="name" className="font-bold text-text-primary">Full Name</Label>
-              <Input id="name" placeholder="John Doe" className="rounded-xl border-border focus:ring-primary/20" {...register("name")} />
+              <Label htmlFor="name" className="font-bold text-text-primary">
+                Full Name
+              </Label>
+              <Input
+                id="name"
+                placeholder="John Doe"
+                className="rounded-xl border-border focus:ring-primary/20"
+                {...register("name")}
+              />
               {errors.name && (
                 <p className="text-xs font-bold text-danger-text">
                   {errors.name.message}
@@ -119,7 +133,9 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="font-bold text-text-primary">Email address</Label>
+              <Label htmlFor="email" className="font-bold text-text-primary">
+                Email address
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -135,8 +151,15 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="font-bold text-text-primary">Password</Label>
-              <Input id="password" type="password" className="rounded-xl border-border focus:ring-primary/20" {...register("password")} />
+              <Label htmlFor="password" className="font-bold text-text-primary">
+                Password
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                className="rounded-xl border-border focus:ring-primary/20"
+                {...register("password")}
+              />
               {errors.password && (
                 <p className="text-xs font-bold text-danger-text">
                   {errors.password.message}
@@ -145,7 +168,11 @@ export default function RegisterPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button className="w-full bg-primary text-white hover:bg-primary-dark transition-all rounded-xl h-12 font-black shadow-lg shadow-primary/20" type="submit" disabled={loading}>
+            <Button
+              className="w-full bg-primary text-white hover:bg-primary-dark transition-all rounded-xl h-12 font-black shadow-lg shadow-primary/20"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "Creating account..." : "Register"}
             </Button>
             <div className="text-center text-sm text-text-secondary font-medium">

@@ -15,7 +15,7 @@ export function MetricCard({
   const isNew = delta === "NEW";
 
   return (
-    <Card className="shadow-card border-border overflow-hidden group">
+    <Card className="premium-card overflow-hidden group">
       <CardContent className="p-6">
         <div className="flex justify-between items-center mb-6">
           <div className="p-2.5 bg-primary-subtle rounded-xl group-hover:bg-primary-tint transition-colors duration-300">
@@ -29,14 +29,13 @@ export function MetricCard({
             delta !== undefined && (
               <div
                 className={cn(
-                  "flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold transition-all duration-300",
-                  isPositive && "bg-success-tint text-success",
-                  isNegative && "bg-danger-tint text-danger",
-                  isNew && "bg-primary-tint text-primary",
-                  !isPositive &&
-                    !isNegative &&
-                    !isNew &&
-                    "bg-surface-raised text-text-muted"
+                  "flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold transition-all duration-300 border uppercase tracking-tight",
+                  isPositive &&
+                    "bg-success-tint text-success-text border-success/10",
+                  isNegative &&
+                    "bg-danger-tint text-danger-text border-danger/10",
+                  isNew && "bg-primary-tint/50 text-primary border-primary/10",
+                  !isNew && "bg-surface-raised text-text-muted border-border"
                 )}
               >
                 {isPositive && <TrendingUp className="w-3.5 h-3.5" />}
@@ -51,7 +50,7 @@ export function MetricCard({
           )}
         </div>
         <div>
-          <p className="text-[13px] font-medium text-text-secondary uppercase tracking-widest mb-1 transition-colors">
+          <p className="text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-1 transition-colors">
             {title}
           </p>
           {loading ? (

@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useToast } from "@/hooks/use-toast";
 import { Loader2, Users, ArrowRight, CheckCircle2, LogOut } from "lucide-react";
 import { AcceptInviteFormProps, AcceptValues, acceptSchema } from "@/types";
 
@@ -30,6 +31,7 @@ export function AcceptInviteForm({
   const { data: session } = useSession();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
 
   const {
     register,
@@ -71,7 +73,7 @@ export function AcceptInviteForm({
         throw new Error(result.error || "Failed to accept invitation");
       }
 
-      alert("Successfully joined " + orgName + "!");
+      toast.success("Successfully joined " + orgName + "!");
       router.push(`/dashboard/${result.orgSlug}`);
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -108,7 +110,9 @@ export function AcceptInviteForm({
 
       // If they were creating an account (not just joining as existing)
       if (data.password !== "EXISTING_USER_BYPASS") {
-        alert("Account created and successfully joined " + orgName + "!");
+        toast.success(
+          "Account created and successfully joined " + orgName + "!"
+        );
         // Automatically sign in
         const signInResult = await signIn("credentials", {
           redirect: false,
@@ -122,7 +126,7 @@ export function AcceptInviteForm({
           router.push(`/dashboard/${result.orgSlug}`);
         }
       } else {
-        alert("Successfully joined " + orgName + "!");
+        toast.success("Successfully joined " + orgName + "!");
         router.push(`/dashboard/${result.orgSlug}`);
       }
     } catch (err: unknown) {
@@ -156,7 +160,10 @@ export function AcceptInviteForm({
 
         <div className="p-8">
           {error && (
-            <Alert variant="destructive" className="mb-6 py-2 bg-danger-tint border-danger-tint text-danger-text rounded-xl">
+            <Alert
+              variant="destructive"
+              className="mb-6 py-2 bg-danger-tint border-danger-tint text-danger-text rounded-xl"
+            >
               <AlertDescription className="text-xs font-bold uppercase tracking-tight">
                 {error}
               </AlertDescription>
@@ -194,8 +201,12 @@ export function AcceptInviteForm({
             <div className="space-y-6 text-center animate-in fade-in">
               <Alert className="bg-warning-tint border-warning/10 mb-6 rounded-2xl">
                 <AlertDescription className="text-xs font-bold text-warning-text flex flex-col gap-2">
-                  <span className="opacity-80">You are currently logged in as:</span>
-                  <span className="text-sm font-black">{session?.user?.email}</span>
+                  <span className="opacity-80">
+                    You are currently logged in as:
+                  </span>
+                  <span className="text-sm font-black">
+                    {session?.user?.email}
+                  </span>
                   <span className="mt-2 text-[10px] uppercase tracking-widest bg-warning/10 px-2 py-1 rounded-full">
                     This invite is for {email}
                   </span>

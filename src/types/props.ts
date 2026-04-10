@@ -26,8 +26,6 @@ export interface MemberTableProps {
 export interface UpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  feature?: string;
-  limit?: number;
 }
 
 export interface ProjectLimitButtonProps {

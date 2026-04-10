@@ -14,12 +14,7 @@ import { Zap, CheckCircle2 } from "lucide-react";
 import { UpgradeModalProps } from "@/types";
 import { DashboardUpgradeAction } from "./DashboardUpgradeAction";
 
-export function UpgradeModal({
-  isOpen,
-  onClose,
-  feature,
-  limit,
-}: UpgradeModalProps) {
+export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md border-none shadow-2xl rounded-[2.5rem] bg-surface font-sans">
@@ -31,7 +26,8 @@ export function UpgradeModal({
             Unlock High-Performance Analytics
           </DialogTitle>
           <DialogDescription className="text-text-secondary font-medium pt-3 text-base leading-relaxed max-w-xs">
-            Unlock pro features and scale your organization with advanced analytics.
+            Unlock pro features and scale your organization with advanced
+            analytics.
           </DialogDescription>
         </DialogHeader>
 
@@ -46,7 +42,9 @@ export function UpgradeModal({
           </div>
           <div className="flex items-center gap-3">
             <CheckCircle2 className="w-5 h-5 text-success" />
-            <span className="text-sm font-medium">90-day Analytics History</span>
+            <span className="text-sm font-medium">
+              90-day Analytics History
+            </span>
           </div>
           <div className="flex items-center gap-3">
             <CheckCircle2 className="w-5 h-5 text-success" />

@@ -24,16 +24,18 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-header"
-      className={cn(
-        "flex flex-col space-y-1.5 p-6",
-        className
-      )}
+      className={cn("flex flex-col space-y-1.5 p-6", className)}
       {...props}
     />
   );
 }
 
-function CardTitle({ className, icon, children, ...props }: React.ComponentProps<"div"> & { icon?: React.ReactNode }) {
+function CardTitle({
+  className,
+  icon,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & { icon?: React.ReactNode }) {
   return (
     <div
       data-slot="card-title"
@@ -44,11 +46,7 @@ function CardTitle({ className, icon, children, ...props }: React.ComponentProps
       )}
       {...props}
     >
-      {icon && (
-        <div className="text-primary shrink-0">
-          {icon}
-        </div>
-      )}
+      {icon && <div className="text-primary shrink-0">{icon}</div>}
       <span>{children}</span>
     </div>
   );

@@ -22,7 +22,7 @@ export function DashboardActions({
             console.log("Navigating to members with invite intent...");
             router.push(`/dashboard/${slug}/members?openInvite=true`);
           }}
-          className="bg-primary text-white hover:bg-primary-dark shadow-card h-9"
+          className="bg-primary text-white hover:bg-primary-dark shadow-card h-11 font-bold rounded-xl px-6"
         >
           <PlusCircle className="mr-2 h-4 w-4" />
           Invite Member
@@ -31,8 +31,8 @@ export function DashboardActions({
       {canSettings && (
         <Button
           variant="outline"
-          onClick={() => alert("Settings page coming soon!")}
-          className="border-border hover:bg-surface-hover h-9"
+          onClick={() => router.push(`/dashboard/${slug}/settings`)}
+          className="border-border hover:bg-surface-hover h-11 font-bold rounded-xl px-6"
         >
           <Settings className="mr-2 h-4 w-4" />
           Settings

@@ -53,7 +53,7 @@ export default async function ProjectsPage({
     <div className="py-8 px-6 space-y-8 font-sans">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-4xl font-black text-text-primary tracking-tight">
+          <h2 className="text-3xl font-bold text-premium tracking-tight">
             Projects
           </h2>
           <p className="text-text-secondary font-medium">
@@ -75,18 +75,18 @@ export default async function ProjectsPage({
               href={`/dashboard/${slug}/projects/${project.id}`}
               className="group"
             >
-              <Card className="h-full hover:border-primary-light hover:shadow-card transition-all duration-500 cursor-pointer border-border group-hover:bg-surface-hover/50 rounded-3xl overflow-hidden active:scale-95">
+              <Card className="h-full premium-card transition-all duration-500 cursor-pointer border-border group-hover:bg-primary-tint/10 rounded-2xl overflow-hidden active:scale-[0.98]">
                 <CardHeader className="pb-4">
                   <div className="flex justify-between items-start">
-                    <div className="w-12 h-12 bg-surface-raised rounded-2xl flex items-center justify-center text-text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-md">
+                    <div className="w-12 h-12 bg-surface-raised rounded-xl flex items-center justify-center text-text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm border border-border/50">
                       <Box className="w-6 h-6" />
                     </div>
                     <ExternalLink className="w-5 h-5 text-text-muted group-hover:text-primary transition-colors duration-500" />
                   </div>
-                  <CardTitle className="mt-6 text-text-primary text-xl font-black group-hover:text-primary transition-colors tracking-tight">
+                  <CardTitle className="mt-6 text-text-primary text-xl font-bold group-hover:text-primary transition-colors tracking-tight">
                     {project.name}
                   </CardTitle>
-                  <CardDescription className="font-bold truncate text-text-secondary">
+                  <CardDescription className="font-semibold truncate text-text-secondary">
                     {project.domain || "No domain set"}
                   </CardDescription>
                 </CardHeader>
@@ -95,12 +95,12 @@ export default async function ProjectsPage({
                     {project.description ||
                       "No description provided for this project."}
                   </p>
-                  <div className="mt-8 flex items-center gap-6 text-[10px] font-black text-text-muted uppercase tracking-widest">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                  <div className="mt-8 flex items-center gap-4">
+                    <div className="premium-badge bg-success-tint text-success-text border-success/10 flex items-center gap-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
                       Active
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="premium-badge bg-surface-raised text-text-muted border-border">
                       {project.createdAt?.toLocaleDateString()}
                     </div>
                   </div>
@@ -109,12 +109,12 @@ export default async function ProjectsPage({
             </Link>
           ))
         ) : (
-          <Card className="col-span-full py-24 border-2 border-dashed border-border bg-surface-raised/30 flex flex-col items-center justify-center text-center space-y-6 rounded-3xl">
-            <div className="w-20 h-20 bg-surface rounded-2xl shadow-card border border-border flex items-center justify-center text-text-muted">
+          <Card className="col-span-full py-24 border border-border bg-surface/50 backdrop-blur-sm flex flex-col items-center justify-center text-center space-y-6 rounded-2xl">
+            <div className="w-20 h-20 bg-surface rounded-xl shadow-card border border-border flex items-center justify-center text-text-muted">
               <LayoutGrid className="w-10 h-10 opacity-30" />
             </div>
             <div className="max-w-xs space-y-2">
-              <h3 className="text-2xl font-black text-text-primary tracking-tight">
+              <h3 className="text-2xl font-bold text-premium tracking-tight">
                 Add New Project
               </h3>
               <p className="text-sm text-text-secondary font-medium leading-relaxed">

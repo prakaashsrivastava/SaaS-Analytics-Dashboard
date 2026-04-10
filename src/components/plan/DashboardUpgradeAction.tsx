@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { Loader2, Zap } from "lucide-react";
 
 export function DashboardUpgradeAction() {
   const { data: session, update } = useSession();
   const [isUpgrading, setIsUpgrading] = useState(false);
+  const toast = useToast();
 
   const handleUpgrade = async () => {
     setIsUpgrading(true);
@@ -32,10 +34,10 @@ export function DashboardUpgradeAction() {
         },
       });
 
-      alert("🎉 Successfully upgraded to PRO!");
+      toast.success("🎉 Successfully upgraded to PRO!");
     } catch (error) {
       console.error("Upgrade failed:", error);
-      alert("Upgrade failed. Please try again.");
+      toast.error("Upgrade failed. Please try again.");
     } finally {
       setIsUpgrading(false);
     }
@@ -56,7 +58,7 @@ export function DashboardUpgradeAction() {
     <Button
       onClick={handleUpgrade}
       disabled={isUpgrading}
-      className={`w-full bg-primary hover:bg-primary-dark text-white font-black h-9 rounded-2xl transition-all shadow-xl shadow-primary/20 active:scale-95 tracking-tight ${isUpgrading ? 'opacity-80' : ''}`}
+      className={`w-full bg-primary hover:bg-primary-dark text-white font-black h-9 rounded-2xl transition-all shadow-xl shadow-primary/20 active:scale-95 tracking-tight ${isUpgrading ? "opacity-80" : ""}`}
     >
       {isUpgrading ? (
         <>

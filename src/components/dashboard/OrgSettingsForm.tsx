@@ -121,7 +121,7 @@ export function OrgSettingsForm({ organisation }: OrgSettingsFormProps) {
   };
 
   return (
-    <Card className="bg-surface border-border rounded-3xl overflow-hidden shadow-card">
+    <Card className="premium-card rounded-2xl overflow-hidden glass-card">
       <CardContent className="px-6 py-10">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
           {/* Logo Upload Section */}
@@ -168,7 +168,7 @@ export function OrgSettingsForm({ organisation }: OrgSettingsFormProps) {
               <p className="text-sm text-text-secondary font-medium leading-relaxed max-w-sm">
                 Updates your workspace icon and is shown in invitation emails.{" "}
                 <br />
-                <span className="text-[10px] font-black uppercase text-primary-light">
+                <span className="text-[10px] font-semibold uppercase text-primary tracking-wider opacity-80">
                   JPG, PNG OR WEBP • MAX 2MB
                 </span>
               </p>
@@ -180,7 +180,7 @@ export function OrgSettingsForm({ organisation }: OrgSettingsFormProps) {
             <div className="space-y-4">
               <Label
                 htmlFor="name"
-                className="text-xs font-black uppercase text-text-muted tracking-widest"
+                className="text-[11px] font-semibold uppercase text-text-muted tracking-wider"
               >
                 Workspace Name
               </Label>
@@ -206,7 +206,7 @@ export function OrgSettingsForm({ organisation }: OrgSettingsFormProps) {
             <div className="space-y-4">
               <Label
                 htmlFor="timezone"
-                className="text-xs font-black uppercase text-text-muted tracking-widest"
+                className="text-[11px] font-semibold uppercase text-text-muted tracking-wider"
               >
                 Default Timezone
               </Label>
@@ -238,7 +238,7 @@ export function OrgSettingsForm({ organisation }: OrgSettingsFormProps) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full md:w-auto h-9 px-10 bg-primary text-white hover:bg-primary-dark rounded-xl font-black shadow-card transition-all disabled:opacity-50"
+              className="w-full md:w-auto h-11 px-10 bg-primary text-white hover:bg-primary-dark rounded-xl font-bold shadow-lg shadow-primary/10 transition-all disabled:opacity-50 hover:-translate-y-0.5 active:translate-y-0"
             >
               {isSubmitting ? (
                 <>
@@ -252,17 +252,20 @@ export function OrgSettingsForm({ organisation }: OrgSettingsFormProps) {
 
             {feedback && (
               <div
-                className={`flex items-center gap-2 p-3 rounded-xl border animate-in fade-in slide-in-from-left-2 ${feedback.type === "success"
-                    ? "bg-success-tint border-success text-success-text"
-                    : "bg-danger-tint border-danger text-danger-text"
-                  }`}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border animate-in fade-in slide-in-from-left-2 shadow-sm ${
+                  feedback.type === "success"
+                    ? "bg-success-tint/50 border-success/20 text-success-text"
+                    : "bg-danger-tint/50 border-danger/20 text-danger-text"
+                }`}
               >
                 {feedback.type === "success" ? (
-                  <CheckCircle2 className="w-5 h-5" />
+                  <CheckCircle2 className="w-4 h-4" />
                 ) : (
-                  <XCircle className="w-5 h-5" />
+                  <XCircle className="w-4 h-4" />
                 )}
-                <span className="text-sm font-bold">{feedback.message}</span>
+                <span className="text-sm font-semibold">
+                  {feedback.message}
+                </span>
               </div>
             )}
           </div>

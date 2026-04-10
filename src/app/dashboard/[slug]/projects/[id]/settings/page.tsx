@@ -47,15 +47,15 @@ export default async function ProjectSettingsPage({
         <div className="flex items-center gap-5">
           <Link
             href={`/dashboard/${slug}/projects/${id}`}
-            className="p-3 hover:bg-primary-tint rounded-2xl transition-all text-text-secondary hover:text-primary group"
+            className="p-3 hover:bg-primary-tint/50 rounded-xl transition-all text-text-secondary hover:text-primary group border border-transparent hover:border-primary/10"
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           </Link>
-          <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
+          <div className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/10">
             <Settings className="w-7 h-7" />
           </div>
           <div>
-            <h1 className="text-3xl font-black text-text-primary tracking-tight">
+            <h1 className="text-3xl font-bold text-premium tracking-tight">
               Settings
             </h1>
             <p className="text-text-secondary font-medium mt-1">
@@ -67,7 +67,7 @@ export default async function ProjectSettingsPage({
 
       <div className="grid grid-cols-1 gap-14">
         <section className="space-y-6">
-          <div className="flex items-center gap-2 text-xs font-black text-text-muted uppercase tracking-widest pb-3 border-b border-border">
+          <div className="flex items-center gap-2 text-[11px] font-semibold text-text-muted uppercase tracking-wider pb-3 border-b border-border">
             <ShieldCheck className="w-4 h-4 text-primary" />
             General Information
           </div>
@@ -81,13 +81,13 @@ export default async function ProjectSettingsPage({
 
         {isOwner && (
           <section className="space-y-6">
-            <div className="flex items-center gap-2 text-xs font-black text-danger-text uppercase tracking-widest pb-3 border-b border-danger-tint">
-              <Trash2 className="w-4 h-4 text-danger animate-pulse" />
+            <div className="flex items-center gap-2 text-[11px] font-semibold text-danger-text uppercase tracking-wider pb-3 border-b border-danger/20">
+              <Trash2 className="w-4 h-4 text-danger transition-all group-hover:scale-110" />
               Danger Zone
             </div>
             <div className="bg-danger-tint/50 border border-danger-tint rounded-3xl p-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 shadow-card transition-all group">
               <div className="space-y-2">
-                <h4 className="text-2xl font-black text-danger-text tracking-tight">
+                <h4 className="text-xl font-bold text-danger-text tracking-tight">
                   Delete Project
                 </h4>
                 <p className="text-danger-text/80 text-sm font-medium mt-1 max-w-md leading-relaxed">
@@ -98,7 +98,7 @@ export default async function ProjectSettingsPage({
               </div>
               <button
                 id="delete-project-btn"
-                className="px-10 py-4 bg-danger text-white font-black rounded-2xl hover:bg-danger/90 transition-all shadow-xl shadow-danger/20 hover:-translate-y-2 active:translate-y-0 group-hover:scale-105"
+                className="px-10 py-4 bg-danger text-white font-bold rounded-xl hover:bg-danger/90 transition-all shadow-lg shadow-danger/10 hover:-translate-y-0.5 active:translate-y-0 group-hover:shadow-xl"
               >
                 Delete {project.name}
               </button>

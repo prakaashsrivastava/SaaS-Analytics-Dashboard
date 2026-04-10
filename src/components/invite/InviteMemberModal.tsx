@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useToast } from "@/hooks/use-toast";
 import { X, Loader2, Send } from "lucide-react";
 import { InviteMemberModalProps } from "@/types";
 
@@ -17,6 +18,7 @@ export function InviteMemberModal({
   const [role, setRole] = useState("member");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
 
   if (!isOpen) return null;
 
@@ -43,7 +45,7 @@ export function InviteMemberModal({
       }
 
       onSuccess();
-      alert("Invitation sent successfully to " + email);
+      toast.success("Invitation sent successfully to " + email);
       onClose();
       setEmail("");
       setRole("member");
@@ -66,9 +68,9 @@ export function InviteMemberModal({
       >
         <div className="p-6 border-b border-border flex justify-between items-center bg-surface-raised/50">
           <div>
-              <h1 className="text-xl font-black text-text-primary leading-none tracking-tight">
-                Team Management
-              </h1>
+            <h1 className="text-xl font-black text-text-primary leading-none tracking-tight">
+              Team Management
+            </h1>
             <p className="text-sm text-text-secondary font-medium">
               Add someone to your organization
             </p>
@@ -83,7 +85,10 @@ export function InviteMemberModal({
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {error && (
-            <Alert variant="destructive" className="py-3 bg-danger-tint border-danger/10 text-danger-text rounded-2xl shadow-sm">
+            <Alert
+              variant="destructive"
+              className="py-3 bg-danger-tint border-danger/10 text-danger-text rounded-2xl shadow-sm"
+            >
               <AlertDescription className="text-xs font-black uppercase tracking-widest animate-in slide-in-from-left-2 transition-all">
                 {error}
               </AlertDescription>

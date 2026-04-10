@@ -116,6 +116,33 @@
     line-height: 1.6;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply text-text-primary font-semibold;
+    @apply text-text-primary font-semibold tracking-tight;
   }
-}
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface/80 backdrop-blur-xl border border-white/20 shadow-xl;
+  }
+  
+  .premium-card {
+    @apply bg-surface border border-border shadow-card hover:shadow-card-hover transition-all duration-300;
+  }
+
+  .premium-badge {
+    @apply px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider border transition-colors;
+  }
+
+  .premium-avatar {
+    @apply rounded-2xl flex items-center justify-center font-bold uppercase shadow-lg transition-transform hover:scale-105;
+  }
+
+  .text-premium {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-text-primary to-text-secondary;
+  }
+  
+  .bg-premium-gradient {
+    @apply bg-gradient-to-br from-primary via-primary-dark to-primary-dark;
+  }
+}
+

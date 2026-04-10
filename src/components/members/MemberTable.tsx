@@ -114,10 +114,11 @@ export function MemberTable({
                             ? "Revoke Invitation"
                             : "Remove Member"
                         }
-                        className={`h-8 w-8 transition-all opacity-0 group-hover:opacity-100 ${member.status === "pending"
+                        className={`h-8 w-8 transition-all opacity-0 group-hover:opacity-100 ${
+                          member.status === "pending"
                             ? "text-text-muted hover:text-warning-text hover:bg-warning-tint"
                             : "text-text-muted hover:text-danger-text hover:bg-danger-tint"
-                          }`}
+                        }`}
                       >
                         {member.status === "pending" ? (
                           <XCircle className="h-4 w-4" />

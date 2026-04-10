@@ -40,7 +40,8 @@ export function TrackingGuide({ projectId }: TrackingGuideProps) {
           Waiting for your first event...
         </h2>
         <p className="text-xl text-text-secondary font-medium leading-relaxed max-w-2xl mx-auto opacity-80">
-          Your project is ready to go, but we haven&apos;t seen any activity yet. Use one of the methods below to activate your dashboard.
+          Your project is ready to go, but we haven&apos;t seen any activity
+          yet. Use one of the methods below to activate your dashboard.
         </p>
       </div>
 
@@ -54,7 +55,8 @@ export function TrackingGuide({ projectId }: TrackingGuideProps) {
           </CardHeader>
           <CardContent className="px-6 py-10 space-y-6">
             <p className="text-base text-text-secondary font-medium leading-relaxed">
-              The easiest way to get started. Paste this script into your website&apos;s{" "}
+              The easiest way to get started. Paste this script into your
+              website&apos;s{" "}
               <code className="bg-primary-tint text-primary-dark px-2 py-0.5 rounded font-black font-mono">
                 &lt;head&gt;
               </code>{" "}
@@ -92,7 +94,8 @@ export function TrackingGuide({ projectId }: TrackingGuideProps) {
           </CardHeader>
           <CardContent className="px-6 py-10 space-y-6">
             <p className="text-base text-text-secondary font-medium leading-relaxed">
-              Send events directly from your server. Perfect for tracking conversions or internal processes.
+              Send events directly from your server. Perfect for tracking
+              conversions or internal processes.
             </p>
             <div className="relative group/code">
               <pre className="bg-sidebar-bg text-primary-light p-6 rounded-2xl text-sm font-mono overflow-x-auto border border-surface/10 shadow-2xl leading-relaxed">
@@ -125,7 +128,8 @@ export function TrackingGuide({ projectId }: TrackingGuideProps) {
             How it works
           </h3>
           <p className="text-sidebar-text font-medium text-lg leading-relaxed">
-            Our documentation covers everything from basic page views to complex multi-step conversion funnels.
+            Our documentation covers everything from basic page views to complex
+            multi-step conversion funnels.
           </p>
         </div>
         <Button className="bg-primary hover:bg-primary-dark text-white font-black px-12 h-16 text-lg rounded-2xl shadow-2xl shadow-primary/20 relative z-10 transition-all duration-500 transform hover:-translate-y-2 active:scale-95">

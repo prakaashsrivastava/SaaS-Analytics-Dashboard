@@ -36,7 +36,8 @@ const getEventColor = (type: string) => {
     return "bg-success-tint text-success-text border-success/30";
   if (t.includes("purchase") || t.includes("revenue"))
     return "bg-warning-tint text-warning-text border-warning/30";
-  if (t.includes("click")) return "bg-primary-tint text-primary border-primary-light/30";
+  if (t.includes("click"))
+    return "bg-primary-tint text-primary border-primary-light/30";
   if (t.includes("error") || t.includes("fail"))
     return "bg-danger-tint text-danger-text border-danger/30";
   return "bg-surface-raised text-text-secondary border-border";

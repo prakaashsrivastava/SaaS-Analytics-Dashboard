@@ -19,7 +19,8 @@ export default async function DashboardPage() {
         No Organization Found
       </h1>
       <p className="text-text-secondary font-medium max-w-sm">
-        You are not a member of any organization. Please contact your administrator or create a new account.
+        You are not a member of any organization. Please contact your
+        administrator or create a new account.
       </p>
     </div>
   );

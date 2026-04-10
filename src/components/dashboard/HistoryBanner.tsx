@@ -50,7 +50,6 @@ export function HistoryBanner() {
       <UpgradeModal
         isOpen={isUpgradeModalOpen}
         onClose={() => setIsUpgradeModalOpen(false)}
-        feature="analytics"
       />
     </div>
   );
