@@ -9,7 +9,7 @@
   --color-foreground: var(--color-text-primary);
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
-  
+
   --color-primary: var(--color-primary);
   --color-primary-dark: var(--color-primary-dark);
   --color-primary-light: var(--color-primary-light);
@@ -51,57 +51,90 @@
   --chart-4: var(--chart-4);
   --chart-5: var(--chart-5);
 
-  --shadow-card: 0 1px 3px 0 rgba(0,0,0,0.04), 0 1px 2px 0 rgba(0,0,0,0.03);
-  --shadow-card-hover: 0 4px 12px 0 rgba(79,70,229,0.08);
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-card-hover: 0 4px 12px 0 rgba(79, 70, 229, 0.08);
 }
 
 :root {
   /* Brand */
-  --color-primary:        #4F46E5;  /* Electric Violet — buttons, links, active states */
-  --color-primary-dark:   #312E81;  /* Deep Indigo — sidebar, hover on primary */
-  --color-primary-light:  #818CF8;  /* Soft Violet — chart lines, icon fills, badges */
-  --color-primary-tint:   #E0E7FF;  /* Lavender — tag bg, selected row bg */
-  --color-primary-subtle: #F8F9FF;  /* Almost white with violet tone — page background */
+  --color-primary: #4F46E5;
+  /* Electric Violet — buttons, links, active states */
+  --color-primary-dark: #312E81;
+  /* Deep Indigo — sidebar, hover on primary */
+  --color-primary-light: #818CF8;
+  /* Soft Violet — chart lines, icon fills, badges */
+  --color-primary-tint: #E0E7FF;
+  /* Lavender — tag bg, selected row bg */
+  --color-primary-subtle: #F8F9FF;
+  /* Almost white with violet tone — page background */
 
   /* Sidebar */
-  --color-sidebar-bg:     #0F172A;  /* Slate 950 — main sidebar background */
-  --color-sidebar-text:   #94A3B8;  /* Slate 400 — inactive nav items */
-  --color-sidebar-active: #818CF8;  /* Soft Violet — active nav item text */
-  --color-sidebar-hover:  #1E293B;  /* Slate 800 — nav item hover bg */
-  --color-sidebar-border: #1E293B;  /* Slate 800 — sidebar internal dividers */
+  --color-sidebar-bg: #0F172A;
+  /* Slate 950 — main sidebar background */
+  --color-sidebar-text: #94A3B8;
+  /* Slate 400 — inactive nav items */
+  --color-sidebar-active: #818CF8;
+  /* Soft Violet — active nav item text */
+  --color-sidebar-hover: #1E293B;
+  /* Slate 800 — nav item hover bg */
+  --color-sidebar-border: #1E293B;
+  /* Slate 800 — sidebar internal dividers */
 
   /* Surface */
-  --color-surface:        #FFFFFF;  /* Card background */
-  --color-surface-raised: #F8F9FF;  /* Page background */
-  --color-surface-hover:  #F1F5F9;  /* Table row hover */
-  --color-border:         #E2E8F0;  /* Default border — inputs, cards, dividers */
-  --color-border-focus:   #818CF8;  /* Input focus ring */
+  --color-surface: #FFFFFF;
+  /* Card background */
+  --color-surface-raised: #F8F9FF;
+  /* Page background */
+  --color-surface-hover: #F1F5F9;
+  /* Table row hover */
+  --color-border: #E2E8F0;
+  /* Default border — inputs, cards, dividers */
+  --color-border-focus: #818CF8;
+  /* Input focus ring */
 
   /* Text */
-  --color-text-primary:   #0F172A;  /* Headings, table values */
-  --color-text-secondary: #475569;  /* Labels, descriptions */
-  --color-text-muted:     #94A3B8;  /* Timestamps, metadata, placeholders */
-  --color-text-inverse:   #F8FAFC;  /* Text on dark backgrounds */
+  --color-text-primary: #0F172A;
+  /* Headings, table values */
+  --color-text-secondary: #475569;
+  /* Labels, descriptions */
+  --color-text-muted: #94A3B8;
+  /* Timestamps, metadata, placeholders */
+  --color-text-inverse: #F8FAFC;
+  /* Text on dark backgrounds */
 
   /* Semantic */
-  --color-success:        #10B981;  /* Positive delta, growth metrics */
-  --color-success-tint:   #DCFCE7;  /* Success badge background */
-  --color-success-text:   #065F46;  /* Success badge text */
+  --color-success: #10B981;
+  /* Positive delta, growth metrics */
+  --color-success-tint: #DCFCE7;
+  /* Success badge background */
+  --color-success-text: #065F46;
+  /* Success badge text */
 
-  --color-warning:        #F59E0B;  /* Revenue chart line, warnings */
-  --color-warning-tint:   #FEF3C7;  /* Warning badge background */
-  --color-warning-text:   #92400E;  /* Warning badge text */
+  --color-warning: #F59E0B;
+  /* Revenue chart line, warnings */
+  --color-warning-tint: #FEF3C7;
+  /* Warning badge background */
+  --color-warning-text: #92400E;
+  /* Warning badge text */
 
-  --color-danger:         #EF4444;  /* Negative delta, error states */
-  --color-danger-tint:    #FEE2E2;  /* Danger badge background */
-  --color-danger-text:    #B91C1C;  /* Danger badge text */
+  --color-danger: #EF4444;
+  /* Negative delta, error states */
+  --color-danger-tint: #FEE2E2;
+  /* Danger badge background */
+  --color-danger-text: #B91C1C;
+  /* Danger badge text */
 
   /* Chart palette — use in this order for multiple series */
-  --chart-1:              #4F46E5;  /* Series 1 — primary violet */
-  --chart-2:              #10B981;  /* Series 2 — emerald */
-  --chart-3:              #F59E0B;  /* Series 3 — amber */
-  --chart-4:              #818CF8;  /* Series 4 — soft violet */
-  --chart-5:              #EF4444;  /* Series 5 — red */
+  --chart-1: #4F46E5;
+  /* Series 1 — primary violet */
+  --chart-2: #10B981;
+  /* Series 2 — emerald */
+  --chart-3: #F59E0B;
+  /* Series 3 — amber */
+  --chart-4: #818CF8;
+  /* Series 4 — soft violet */
+  --chart-5: #EF4444;
+  /* Series 5 — red */
 
   --font-inter: var(--font-inter);
 }
@@ -110,12 +143,19 @@
   * {
     @apply border-border outline-primary/50;
   }
+
   body {
     @apply bg-surface-raised text-text-secondary;
     font-size: 15px;
     line-height: 1.6;
   }
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply text-text-primary font-semibold tracking-tight;
   }
 }
@@ -124,7 +164,7 @@
   .glass-card {
     @apply bg-surface/80 backdrop-blur-xl border border-white/20 shadow-xl;
   }
-  
+
   .premium-card {
     @apply bg-surface border border-border shadow-card hover:shadow-card-hover transition-all duration-300;
   }
@@ -140,9 +180,8 @@
   .text-premium {
     @apply bg-clip-text text-transparent bg-gradient-to-br from-text-primary to-text-secondary;
   }
-  
+
   .bg-premium-gradient {
     @apply bg-gradient-to-br from-primary via-primary-dark to-primary-dark;
   }
 }
-

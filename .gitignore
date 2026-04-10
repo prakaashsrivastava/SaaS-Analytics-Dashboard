@@ -46,3 +46,4 @@ next-env.d.ts
 /logs
 /scripts-dist-test-ncc
 /scripts-dist-test
+/public/uploads
