@@ -22,14 +22,13 @@ export function MemberTable({
   onDeleteItem,
 }: MemberTableProps) {
   return (
-    <Card className="shadow-sm border-slate-200 overflow-hidden">
-      <CardHeader className="bg-slate-50 border-b border-slate-100">
+    <Card className="shadow-card border-border overflow-hidden">
+      <CardHeader className="bg-surface border-b border-border">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-slate-800 text-base font-bold flex items-center">
-            <ShieldCheck className="mr-2 h-4 w-4 text-blue-600" />
+          <CardTitle icon={<ShieldCheck className="h-4 w-4" />}>
             Organization Members
           </CardTitle>
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-white border border-slate-200 px-2.5 py-1 rounded-full">
+          <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest bg-surface-raised border border-border px-2.5 py-1 rounded-full">
             {members.length} Total
           </span>
         </div>
@@ -38,24 +37,24 @@ export function MemberTable({
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-100 bg-slate-50/30">
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              <tr className="border-b border-border">
+                <th className="px-6 py-4 text-[10px] font-bold text-text-muted uppercase tracking-widest">
                   User
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                <th className="px-6 py-4 text-[10px] font-bold text-text-muted uppercase tracking-widest">
                   Role
                 </th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                <th className="px-6 py-4 text-[10px] font-bold text-text-muted uppercase tracking-widest">
                   Member Since
                 </th>
                 <th className="px-6 py-4"></th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-border">
               {members.map((member) => (
                 <tr
                   key={member.id}
-                  className="hover:bg-slate-50 transition-colors group"
+                  className="hover:bg-surface-hover transition-colors group align-middle"
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-4">
@@ -63,30 +62,30 @@ export function MemberTable({
                         name={member.name}
                         email={member.email}
                         className={
-                          member.status === "pending" ? "bg-slate-400/50" : ""
+                          member.status === "pending" ? "bg-text-muted/50" : ""
                         }
                       />
                       <div>
                         <div className="flex items-center gap-2">
-                          <p className="text-sm font-bold text-slate-900">
+                          <p className="text-sm font-bold text-text-primary">
                             {member.name ||
                               (member.status === "pending"
                                 ? "Invitation Sent"
                                 : "Pending Account")}
                           </p>
                           {member.userId === currentUserId && (
-                            <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
+                            <span className="text-[10px] font-black text-primary bg-primary-tint px-1.5 py-0.5 rounded">
                               YOU
                             </span>
                           )}
                           {member.status === "pending" && (
-                            <span className="text-[10px] font-bold text-amber-600 bg-amber-50 border border-amber-100 px-1.5 py-0.5 rounded flex items-center gap-1">
+                            <span className="text-[10px] font-black text-warning-text bg-warning-tint border border-warning/20 px-1.5 py-0.5 rounded flex items-center gap-1">
                               <Clock className="w-2.5 h-2.5" />
                               PENDING
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-slate-500 font-medium flex items-center gap-1">
+                        <p className="text-xs text-text-secondary font-medium flex items-center gap-1">
                           <Mail className="h-3 w-3" />
                           {member.email}
                         </p>
@@ -97,8 +96,8 @@ export function MemberTable({
                     <RoleBadge role={member.role} />
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
-                      <Calendar className="h-3.5 w-3.5 text-slate-400" />
+                    <div className="text-xs text-text-secondary font-medium flex items-center gap-1.5">
+                      <Calendar className="h-3.5 w-3.5 text-text-muted" />
                       {format(new Date(member.joinedAt), "MMM d, yyyy")}
                     </div>
                   </td>
@@ -117,8 +116,8 @@ export function MemberTable({
                         }
                         className={`h-8 w-8 transition-all opacity-0 group-hover:opacity-100 ${
                           member.status === "pending"
-                            ? "text-slate-300 hover:text-amber-600 hover:bg-amber-50"
-                            : "text-slate-300 hover:text-red-600 hover:bg-red-50"
+                            ? "text-text-muted hover:text-warning-text hover:bg-warning-tint"
+                            : "text-text-muted hover:text-danger-text hover:bg-danger-tint"
                         }`}
                       >
                         {member.status === "pending" ? (

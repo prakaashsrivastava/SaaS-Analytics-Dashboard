@@ -20,12 +20,11 @@ import {
 import { EventBreakdownChartProps } from "@/types";
 
 const COLORS = [
-  "#4f46e5",
-  "#0ea5e9",
-  "#10b981",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
 ];
 
 export function EventBreakdownChart({
@@ -34,10 +33,10 @@ export function EventBreakdownChart({
 }: EventBreakdownChartProps) {
   if (loading) {
     return (
-      <Card className="shadow-sm border-slate-200 bg-white/50 animate-pulse">
-        <CardHeader className="h-20 bg-slate-50 opacity-50" />
+      <Card className="premium-card bg-surface-raised animate-pulse">
+        <CardHeader className="h-20 bg-surface-raised opacity-50" />
         <CardContent className="h-64 flex items-center justify-center">
-          <div className="w-1/2 h-1/2 bg-slate-100 rounded-2xl" />
+          <div className="w-1/2 h-1/2 bg-surface rounded-2xl" />
         </CardContent>
       </Card>
     );
@@ -47,12 +46,12 @@ export function EventBreakdownChart({
   const formattedData = data.slice(0, 6);
 
   return (
-    <Card className="shadow-sm border-slate-200 bg-white overflow-hidden group">
-      <CardHeader className="pb-2 border-b border-slate-50">
-        <CardTitle className="text-xl font-extrabold text-slate-900 group-hover:text-indigo-600 transition-colors">
+    <Card className="premium-card overflow-hidden group">
+      <CardHeader className="pb-4 border-b border-border">
+        <CardTitle className="text-xl font-bold text-premium tracking-tight">
           Event Breakdown
         </CardTitle>
-        <CardDescription className="text-slate-500 font-medium tracking-tight">
+        <CardDescription className="text-text-secondary font-medium tracking-tight">
           Distribution of different event types tracked.
         </CardDescription>
       </CardHeader>
@@ -62,12 +61,12 @@ export function EventBreakdownChart({
             <BarChart
               data={formattedData}
               layout="vertical"
-              margin={{ left: 0, right: 30, top: 0, bottom: 0 }}
+              margin={{ left: 60, right: 30, top: 0, bottom: 0 }}
             >
               <CartesianGrid
                 horizontal={false}
                 strokeDasharray="3 3"
-                stroke="#f1f5f9"
+                stroke="var(--color-border)"
               />
               <XAxis type="number" axisLine={false} tickLine={false} hide />
               <YAxis
@@ -75,35 +74,41 @@ export function EventBreakdownChart({
                 type="category"
                 axisLine={false}
                 tickLine={false}
-                width={100}
+                width={120}
                 tick={{
-                  fill: "#64748b",
-                  fontSize: 11,
-                  fontWeight: 700,
+                  fill: "var(--color-text-muted)",
+                  fontSize: 12,
+                  fontWeight: 500,
                   textAnchor: "start",
                 }}
-                dx={-90}
-                y={0}
+                dx={-110}
               />
               <Tooltip
-                cursor={{ fill: "#f8fafc" }}
+                cursor={{ fill: "var(--color-surface-raised)" }}
                 contentStyle={{
                   borderRadius: "12px",
-                  border: "none",
-                  boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1)",
+                  border: "1px solid var(--color-border)",
+                  boxShadow: "var(--shadow-card)",
                   padding: "12px",
+                  backgroundColor: "var(--color-surface)",
                 }}
-                itemStyle={{ fontWeight: "bold" }}
-                labelStyle={{
-                  marginBottom: "4px",
+                itemStyle={{
+                  color: "var(--color-primary)",
                   fontWeight: "bold",
-                  fontSize: "14px",
+                }}
+                labelStyle={{
+                  marginBottom: "6px",
+                  fontWeight: "700",
+                  fontSize: "13px",
+                  color: "var(--color-text-primary)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
                 }}
               />
               <Bar
                 dataKey="count"
                 name="Total"
-                radius={[0, 8, 8, 0]}
+                radius={[0, 6, 6, 0]}
                 barSize={20}
                 animationDuration={1500}
               >

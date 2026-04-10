@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useToast } from "@/hooks/use-toast";
 import { X, Loader2, Send } from "lucide-react";
 import { InviteMemberModalProps } from "@/types";
 
@@ -17,6 +18,7 @@ export function InviteMemberModal({
   const [role, setRole] = useState("member");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
 
   if (!isOpen) return null;
 
@@ -43,7 +45,7 @@ export function InviteMemberModal({
       }
 
       onSuccess();
-      alert("Invitation sent successfully to " + email);
+      toast.success("Invitation sent successfully to " + email);
       onClose();
       setEmail("");
       setRole("member");
@@ -59,23 +61,23 @@ export function InviteMemberModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-sidebar-bg/60 backdrop-blur-sm transition-opacity duration-200">
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transition-all duration-300"
+        className="bg-surface rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transition-all duration-300 border border-border"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <div className="p-6 border-b border-border flex justify-between items-center bg-surface-raised/50">
           <div>
-            <h3 className="text-xl font-bold text-slate-900">
-              Invite Team Member
-            </h3>
-            <p className="text-sm text-slate-500 font-medium">
+            <h1 className="text-xl font-black text-text-primary leading-none tracking-tight">
+              Team Management
+            </h1>
+            <p className="text-sm text-text-secondary font-medium">
               Add someone to your organization
             </p>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 p-1 hover:bg-slate-100 rounded-lg transition-colors"
+            className="text-text-muted hover:text-text-primary p-2 hover:bg-surface-hover rounded-xl transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -83,8 +85,11 @@ export function InviteMemberModal({
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {error && (
-            <Alert variant="destructive" className="py-2">
-              <AlertDescription className="text-xs font-bold uppercase tracking-tight">
+            <Alert
+              variant="destructive"
+              className="py-3 bg-danger-tint border-danger/10 text-danger-text rounded-2xl shadow-sm"
+            >
+              <AlertDescription className="text-xs font-black uppercase tracking-widest animate-in slide-in-from-left-2 transition-all">
                 {error}
               </AlertDescription>
             </Alert>
@@ -93,7 +98,7 @@ export function InviteMemberModal({
           <div className="space-y-2">
             <Label
               htmlFor="email"
-              className="text-xs font-bold text-slate-500 uppercase tracking-widest"
+              className="text-xs font-black text-text-muted uppercase tracking-widest"
             >
               Email Address
             </Label>
@@ -104,14 +109,14 @@ export function InviteMemberModal({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="bg-slate-50 border-slate-200 focus:bg-white focus:ring-purple-500/20"
+              className="bg-surface-raised border-border focus:bg-surface focus:ring-primary/20 rounded-2xl h-12 font-bold"
             />
           </div>
 
           <div className="space-y-2">
             <Label
               htmlFor="role"
-              className="text-xs font-bold text-slate-500 uppercase tracking-widest"
+              className="text-xs font-black text-text-muted uppercase tracking-widest"
             >
               Role
             </Label>
@@ -119,12 +124,12 @@ export function InviteMemberModal({
               id="role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 bg-white transition-all appearance-none cursor-pointer"
+              className="w-full h-12 px-4 bg-surface-raised border border-border rounded-2xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none cursor-pointer text-text-primary"
             >
               <option value="member">Member (View only)</option>
               <option value="admin">Admin (Manage projects)</option>
             </select>
-            <p className="text-[10px] text-slate-400 font-bold uppercase mt-1.5 ml-1">
+            <p className="text-[10px] text-text-muted font-bold uppercase mt-1.5 ml-1">
               {role === "admin"
                 ? "✓ Can invite others & create projects"
                 : "✓ Can only view analytics"}
@@ -136,24 +141,24 @@ export function InviteMemberModal({
               type="button"
               variant="outline"
               onClick={onClose}
-              className="flex-1 border-slate-200 font-bold"
+              className="flex-1 border-border font-black rounded-2xl h-12"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
-              className="flex-1 bg-slate-900 text-white hover:bg-slate-800 font-bold shadow-lg shadow-slate-900/10"
+              className="flex-1 bg-primary text-white hover:bg-primary-dark font-black rounded-2xl shadow-xl shadow-primary/20 h-12 transition-all hover:-translate-y-1 active:scale-95"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                   Sending...
                 </>
               ) : (
                 <>
-                  <Send className="mr-2 h-4 w-4" />
-                  Send Invitation
+                  <Send className="mr-2 h-5 w-5" />
+                  Invite
                 </>
               )}
             </Button>

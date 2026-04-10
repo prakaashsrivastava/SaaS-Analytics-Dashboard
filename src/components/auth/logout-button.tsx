@@ -9,11 +9,11 @@ export function LogoutButton() {
     <Button
       variant="ghost"
       size="sm"
-      className="text-slate-500 hover:text-red-700 hover:bg-red-50 transition-colors"
+      className="text-text-secondary hover:text-danger-text hover:bg-danger-tint transition-all font-bold px-4 rounded-xl"
       onClick={() => signOut({ callbackUrl: "/login" })}
     >
       <LogOut className="h-4 w-4 mr-2" />
-      Sign out
+      Logout
     </Button>
   );
 }

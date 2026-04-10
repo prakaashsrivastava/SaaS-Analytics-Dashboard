@@ -5,126 +5,144 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-background: var(--color-surface-raised);
+  --color-foreground: var(--color-text-primary);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-primary-light: var(--color-primary-light);
+  --color-primary-tint: var(--color-primary-tint);
+  --color-primary-subtle: var(--color-primary-subtle);
+
+  --color-sidebar-bg: var(--color-sidebar-bg);
+  --color-sidebar-text: var(--color-sidebar-text);
+  --color-sidebar-active: var(--color-sidebar-active);
+  --color-sidebar-hover: var(--color-sidebar-hover);
+  --color-sidebar-border: var(--color-sidebar-border);
+
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-border: var(--color-border);
+  --color-border-focus: var(--color-border-focus);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-inverse: var(--color-text-inverse);
+
+  --color-success: var(--color-success);
+  --color-success-tint: var(--color-success-tint);
+  --color-success-text: var(--color-success-text);
+
+  --color-warning: var(--color-warning);
+  --color-warning-tint: var(--color-warning-tint);
+  --color-warning-text: var(--color-warning-text);
+
+  --color-danger: var(--color-danger);
+  --color-danger-tint: var(--color-danger-tint);
+  --color-danger-text: var(--color-danger-text);
+
+  --chart-1: var(--chart-1);
+  --chart-2: var(--chart-2);
+  --chart-3: var(--chart-3);
+  --chart-4: var(--chart-4);
+  --chart-5: var(--chart-5);
+
+  --shadow-card: 0 1px 3px 0 rgba(0,0,0,0.04), 0 1px 2px 0 rgba(0,0,0,0.03);
+  --shadow-card-hover: 0 4px 12px 0 rgba(79,70,229,0.08);
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+  /* Brand */
+  --color-primary:        #4F46E5;  /* Electric Violet — buttons, links, active states */
+  --color-primary-dark:   #312E81;  /* Deep Indigo — sidebar, hover on primary */
+  --color-primary-light:  #818CF8;  /* Soft Violet — chart lines, icon fills, badges */
+  --color-primary-tint:   #E0E7FF;  /* Lavender — tag bg, selected row bg */
+  --color-primary-subtle: #F8F9FF;  /* Almost white with violet tone — page background */
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Sidebar */
+  --color-sidebar-bg:     #0F172A;  /* Slate 950 — main sidebar background */
+  --color-sidebar-text:   #94A3B8;  /* Slate 400 — inactive nav items */
+  --color-sidebar-active: #818CF8;  /* Soft Violet — active nav item text */
+  --color-sidebar-hover:  #1E293B;  /* Slate 800 — nav item hover bg */
+  --color-sidebar-border: #1E293B;  /* Slate 800 — sidebar internal dividers */
+
+  /* Surface */
+  --color-surface:        #FFFFFF;  /* Card background */
+  --color-surface-raised: #F8F9FF;  /* Page background */
+  --color-surface-hover:  #F1F5F9;  /* Table row hover */
+  --color-border:         #E2E8F0;  /* Default border — inputs, cards, dividers */
+  --color-border-focus:   #818CF8;  /* Input focus ring */
+
+  /* Text */
+  --color-text-primary:   #0F172A;  /* Headings, table values */
+  --color-text-secondary: #475569;  /* Labels, descriptions */
+  --color-text-muted:     #94A3B8;  /* Timestamps, metadata, placeholders */
+  --color-text-inverse:   #F8FAFC;  /* Text on dark backgrounds */
+
+  /* Semantic */
+  --color-success:        #10B981;  /* Positive delta, growth metrics */
+  --color-success-tint:   #DCFCE7;  /* Success badge background */
+  --color-success-text:   #065F46;  /* Success badge text */
+
+  --color-warning:        #F59E0B;  /* Revenue chart line, warnings */
+  --color-warning-tint:   #FEF3C7;  /* Warning badge background */
+  --color-warning-text:   #92400E;  /* Warning badge text */
+
+  --color-danger:         #EF4444;  /* Negative delta, error states */
+  --color-danger-tint:    #FEE2E2;  /* Danger badge background */
+  --color-danger-text:    #B91C1C;  /* Danger badge text */
+
+  /* Chart palette — use in this order for multiple series */
+  --chart-1:              #4F46E5;  /* Series 1 — primary violet */
+  --chart-2:              #10B981;  /* Series 2 — emerald */
+  --chart-3:              #F59E0B;  /* Series 3 — amber */
+  --chart-4:              #818CF8;  /* Series 4 — soft violet */
+  --chart-5:              #EF4444;  /* Series 5 — red */
+
+  --font-inter: var(--font-inter);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-primary/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-surface-raised text-text-secondary;
+    font-size: 15px;
+    line-height: 1.6;
   }
-  html {
-    @apply font-sans;
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-text-primary font-semibold tracking-tight;
   }
 }
+
+@layer components {
+  .glass-card {
+    @apply bg-surface/80 backdrop-blur-xl border border-white/20 shadow-xl;
+  }
+  
+  .premium-card {
+    @apply bg-surface border border-border shadow-card hover:shadow-card-hover transition-all duration-300;
+  }
+
+  .premium-badge {
+    @apply px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider border transition-colors;
+  }
+
+  .premium-avatar {
+    @apply rounded-2xl flex items-center justify-center font-bold uppercase shadow-lg transition-transform hover:scale-105;
+  }
+
+  .text-premium {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-text-primary to-text-secondary;
+  }
+  
+  .bg-premium-gradient {
+    @apply bg-gradient-to-br from-primary via-primary-dark to-primary-dark;
+  }
+}
+

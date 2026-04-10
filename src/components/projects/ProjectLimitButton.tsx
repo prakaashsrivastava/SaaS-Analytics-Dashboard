@@ -2,6 +2,7 @@
 
 import React from "react";
 import { PlusCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { ProjectLimitButtonProps } from "@/types";
 
@@ -9,15 +10,16 @@ export function ProjectLimitButton({
   isLimited,
   canCreate,
 }: ProjectLimitButtonProps) {
+  const toast = useToast();
   if (!canCreate) return null;
 
   return (
     <Button
-      size="sm"
+      size="lg"
       variant={isLimited ? "outline" : "default"}
       onClick={() => {
         if (isLimited) {
-          alert(
+          toast.info(
             "Project creation limit reached on FREE plan. Upgrade to PRO to create more projects!"
           );
         } else {
@@ -28,8 +30,8 @@ export function ProjectLimitButton({
       }}
       className={
         isLimited
-          ? "border-slate-200 font-bold text-slate-600 hover:bg-slate-50"
-          : "bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-lg shadow-indigo-200"
+          ? "border-border font-bold text-text-secondary hover:bg-surface-hover rounded-xl h-11 px-6 transition-all"
+          : "bg-primary hover:bg-primary-dark text-white font-bold shadow-card rounded-xl h-11 px-6 transition-all hover:-translate-y-0.5 active:scale-95 tracking-tight"
       }
     >
       <PlusCircle className="mr-2 h-4 w-4" />

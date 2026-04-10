@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useToast } from "@/hooks/use-toast";
 import { Type, Globe, CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,6 +34,7 @@ export function ProjectSettingsForm({
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const toast = useToast();
   const [feedback, setFeedback] = useState<{
     type: "success" | "error";
     message: string;
@@ -113,18 +115,52 @@ export function ProjectSettingsForm({
       router.refresh();
     } catch (error) {
       console.error("Project deletion error:", error);
-      alert("Failed to delete project. Please try again.");
+      toast.error("Failed to delete project. Please try again.");
       setIsDeleting(false);
     }
   };
+
+  React.useEffect(() => {
+    if (!isOwner) return;
+    const btn = document.getElementById("delete-project-btn");
+    if (!btn) return;
+
+    const listener = async () => {
+      try {
+        const statsRes = await fetch(`/api/projects/${project.id}/stats`);
+        const stats = await statsRes.json();
+        const count = stats.eventCount || 0;
+
+        if (
+          confirm(
+            `Are you sure you want to delete ${project.name}? This will permanently delete ${count.toLocaleString()} events. This action is irreversible.`
+          )
+        ) {
+          const delRes = await fetch(`/api/projects/${project.id}`, {
+            method: "DELETE",
+          });
+          if (delRes.ok) {
+            window.location.href = `/dashboard/${orgSlug}/projects`;
+          } else {
+            toast.error("Failed to delete project");
+          }
+        }
+      } catch {
+        toast.error("Error processing deletion request");
+      }
+    };
+
+    btn.addEventListener("click", listener);
+    return () => btn.removeEventListener("click", listener);
+  }, [project.id, project.name, orgSlug, toast, isOwner]);
 
   // Adding an effect or manual wire to the button in the parent component if it can't be inside the form
   // But actually, I can just put the delete button here too or use a portal.
   // For simplicity, let's keep the delete logic here and wire it to a button if needed.
 
   return (
-    <Card className="bg-white border-slate-200 rounded-3xl overflow-hidden shadow-sm">
-      <CardContent className="p-8">
+    <Card className="premium-card rounded-2xl overflow-hidden glass-card">
+      <CardContent className="px-6 py-10">
         <form
           id="project-settings-form"
           onSubmit={handleSubmit(onSubmit)}
@@ -135,22 +171,22 @@ export function ProjectSettingsForm({
             <div className="space-y-4">
               <Label
                 htmlFor="name"
-                className="text-xs font-black uppercase text-slate-400 tracking-widest pl-1"
+                className="text-[11px] font-semibold uppercase text-text-muted tracking-wider"
               >
                 Project Name
               </Label>
               <div className="relative group">
-                <div className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-indigo-600 transition-colors pointer-events-none">
+                <div className="absolute left-4 top-3.5 text-text-muted group-focus-within:text-primary transition-colors pointer-events-none">
                   <Type className="w-5 h-5" />
                 </div>
                 <Input
                   id="name"
                   {...register("name")}
-                  className="pl-12 h-12 rounded-xl border-slate-200 bg-white font-bold text-slate-900 focus:ring-2 focus:ring-indigo-500 transition-all"
+                  className="pl-12 h-12 rounded-xl border-border bg-surface font-bold text-text-primary focus:ring-2 focus:ring-primary transition-all"
                   placeholder="e.g. My Awesome App"
                 />
                 {errors.name && (
-                  <p className="mt-2 text-xs font-bold text-red-500 pl-1">
+                  <p className="mt-2 text-xs font-bold text-danger">
                     {errors.name.message}
                   </p>
                 )}
@@ -161,22 +197,22 @@ export function ProjectSettingsForm({
             <div className="space-y-4">
               <Label
                 htmlFor="domain"
-                className="text-xs font-black uppercase text-slate-400 tracking-widest pl-1"
+                className="text-[11px] font-semibold uppercase text-text-muted tracking-wider"
               >
                 Website Domain
               </Label>
               <div className="relative group">
-                <div className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-indigo-600 transition-colors pointer-events-none">
+                <div className="absolute left-4 top-3.5 text-text-muted group-focus-within:text-primary transition-colors pointer-events-none">
                   <Globe className="w-5 h-5" />
                 </div>
                 <Input
                   id="domain"
                   {...register("domain")}
-                  className="pl-12 h-12 rounded-xl border-slate-200 bg-white font-bold text-slate-900 focus:ring-2 focus:ring-indigo-500 transition-all"
+                  className="pl-12 h-12 rounded-xl border-border bg-surface font-bold text-text-primary focus:ring-2 focus:ring-primary transition-all"
                   placeholder="e.g. app.example.com"
                 />
                 {errors.domain && (
-                  <p className="mt-2 text-xs font-bold text-red-500 pl-1">
+                  <p className="mt-2 text-xs font-bold text-danger">
                     {errors.domain.message}
                   </p>
                 )}
@@ -184,11 +220,11 @@ export function ProjectSettingsForm({
             </div>
           </div>
 
-          <div className="pt-6 flex flex-col md:flex-row items-center gap-6 border-t border-slate-50">
+          <div className="pt-6 flex flex-col md:flex-row items-center gap-6 border-t border-border">
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full md:w-auto h-12 px-10 bg-slate-900 text-white hover:bg-slate-800 rounded-xl font-black shadow-xl shadow-slate-900/10 transition-all disabled:opacity-50"
+              className="w-full md:w-auto h-11 px-10 bg-primary text-white hover:bg-primary-dark rounded-xl font-bold shadow-lg shadow-primary/10 transition-all disabled:opacity-50 hover:-translate-y-0.5 active:translate-y-0"
             >
               {isSubmitting ? (
                 <>
@@ -202,18 +238,20 @@ export function ProjectSettingsForm({
 
             {feedback && (
               <div
-                className={`flex items-center gap-2 p-3 rounded-xl border animate-in fade-in slide-in-from-left-2 ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border animate-in fade-in slide-in-from-left-2 shadow-sm ${
                   feedback.type === "success"
-                    ? "bg-green-50 border-green-200 text-green-700"
-                    : "bg-red-50 border-red-200 text-red-700"
+                    ? "bg-success-tint/50 border-success/20 text-success-text"
+                    : "bg-danger-tint/50 border-danger/20 text-danger-text"
                 }`}
               >
                 {feedback.type === "success" ? (
-                  <CheckCircle2 className="w-5 h-5" />
+                  <CheckCircle2 className="w-4 h-4" />
                 ) : (
-                  <XCircle className="w-5 h-5" />
+                  <XCircle className="w-4 h-4" />
                 )}
-                <span className="text-sm font-bold">{feedback.message}</span>
+                <span className="text-sm font-semibold">
+                  {feedback.message}
+                </span>
               </div>
             )}
 
@@ -224,7 +262,7 @@ export function ProjectSettingsForm({
                 onClick={handleDelete}
                 disabled={isDeleting}
                 variant="destructive"
-                className="w-full md:w-auto h-12 px-10 bg-red-600 text-white hover:bg-red-700 rounded-xl font-black shadow-xl shadow-red-900/10 transition-all ml-auto md:hidden"
+                className="w-full md:w-auto h-11 px-10 bg-danger text-white hover:bg-danger-dark rounded-xl font-bold shadow-lg shadow-danger/10 transition-all ml-auto md:hidden"
               >
                 {isDeleting ? "Deleting..." : "Delete Project"}
               </Button>
@@ -233,32 +271,6 @@ export function ProjectSettingsForm({
         </form>
 
         {/* Global event listener for the parent's delete button if it's rendered outside */}
-        {isOwner && (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-            document.getElementById('delete-project-btn')?.addEventListener('click', async () => {
-              try {
-                const statsRes = await fetch('/api/projects/${project.id}/stats');
-                const stats = await statsRes.json();
-                const count = stats.eventCount || 0;
-                
-                if (confirm('Are you sure you want to delete ${project.name}? This will permanently delete ' + count.toLocaleString() + ' events. This action is irreversible.')) {
-                  const delRes = await fetch('/api/projects/${project.id}', { method: 'DELETE' });
-                  if (delRes.ok) {
-                    window.location.href = '/dashboard/${orgSlug}/projects';
-                  } else {
-                    alert('Failed to delete project');
-                  }
-                }
-              } catch (e) {
-                alert('Error processing deletion request');
-              }
-            });
-          `,
-            }}
-          />
-        )}
       </CardContent>
     </Card>
   );

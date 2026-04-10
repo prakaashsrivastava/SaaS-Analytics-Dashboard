@@ -5,9 +5,9 @@ import { RoleBadgeProps, UserAvatarProps } from "@/types";
 
 export function RoleBadge({ role }: RoleBadgeProps) {
   const styles = {
-    owner: "bg-purple-100 text-purple-700 font-bold",
-    admin: "bg-blue-100 text-blue-700 font-bold",
-    member: "bg-slate-100 text-slate-600 font-bold",
+    owner: "bg-primary-tint text-primary-dark",
+    admin: "bg-primary-tint/50 text-primary",
+    member: "bg-surface-raised text-text-secondary border border-border",
   };
 
   const currentStyle =
@@ -15,7 +15,7 @@ export function RoleBadge({ role }: RoleBadgeProps) {
 
   return (
     <span
-      className={`text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider ${currentStyle}`}
+      className={`text-[10px] px-2.5 py-1 rounded-full uppercase font-medium tracking-wider ${currentStyle}`}
     >
       {role}
     </span>
@@ -27,7 +27,7 @@ export function UserAvatar({ name, email, className = "" }: UserAvatarProps) {
 
   return (
     <div
-      className={`h-10 w-10 shrink-0 rounded-xl bg-slate-900 flex items-center justify-center text-white text-sm font-extrabold uppercase shadow-sm ${className}`}
+      className={`h-10 w-10 shrink-0 rounded-xl bg-primary-tint flex items-center justify-center text-primary text-sm font-black uppercase shadow-sm ${className}`}
     >
       {initial}
     </div>

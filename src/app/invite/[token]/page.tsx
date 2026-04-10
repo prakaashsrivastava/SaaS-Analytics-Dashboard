@@ -47,10 +47,10 @@ export default function InviteAcceptancePage({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-50">
+      <div className="flex items-center justify-center min-h-screen bg-surface-raised">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-10 h-10 text-slate-900 animate-spin" />
-          <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+          <Loader2 className="w-10 h-10 text-primary animate-spin" />
+          <p className="text-sm font-bold text-text-muted uppercase tracking-widest animate-pulse">
             Validating Invitation...
           </p>
         </div>

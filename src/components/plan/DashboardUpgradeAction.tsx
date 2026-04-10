@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { Loader2, Zap } from "lucide-react";
 
 export function DashboardUpgradeAction() {
   const { data: session, update } = useSession();
   const [isUpgrading, setIsUpgrading] = useState(false);
+  const toast = useToast();
 
   const handleUpgrade = async () => {
     setIsUpgrading(true);
@@ -32,10 +34,10 @@ export function DashboardUpgradeAction() {
         },
       });
 
-      alert("🎉 Successfully upgraded to PRO!");
+      toast.success("🎉 Successfully upgraded to PRO!");
     } catch (error) {
       console.error("Upgrade failed:", error);
-      alert("Upgrade failed. Please try again.");
+      toast.error("Upgrade failed. Please try again.");
     } finally {
       setIsUpgrading(false);
     }
@@ -43,10 +45,10 @@ export function DashboardUpgradeAction() {
 
   if (session?.user?.plan === "pro") {
     return (
-      <div className="w-full px-3 py-2 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg flex items-center gap-2">
-        <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
-        <span className="text-[10px] font-black text-amber-700 uppercase tracking-tight">
-          PRO Early Access
+      <div className="w-full px-4 py-3 bg-primary-tint border border-primary/10 rounded-2xl flex items-center gap-3 shadow-inner">
+        <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+        <span className="text-[10px] font-black text-primary-dark uppercase tracking-widest">
+          High-Performance Plan Active
         </span>
       </div>
     );
@@ -56,18 +58,17 @@ export function DashboardUpgradeAction() {
     <Button
       onClick={handleUpgrade}
       disabled={isUpgrading}
-      size="sm"
-      className="w-full bg-slate-900 hover:bg-slate-800 text-white shadow-lg shadow-slate-900/10 font-bold h-9 transition-all active:scale-95"
+      className={`w-full bg-primary hover:bg-primary-dark text-white font-black h-9 rounded-2xl transition-all shadow-xl shadow-primary/20 active:scale-95 tracking-tight ${isUpgrading ? "opacity-80" : ""}`}
     >
       {isUpgrading ? (
         <>
-          <Loader2 className="w-3.5 h-3.5 mr-2 animate-spin" />
-          Upgrading...
+          <Loader2 className="w-5 h-5 mr-3 animate-spin" />
+          Processing Upgrade...
         </>
       ) : (
         <>
-          <Zap className="w-3.5 h-3.5 mr-2 fill-white text-white" />
-          Upgrade to Pro
+          <Zap className="w-5 h-5 mr-3 fill-white text-white" />
+          Upgrade to PRO (Active Plan)
         </>
       )}
     </Button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { MetricCard } from "@/components/charts/MetricCard";
 import { TimeseriesChart } from "@/components/charts/TimeseriesChart";
 import { EventBreakdownChart } from "@/components/charts/EventBreakdownChart";
@@ -39,6 +40,7 @@ export function ProjectAnalytics({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     async function fetchData() {
@@ -99,8 +101,9 @@ export function ProjectAnalytics({
       document.body.appendChild(a);
       a.click();
       a.remove();
+      toast.success("Analytics data exported successfully.");
     } catch {
-      alert("Failed to export data. Please try again.");
+      toast.error("Failed to export data. Please try again.");
     } finally {
       setIsExporting(false);
     }
@@ -108,9 +111,14 @@ export function ProjectAnalytics({
 
   if (error) {
     return (
-      <div className="p-8 bg-rose-50 border border-rose-100 rounded-2xl flex items-center gap-4 text-rose-600">
+      <div className="p-8 bg-danger-tint border border-danger/10 rounded-2xl flex items-center gap-4 text-danger-text animate-in fade-in duration-500">
         <AlertCircle className="w-6 h-6" />
-        <p className="font-bold">Error loading analytics: {error}</p>
+        <div className="space-y-1">
+          <p className="font-bold uppercase tracking-wider">
+            Error loading analytics
+          </p>
+          <p className="text-sm font-medium opacity-80">{error}</p>
+        </div>
       </div>
     );
   }
@@ -118,7 +126,7 @@ export function ProjectAnalytics({
   const isPro = orgPlan?.toLowerCase() === "pro";
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-700 font-sans">
       {/* Header Actions */}
       <div className="flex justify-end">
         <Button
@@ -126,14 +134,16 @@ export function ProjectAnalytics({
           size="sm"
           onClick={handleExport}
           disabled={isExporting}
-          className="h-10 px-4 border-slate-200 bg-white hover:bg-slate-50 font-bold text-slate-600 gap-2"
+          className="h-11 px-6 border-border bg-surface hover:bg-surface-hover font-bold text-text-secondary gap-3 rounded-xl transition-all hover:shadow-md active:scale-95"
         >
           {isExporting ? (
-            <AlertCircle className="w-4 h-4 animate-spin" />
+            <AlertCircle className="w-5 h-5 animate-spin" />
           ) : (
-            <Download className="w-4 h-4" />
+            <Download className="w-5 h-5 transition-transform group-hover:-translate-y-1" />
           )}
-          Export CSV
+          <span className="uppercase tracking-wider text-[10px] font-semibold">
+            Export CSV
+          </span>
         </Button>
       </div>
 
@@ -191,26 +201,27 @@ export function ProjectAnalytics({
         !loading &&
         overview &&
         Number(overview.pageviews.value) > 0 && (
-          <Card className="bg-indigo-600 border-none shadow-xl overflow-hidden relative group cursor-pointer hover:bg-indigo-700 transition-colors duration-500">
-            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
-              <ArrowUpRight className="w-40 h-40 text-white" />
+          <Card className="bg-premium-gradient border-none shadow-2xl overflow-hidden relative group cursor-pointer hover:opacity-95 transition-all duration-700 rounded-2xl">
+            <div className="absolute top-0 right-0 p-12 opacity-10 group-hover:scale-125 transition-transform duration-700">
+              <ArrowUpRight className="w-48 h-48 text-white" />
             </div>
-            <CardContent className="p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
-              <div className="space-y-2 text-center md:text-left">
-                <h3 className="text-2xl font-black text-white tracking-tight">
+            <CardContent className="p-10 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+              <div className="space-y-3 text-center md:text-left">
+                <h3 className="text-2xl font-bold text-white tracking-tight">
                   Unlock 90-day Data History
                 </h3>
-                <p className="text-indigo-100 font-medium text-lg leading-relaxed">
+                <p className="text-primary-tint font-medium text-lg leading-relaxed max-w-xl">
                   You are currently viewing data for the last{" "}
-                  <span className="text-white font-black underline decoration-indigo-300">
+                  <span className="text-white font-bold underline decoration-primary-light decoration-2 underline-offset-4">
                     7 days
                   </span>
                   . Upgrade to Pro to unlock full 90-day analytics, funnel
                   insights, and retention metrics.
                 </p>
               </div>
-              <Button className="bg-white text-indigo-600 hover:bg-slate-50 font-black px-10 h-14 text-lg rounded-xl shadow-lg hover:shadow-indigo-500/20 transition-all duration-300">
-                Upgrade to Pro
+              <Button className="bg-surface text-primary hover:bg-surface-raised font-bold px-10 h-14 text-base rounded-xl shadow-xl hover:shadow-primary/20 transition-all duration-500 hover:-translate-y-1 group">
+                Upgrade Now
+                <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </Button>
             </CardContent>
           </Card>
@@ -218,7 +229,7 @@ export function ProjectAnalytics({
 
       {/* Onboarding Guide if no data */}
       {!loading && overview && overview.pageviews.value === 0 && (
-        <div className="pt-8 border-t border-slate-100 italic">
+        <div className="pt-12 border-t border-border">
           <TrackingGuide projectId={projectId} />
         </div>
       )}

@@ -31,52 +31,54 @@ export function TrackingGuide({ projectId }: TrackingGuideProps) {
   }'`;
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-      <div className="text-center max-w-2xl mx-auto space-y-4">
-        <div className="w-20 h-20 bg-indigo-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
-          <Terminal className="w-10 h-10 text-indigo-600" />
+    <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 font-sans">
+      <div className="text-center max-w-3xl mx-auto space-y-6">
+        <div className="w-24 h-24 bg-primary-tint rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 shadow-xl shadow-primary/10 rotate-3 group-hover:rotate-0 transition-transform duration-500">
+          <Terminal className="w-12 h-12 text-primary" />
         </div>
-        <h2 className="text-4xl font-black text-slate-900 tracking-tight">
+        <h2 className="text-5xl font-black text-text-primary tracking-tight">
           Waiting for your first event...
         </h2>
-        <p className="text-lg text-slate-500 font-medium leading-relaxed italic">
-          Your project is created, but no data has been received yet. Use one of
-          the methods below to start tracking.
+        <p className="text-xl text-text-secondary font-medium leading-relaxed max-w-2xl mx-auto opacity-80">
+          Your project is ready to go, but we haven&apos;t seen any activity
+          yet. Use one of the methods below to activate your dashboard.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Method 1: JS Snippet */}
-        <Card className="border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden">
-          <CardHeader className="bg-slate-50/50 border-b border-slate-100">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-white rounded-lg shadow-sm border border-slate-100">
-                <Code className="w-5 h-5 text-indigo-600" />
-              </div>
-              <CardTitle className="text-lg font-black text-slate-900">
-                Client-side Script
-              </CardTitle>
-            </div>
+        <Card className="border-border shadow-card overflow-hidden rounded-3xl group hover:shadow-2xl transition-all duration-500">
+          <CardHeader className="bg-surface-raised/40 border-b border-border">
+            <CardTitle icon={<Code className="w-6 h-6" />}>
+              Client-side Script
+            </CardTitle>
           </CardHeader>
-          <CardContent className="p-6 space-y-4">
-            <p className="text-sm text-slate-500 font-medium">
-              Copy and paste this script tag into your website&apos;s{" "}
-              <code>&lt;head&gt;</code> section.
+          <CardContent className="px-6 py-10 space-y-6">
+            <p className="text-base text-text-secondary font-medium leading-relaxed">
+              The easiest way to get started. Paste this script into your
+              website&apos;s{" "}
+              <code className="bg-primary-tint text-primary-dark px-2 py-0.5 rounded font-black font-mono">
+                &lt;head&gt;
+              </code>{" "}
+              tag.
             </p>
-            <div className="relative group">
-              <pre className="bg-slate-900 text-slate-300 p-5 rounded-xl text-xs font-mono overflow-x-auto border border-slate-800 shadow-inner">
+            <div className="relative group/code">
+              <pre className="bg-sidebar-bg text-primary-light p-6 rounded-2xl text-sm font-mono overflow-x-auto border border-surface/10 shadow-2xl leading-relaxed">
                 {scriptSnippet}
               </pre>
               <Button
                 size="sm"
                 variant="secondary"
-                className="absolute top-3 right-3 bg-white/10 hover:bg-white/20 text-white font-bold h-8"
+                className="absolute top-4 right-4 bg-surface/5 hover:bg-primary text-white font-black h-10 px-4 rounded-xl transition-all opacity-0 group-hover/code:opacity-100 shadow-xl"
                 onClick={() => copyToClipboard(scriptSnippet, "script")}
               >
                 {copied === "script" ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <CheckCircle2 className="w-4 h-4 text-success" />
                 ) : (
-                  <Copy className="w-4 h-4" />
+                  <>
+                    <Copy className="w-4 h-4 mr-2" />
+                    Copy
+                  </>
                 )}
               </Button>
             </div>
@@ -84,35 +86,34 @@ export function TrackingGuide({ projectId }: TrackingGuideProps) {
         </Card>
 
         {/* Method 2: Server-side API */}
-        <Card className="border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden">
-          <CardHeader className="bg-slate-50/50 border-b border-slate-100">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-white rounded-lg shadow-sm border border-slate-100">
-                <Terminal className="w-5 h-5 text-indigo-600" />
-              </div>
-              <CardTitle className="text-lg font-black text-slate-900">
-                Direct API Call
-              </CardTitle>
-            </div>
+        <Card className="border-border shadow-card overflow-hidden rounded-3xl group hover:shadow-2xl transition-all duration-500">
+          <CardHeader className="bg-surface-raised/40 border-b border-border">
+            <CardTitle icon={<Terminal className="w-6 h-6" />}>
+              Direct API Call
+            </CardTitle>
           </CardHeader>
-          <CardContent className="p-6 space-y-4">
-            <p className="text-sm text-slate-500 font-medium">
-              Send events directly from your server using a simple POST request.
+          <CardContent className="px-6 py-10 space-y-6">
+            <p className="text-base text-text-secondary font-medium leading-relaxed">
+              Send events directly from your server. Perfect for tracking
+              conversions or internal processes.
             </p>
-            <div className="relative group">
-              <pre className="bg-slate-900 text-slate-300 p-5 rounded-xl text-xs font-mono overflow-x-auto border border-slate-800 shadow-inner">
+            <div className="relative group/code">
+              <pre className="bg-sidebar-bg text-primary-light p-6 rounded-2xl text-sm font-mono overflow-x-auto border border-surface/10 shadow-2xl leading-relaxed">
                 {curlSnippet}
               </pre>
               <Button
                 size="sm"
                 variant="secondary"
-                className="absolute top-3 right-3 bg-white/10 hover:bg-white/20 text-white font-bold h-8"
+                className="absolute top-4 right-4 bg-surface/5 hover:bg-primary text-white font-black h-10 px-4 rounded-xl transition-all opacity-0 group-hover/code:opacity-100 shadow-xl"
                 onClick={() => copyToClipboard(curlSnippet, "curl")}
               >
                 {copied === "curl" ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <CheckCircle2 className="w-4 h-4 text-success" />
                 ) : (
-                  <Copy className="w-4 h-4" />
+                  <>
+                    <Copy className="w-4 h-4 mr-2" />
+                    Copy
+                  </>
                 )}
               </Button>
             </div>
@@ -120,21 +121,18 @@ export function TrackingGuide({ projectId }: TrackingGuideProps) {
         </Card>
       </div>
 
-      <div className="bg-slate-900 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative shadow-2xl">
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
-        <div className="space-y-2 relative z-10">
-          <h3 className="text-xl font-black text-white italic tracking-tight">
-            Need help with custom events?
+      <div className="bg-sidebar-bg rounded-[2.5rem] p-12 flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden relative shadow-2xl border border-surface/10 group">
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-primary/10 rounded-full blur-[100px] group-hover:scale-150 transition-transform duration-1000" />
+        <div className="space-y-4 relative z-10 max-w-xl">
+          <h3 className="text-3xl font-black text-white tracking-tight">
+            How it works
           </h3>
-          <p className="text-slate-400 font-medium text-sm">
-            Check our{" "}
-            <span className="text-indigo-400 underline underline-offset-4 cursor-pointer hover:text-indigo-300">
-              documentation
-            </span>{" "}
-            for full API reference and tracking best practices.
+          <p className="text-sidebar-text font-medium text-lg leading-relaxed">
+            Our documentation covers everything from basic page views to complex
+            multi-step conversion funnels.
           </p>
         </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-black px-8 h-12 shadow-lg shadow-indigo-600/30 relative z-10 transition-all duration-300 transform hover:scale-105 active:scale-95">
+        <Button className="bg-primary hover:bg-primary-dark text-white font-black px-12 h-16 text-lg rounded-2xl shadow-2xl shadow-primary/20 relative z-10 transition-all duration-500 transform hover:-translate-y-2 active:scale-95">
           View SDK Docs
         </Button>
       </div>

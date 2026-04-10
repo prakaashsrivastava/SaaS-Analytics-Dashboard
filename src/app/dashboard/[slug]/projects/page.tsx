@@ -50,13 +50,13 @@ export default async function ProjectsPage({
     []) as unknown as ProjectWithDescription[];
 
   return (
-    <div className="py-8 px-6 space-y-8">
+    <div className="py-8 px-6 space-y-8 font-sans">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-3xl font-bold text-premium tracking-tight">
             Projects
           </h2>
-          <p className="text-slate-500 font-medium">
+          <p className="text-text-secondary font-medium">
             Manage your tracked applications and websites.
           </p>
         </div>
@@ -67,7 +67,7 @@ export default async function ProjectsPage({
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.length > 0 ? (
           projects.map((project) => (
             <Link
@@ -75,32 +75,32 @@ export default async function ProjectsPage({
               href={`/dashboard/${slug}/projects/${project.id}`}
               className="group"
             >
-              <Card className="h-full hover:border-indigo-200 hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200 group-hover:bg-slate-50/50">
-                <CardHeader className="pb-3">
+              <Card className="h-full premium-card transition-all duration-500 cursor-pointer border-border group-hover:bg-primary-tint/10 rounded-2xl overflow-hidden active:scale-[0.98]">
+                <CardHeader className="pb-4">
                   <div className="flex justify-between items-start">
-                    <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                      <Box className="w-5 h-5" />
+                    <div className="w-12 h-12 bg-surface-raised rounded-xl flex items-center justify-center text-text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm border border-border/50">
+                      <Box className="w-6 h-6" />
                     </div>
-                    <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-indigo-400 transition-colors" />
+                    <ExternalLink className="w-5 h-5 text-text-muted group-hover:text-primary transition-colors duration-500" />
                   </div>
-                  <CardTitle className="mt-4 text-slate-900 text-lg font-bold group-hover:text-indigo-600 transition-colors">
+                  <CardTitle className="mt-6 text-text-primary text-xl font-bold group-hover:text-primary transition-colors tracking-tight">
                     {project.name}
                   </CardTitle>
-                  <CardDescription className="font-medium truncate">
+                  <CardDescription className="font-semibold truncate text-text-secondary">
                     {project.domain || "No domain set"}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-slate-500 line-clamp-3 min-h-[3rem]">
+                  <p className="text-sm text-text-secondary font-medium line-clamp-3 min-h-[3rem] leading-relaxed">
                     {project.description ||
                       "No description provided for this project."}
                   </p>
-                  <div className="mt-6 flex items-center gap-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                  <div className="mt-8 flex items-center gap-4">
+                    <div className="premium-badge bg-success-tint text-success-text border-success/10 flex items-center gap-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
                       Active
                     </div>
-                    <div className="flex items-center gap-1.5">
+                    <div className="premium-badge bg-surface-raised text-text-muted border-border">
                       {project.createdAt?.toLocaleDateString()}
                     </div>
                   </div>
@@ -109,24 +109,26 @@ export default async function ProjectsPage({
             </Link>
           ))
         ) : (
-          <Card className="col-span-full py-20 border-3 border-dashed border-slate-200 bg-slate-50/30 flex flex-col items-center justify-center text-center space-y-4">
-            <div className="w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-slate-300">
-              <LayoutGrid className="w-8 h-8" />
+          <Card className="col-span-full py-24 border border-border bg-surface/50 backdrop-blur-sm flex flex-col items-center justify-center text-center space-y-6 rounded-2xl">
+            <div className="w-20 h-20 bg-surface rounded-xl shadow-card border border-border flex items-center justify-center text-text-muted">
+              <LayoutGrid className="w-10 h-10 opacity-30" />
             </div>
-            <div className="max-w-xs space-y-1">
-              <h3 className="text-lg font-bold text-slate-900">
-                No projects found
+            <div className="max-w-xs space-y-2">
+              <h3 className="text-2xl font-bold text-premium tracking-tight">
+                Add New Project
               </h3>
-              <p className="text-sm text-slate-500 font-medium leading-relaxed">
+              <p className="text-sm text-text-secondary font-medium leading-relaxed">
                 You haven&apos;t created any projects yet. Start by adding your
                 first app or website.
               </p>
             </div>
-            <ProjectLimitButton
-              orgSlug={slug}
-              isLimited={organisation.plan === "free" && projects.length >= 1}
-              canCreate={canDo(session.user.role!, "create_project")}
-            />
+            <div className="pt-2">
+              <ProjectLimitButton
+                orgSlug={slug}
+                isLimited={organisation.plan === "free" && projects.length >= 1}
+                canCreate={canDo(session.user.role!, "create_project")}
+              />
+            </div>
           </Card>
         )}
       </div>

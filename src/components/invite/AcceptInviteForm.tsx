@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useToast } from "@/hooks/use-toast";
 import { Loader2, Users, ArrowRight, CheckCircle2, LogOut } from "lucide-react";
 import { AcceptInviteFormProps, AcceptValues, acceptSchema } from "@/types";
 
@@ -30,6 +31,7 @@ export function AcceptInviteForm({
   const { data: session } = useSession();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
 
   const {
     register,
@@ -71,7 +73,7 @@ export function AcceptInviteForm({
         throw new Error(result.error || "Failed to accept invitation");
       }
 
-      alert("Successfully joined " + orgName + "!");
+      toast.success("Successfully joined " + orgName + "!");
       router.push(`/dashboard/${result.orgSlug}`);
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -108,7 +110,9 @@ export function AcceptInviteForm({
 
       // If they were creating an account (not just joining as existing)
       if (data.password !== "EXISTING_USER_BYPASS") {
-        alert("Account created and successfully joined " + orgName + "!");
+        toast.success(
+          "Account created and successfully joined " + orgName + "!"
+        );
         // Automatically sign in
         const signInResult = await signIn("credentials", {
           redirect: false,
@@ -122,7 +126,7 @@ export function AcceptInviteForm({
           router.push(`/dashboard/${result.orgSlug}`);
         }
       } else {
-        alert("Successfully joined " + orgName + "!");
+        toast.success("Successfully joined " + orgName + "!");
         router.push(`/dashboard/${result.orgSlug}`);
       }
     } catch (err: unknown) {
@@ -136,19 +140,19 @@ export function AcceptInviteForm({
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
-      <Card className="w-full max-w-md shadow-2xl border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-500">
-        <div className="h-2 bg-purple-600" />
-        <CardHeader className="space-y-1 text-center bg-slate-50/50 border-b border-slate-100 pb-8">
-          <div className="mx-auto w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center mb-4">
-            <Users className="w-8 h-8 text-purple-600" />
+    <div className="flex items-center justify-center min-h-screen bg-surface-raised p-4 font-sans">
+      <Card className="w-full max-w-md shadow-card border-border overflow-hidden animate-in fade-in zoom-in-95 duration-500 rounded-3xl">
+        <div className="h-2 bg-primary" />
+        <CardHeader className="space-y-1 text-center bg-surface-raised/50 border-b border-border pb-8">
+          <div className="mx-auto w-16 h-16 bg-surface rounded-2xl shadow-sm border border-border flex items-center justify-center mb-4">
+            <Users className="w-8 h-8 text-primary" />
           </div>
-          <CardTitle className="text-3xl font-black text-slate-900">
+          <CardTitle className="text-3xl font-black text-text-primary tracking-tight">
             Join {orgName}
           </CardTitle>
-          <CardDescription className="text-slate-500 font-bold uppercase tracking-tight text-[10px]">
+          <CardDescription className="text-text-muted font-black uppercase tracking-widest text-[10px]">
             Invited as{" "}
-            <span className="text-purple-600 px-1.5 py-0.5 bg-purple-50 rounded">
+            <span className="text-primary px-2 py-0.5 bg-primary-tint rounded-full">
               {role}
             </span>
           </CardDescription>
@@ -156,8 +160,11 @@ export function AcceptInviteForm({
 
         <div className="p-8">
           {error && (
-            <Alert variant="destructive" className="mb-6 py-2">
-              <AlertDescription className="text-xs font-bold uppercase">
+            <Alert
+              variant="destructive"
+              className="mb-6 py-2 bg-danger-tint border-danger-tint text-danger-text rounded-xl"
+            >
+              <AlertDescription className="text-xs font-bold uppercase tracking-tight">
                 {error}
               </AlertDescription>
             </Alert>
@@ -166,22 +173,22 @@ export function AcceptInviteForm({
           {/* CASE 1: Correct user is already logged in */}
           {isCorrectUserLoggedIn && (
             <div className="space-y-6 text-center animate-in fade-in">
-              <div className="p-4 bg-green-50 border border-green-100 rounded-xl flex flex-col items-center gap-2">
-                <CheckCircle2 className="w-8 h-8 text-green-500" />
-                <p className="text-sm font-bold text-green-800 text-center">
+              <div className="p-4 bg-success-tint border border-success/10 rounded-2xl flex flex-col items-center gap-2">
+                <CheckCircle2 className="w-8 h-8 text-success" />
+                <p className="text-sm font-bold text-success-text text-center">
                   You&apos;re already logged in as {email}!
                 </p>
               </div>
               <Button
                 onClick={onAcceptAsCurrent}
                 disabled={submitting}
-                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-6 shadow-xl shadow-slate-900/10 group"
+                className="w-full bg-primary hover:bg-primary-dark text-white font-black py-7 rounded-2xl shadow-xl shadow-primary/20 group text-lg"
               >
                 {submitting ? (
-                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <Loader2 className="h-6 w-6 animate-spin" />
                 ) : (
                   <>
-                    Confirm & Join Organization
+                    Join Organization
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
@@ -192,11 +199,15 @@ export function AcceptInviteForm({
           {/* CASE 2: Wrong user is logged in */}
           {isWrongUserLoggedIn && !isCorrectUserLoggedIn && (
             <div className="space-y-6 text-center animate-in fade-in">
-              <Alert className="bg-amber-50 border-amber-100 mb-6">
-                <AlertDescription className="text-xs font-bold text-amber-800 flex flex-col gap-1">
-                  <span>You are currently logged in as:</span>
-                  <span className="italic">{session?.user?.email}</span>
-                  <span className="mt-2 text-[10px] uppercase">
+              <Alert className="bg-warning-tint border-warning/10 mb-6 rounded-2xl">
+                <AlertDescription className="text-xs font-bold text-warning-text flex flex-col gap-2">
+                  <span className="opacity-80">
+                    You are currently logged in as:
+                  </span>
+                  <span className="text-sm font-black">
+                    {session?.user?.email}
+                  </span>
+                  <span className="mt-2 text-[10px] uppercase tracking-widest bg-warning/10 px-2 py-1 rounded-full">
                     This invite is for {email}
                   </span>
                 </AlertDescription>
@@ -204,7 +215,7 @@ export function AcceptInviteForm({
               <Button
                 variant="outline"
                 onClick={() => signOut({ callbackUrl: window.location.href })}
-                className="w-full border-slate-200 text-slate-600 font-bold"
+                className="w-full border-border text-text-secondary font-bold rounded-2xl py-6 h-auto"
               >
                 <LogOut className="mr-2 w-4 h-4" />
                 Logout to Switch Account
@@ -218,12 +229,12 @@ export function AcceptInviteForm({
               {userExists ? (
                 /* CASE 3: User exists but not logged in */
                 <div className="space-y-6 text-center">
-                  <div className="p-4 bg-indigo-50 border border-indigo-100 rounded-xl flex flex-col items-center gap-2">
-                    <CheckCircle2 className="w-8 h-8 text-indigo-500" />
-                    <p className="text-sm font-bold text-indigo-900 text-center">
+                  <div className="p-4 bg-primary-subtle border border-primary/10 rounded-2xl flex flex-col items-center gap-2">
+                    <CheckCircle2 className="w-8 h-8 text-primary" />
+                    <p className="text-sm font-black text-primary-dark text-center uppercase tracking-tight">
                       Welcome back, {userName || "Member"}!
                     </p>
-                    <p className="text-xs text-indigo-600 font-medium italic text-center">
+                    <p className="text-xs text-text-secondary font-medium text-center">
                       Just click below to join {orgName}. We will link this to
                       your existing account.
                     </p>
@@ -237,10 +248,10 @@ export function AcceptInviteForm({
                       })
                     }
                     disabled={submitting}
-                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-6 shadow-xl shadow-slate-900/10 group"
+                    className="w-full bg-primary hover:bg-primary-dark text-white font-black py-7 rounded-2xl shadow-xl shadow-primary/20 group text-lg"
                   >
                     {submitting ? (
-                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <Loader2 className="h-6 w-6 animate-spin" />
                     ) : (
                       <>
                         Join Organization
@@ -248,11 +259,11 @@ export function AcceptInviteForm({
                       </>
                     )}
                   </Button>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
+                  <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest leading-relaxed">
                     Not you? <br />
                     <button
                       onClick={() => router.push("/login")}
-                      className="text-indigo-500 hover:underline"
+                      className="text-primary hover:underline font-black mt-1"
                     >
                       Login with another account
                     </button>
@@ -264,7 +275,7 @@ export function AcceptInviteForm({
                   <div className="space-y-2">
                     <Label
                       htmlFor="email"
-                      className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic opacity-60"
+                      className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60"
                     >
                       Email address (Verified)
                     </Label>
@@ -273,14 +284,14 @@ export function AcceptInviteForm({
                       type="email"
                       value={email}
                       disabled
-                      className="bg-slate-100/50 border-slate-200 text-slate-400 font-medium italic cursor-not-allowed"
+                      className="bg-surface-raised border-border text-text-muted font-bold cursor-not-allowed rounded-2xl h-9 px-6"
                     />
                   </div>
 
                   <div className="space-y-2">
                     <Label
                       htmlFor="name"
-                      className="text-[10px] font-bold text-slate-500 uppercase tracking-widest"
+                      className="text-[10px] font-black text-text-muted uppercase tracking-widest"
                     >
                       Your Full Name
                     </Label>
@@ -288,10 +299,10 @@ export function AcceptInviteForm({
                       id="name"
                       placeholder="Enter your name"
                       {...register("name")}
-                      className="bg-slate-50 border-slate-200 focus:bg-white focus:ring-purple-500/10"
+                      className="bg-surface-raised border-border focus:bg-surface focus:ring-primary/10 rounded-2xl h-12 font-bold"
                     />
                     {errors.name && (
-                      <p className="text-[10px] font-bold text-red-500 uppercase">
+                      <p className="text-[10px] font-black text-danger-text uppercase tracking-tight">
                         {errors.name.message}
                       </p>
                     )}
@@ -300,7 +311,7 @@ export function AcceptInviteForm({
                   <div className="space-y-2">
                     <Label
                       htmlFor="password"
-                      className="text-[10px] font-bold text-slate-500 uppercase tracking-widest"
+                      className="text-[10px] font-black text-text-muted uppercase tracking-widest"
                     >
                       Set Password
                     </Label>
@@ -309,28 +320,28 @@ export function AcceptInviteForm({
                       type="password"
                       placeholder="Min. 8 characters"
                       {...register("password")}
-                      className="bg-slate-50 border-slate-200 focus:bg-white focus:ring-purple-500/10"
+                      className="bg-surface-raised border-border focus:bg-surface focus:ring-primary/10 rounded-2xl h-12 font-bold"
                     />
                     {errors.password && (
-                      <p className="text-[10px] font-bold text-red-500 uppercase">
+                      <p className="text-[10px] font-black text-danger-text uppercase tracking-tight">
                         {errors.password.message}
                       </p>
                     )}
                   </div>
 
                   <Button
-                    className="w-full mt-4 bg-slate-900 hover:bg-slate-800 text-white font-black py-6 shadow-xl shadow-slate-900/10 group"
+                    className="w-full mt-4 bg-primary hover:bg-primary-dark text-white font-black py-7 rounded-2xl shadow-xl shadow-primary/20 group text-lg"
                     type="submit"
                     disabled={submitting}
                   >
                     {submitting ? (
                       <>
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Creating Account...
+                        <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                        Creating...
                       </>
                     ) : (
                       <>
-                        Complete Registration
+                        Complete Setup
                         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                       </>
                     )}

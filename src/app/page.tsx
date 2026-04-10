@@ -1,11 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div className="flex flex-col flex-1 items-center justify-center bg-surface-raised font-sans">
+      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-surface sm:items-start rounded-3xl shadow-card my-12 border border-border">
         <Image
-          className="dark:invert"
+          className="dark:invert mb-8"
           src="/next.svg"
           alt="Next.js logo"
           width={100}
@@ -13,51 +14,29 @@ export default function Home() {
           priority
         />
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+          <h1 className="max-w-xs text-4xl font-black leading-tight tracking-tight text-text-primary">
+            SaaS Analytics <span className="text-primary">Dashboard</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="max-w-md text-lg font-medium leading-relaxed text-text-secondary">
+            A tokenized, high-performance dashboard built with Next.js 14 and
+            Tailwind CSS 4.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="flex flex-col gap-4 text-base font-bold sm:flex-row mt-12">
+          <Link
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-8 text-white transition-all hover:bg-primary-dark shadow-lg shadow-primary/20 md:w-auto"
+            href="/dashboard"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            Go to Dashboard
+          </Link>
+          <Link
+            className="flex h-12 w-full items-center justify-center rounded-xl border border-solid border-border px-8 text-text-primary transition-all hover:bg-surface-raised md:w-auto"
+            href="https://nextjs.org/docs"
             target="_blank"
             rel="noopener noreferrer"
           >
             Documentation
-          </a>
+          </Link>
         </div>
       </main>
     </div>

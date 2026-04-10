@@ -58,18 +58,18 @@ export async function GET(
 
     const retentionData = [
       {
-        day: "Day 1",
-        percentage: Math.round((data.day_1 / total) * 100),
+        name: "Day 1",
+        value: Math.round((data.day_1 / total) * 100),
         label: "Next Day Return",
       },
       {
-        day: "Day 7",
-        percentage: Math.round((data.day_7 / total) * 100),
+        name: "Day 7",
+        value: Math.round((data.day_7 / total) * 100),
         label: "Weekly Retention",
       },
       {
-        day: "Day 30",
-        percentage: Math.round((data.day_30 / total) * 100),
+        name: "Day 30",
+        value: Math.round((data.day_30 / total) * 100),
         label: "Monthly Retention",
       },
     ];
