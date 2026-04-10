@@ -58,17 +58,17 @@ export function DashboardUpgradeAction() {
     <Button
       onClick={handleUpgrade}
       disabled={isUpgrading}
-      className={`w-full bg-primary hover:bg-primary-dark text-white font-black h-9 rounded-2xl transition-all shadow-xl shadow-primary/20 active:scale-95 tracking-tight ${isUpgrading ? "opacity-80" : ""}`}
+      className={`bg-primary hover:bg-primary-dark text-white font-black h-8 rounded-xl transition-all shadow-md hover:shadow-primary/20 active:scale-95 tracking-tight px-4 ${isUpgrading ? "opacity-80" : ""}`}
     >
       {isUpgrading ? (
         <>
-          <Loader2 className="w-5 h-5 mr-3 animate-spin" />
-          Processing Upgrade...
+          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          Upgrading...
         </>
       ) : (
         <>
-          <Zap className="w-5 h-5 mr-3 fill-white text-white" />
-          Upgrade to PRO (Active Plan)
+          <Zap className="w-4 h-4 mr-2 fill-white text-white" />
+          Upgrade to PRO
         </>
       )}
     </Button>

@@ -15,7 +15,7 @@ export function DashboardActions({
   const router = useRouter();
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex flex-wrap items-center gap-3">
       {canInvite && (
         <Button
           onClick={() => {

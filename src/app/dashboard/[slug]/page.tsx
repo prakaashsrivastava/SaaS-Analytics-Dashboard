@@ -21,10 +21,7 @@ import {
   Monitor,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default async function OrgDashboardPage({
   params,
@@ -64,8 +61,8 @@ export default async function OrgDashboardPage({
     []) as unknown as ProjectWithDescription[];
 
   return (
-    <div className="py-8 px-6 space-y-8">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="py-6 px-4 md:py-8 md:px-6 space-y-6 md:space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <h2 className="text-2xl font-bold text-premium tracking-tight">
             Dashboard
@@ -84,27 +81,7 @@ export default async function OrgDashboardPage({
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <Card className="col-span-1 md:col-span-3 premium-card rounded-xl overflow-hidden border border-border border-t-2 border-t-primary shadow-card hover:shadow-card-hover transition-all bg-gradient-to-br from-surface to-primary-subtle relative">
-          {/* Status Overlay (Top Right) */}
-          <div className="md:absolute md:top-6 md:right-8 flex items-center gap-3 mb-6 md:mb-0 px-6 pt-6 md:p-0">
-            <div
-              className={cn(
-                "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border backdrop-blur-md shadow-sm",
-                organisation.plan === "pro"
-                  ? "bg-primary-tint/50 text-primary-dark border-primary/20"
-                  : "bg-surface text-text-secondary border-border"
-              )}
-            >
-              {organisation.plan} Plan
-            </div>
-            <div className="flex items-center gap-1.5 px-3 py-1 bg-success-tint/30 rounded-full border border-success/10">
-              <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-              <span className="text-[10px] font-bold text-success-text uppercase">
-                Active
-              </span>
-            </div>
-          </div>
-
-          <div className="p-6 md:p-8 flex flex-col md:flex-row items-center gap-8 md:gap-16">
+          <div className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-16">
             {/* Left Section: Workspace Identity */}
             <div className="flex items-center gap-6 w-full md:w-auto">
               {organisation.logoUrl ? (
@@ -139,7 +116,7 @@ export default async function OrgDashboardPage({
             </div>
 
             {/* Middle Section: Editorial Stats */}
-            <div className="grid grid-cols-2 gap-8 md:gap-16 w-full md:w-auto md:border-l border-border/30 md:pl-16">
+            <div className="grid grid-cols-2 gap-8 md:gap-32 w-full md:w-auto md:border-l border-border/30 md:pl-16">
               <div className="flex flex-col gap-1">
                 <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.1em]">
                   Projects
@@ -170,35 +147,62 @@ export default async function OrgDashboardPage({
             </div>
 
             {/* Right Action: Upgrades */}
-            {canDo(session.user.role!, "upgrade_plan") &&
-              organisation.plan === "free" && (
-                <div className="md:ml-auto w-full md:w-auto">
-                  <div className="flex items-center justify-between md:flex-row md:items-center gap-4 bg-surface-raised/50 px-4 py-3 rounded-xl border border-border shadow-sm group">
-                    <div>
-                      <p className="text-[11px] font-bold text-text-primary flex items-center gap-2">
-                        <ShieldCheck className="w-3 h-3 text-primary" />
-                        Upgrade Ready
-                      </p>
-                    </div>
-                    <DashboardUpgradeAction />
+            <div className="md:ml-auto w-full md:w-auto mt-6 md:mt-0">
+              <div className="flex flex-col sm:flex-row items-center gap-4 bg-white/10 md:bg-surface-raised/50 px-4 py-3 rounded-2xl border border-border shadow-sm group">
+                <div className="flex items-center gap-2">
+                  <div
+                    className={cn(
+                      "px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest border shadow-sm",
+                      organisation.plan === "pro"
+                        ? "bg-primary-tint/50 text-primary-dark border-primary/20"
+                        : "bg-surface text-text-secondary border-border"
+                    )}
+                  >
+                    {organisation.plan} Plan
+                  </div>
+                  <div className="flex items-center gap-1.5 px-2.5 py-0.5 bg-success-tint/30 rounded-full border border-success/10">
+                    <div className="w-1 h-1 rounded-full bg-success animate-pulse" />
+                    <span className="text-[9px] font-bold text-success-text uppercase">
+                      Active
+                    </span>
                   </div>
                 </div>
-              )}
+
+                {canDo(session.user.role!, "upgrade_plan") &&
+                  organisation.plan === "free" && (
+                    <div className="flex items-center gap-3 border-t sm:border-t-0 sm:border-l border-border pt-3 sm:pt-0 sm:pl-4">
+                      <div className="hidden lg:flex items-center gap-2">
+                        <ShieldCheck
+                          className="w-3.5 h-3.5 text-primary"
+                          strokeWidth={2.5}
+                        />
+                        <p className="text-[9px] font-black text-text-primary uppercase tracking-wider">
+                          Ready
+                        </p>
+                      </div>
+                      <DashboardUpgradeAction />
+                    </div>
+                  )}
+              </div>
+            </div>
           </div>
         </Card>
 
         <Card className="col-span-1 md:col-span-3 premium-card overflow-hidden rounded-xl border-border bg-surface">
-          <div className="border-b border-border bg-surface-raised/30 px-6 py-3.5 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-4">
-              <div className="p-2.5 bg-primary-tint/20 rounded-xl border border-primary/10">
-                <Box className="w-5 h-5 text-primary" strokeWidth={1.5} />
+          <div className="border-b border-border bg-surface-raised/30 px-4 sm:px-6 py-3 flex flex-row justify-between items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+              <div className="p-2 bg-primary-tint/20 rounded-xl border border-primary/10 shrink-0">
+                <Box
+                  className="w-4 h-4 sm:w-5 sm:h-5 text-primary"
+                  strokeWidth={1.5}
+                />
               </div>
-              <div>
-                <h3 className="text-lg font-bold text-text-primary tracking-tight">
+              <div className="min-w-0">
+                <h3 className="text-sm sm:text-lg font-bold text-text-primary tracking-tight truncate">
                   Your Projects
                 </h3>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xs text-text-secondary font-medium">
+                <div className="hidden xs:flex items-center gap-2 mt-0.5">
+                  <span className="text-[10px] sm:text-xs text-text-secondary font-medium truncate">
                     {projects.length} active project(s)
                   </span>
                   {organisation.plan === "free" && (
@@ -319,27 +323,27 @@ export default async function OrgDashboardPage({
               {organisation.members.map((member) => (
                 <li
                   key={member.id}
-                  className="px-6 py-4 flex items-center justify-between hover:bg-surface-raised transition-colors group"
+                  className="px-4 md:px-6 py-4 flex items-center justify-between hover:bg-surface-raised transition-colors group gap-4"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 bg-primary-tint rounded-xl flex items-center justify-center text-primary text-sm font-black border border-primary/10 shadow-sm">
+                  <div className="flex items-center gap-4 min-w-0 flex-1">
+                    <div className="h-10 w-10 bg-primary-tint rounded-xl flex items-center justify-center text-primary text-sm font-black border border-primary/10 shadow-sm shrink-0">
                       {member.user.name?.[0]}
                     </div>
-                    <div className="space-y-0.5">
-                      <p className="text-sm font-bold text-text-primary group-hover:text-primary transition-colors">
+                    <div className="space-y-0.5 min-w-0">
+                      <p className="text-sm font-bold text-text-primary group-hover:text-primary transition-colors truncate">
                         {member.user.name}
                       </p>
-                      <p className="text-[11px] text-text-muted font-medium">
+                      <p className="text-[11px] text-text-muted font-medium truncate">
                         {member.user.email}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="flex justify-end min-w-[100px]">
+                  <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                    <div className="flex justify-end min-w-[60px] sm:min-w-[80px]">
                       <span
                         className={cn(
-                          "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border leading-none",
+                          "px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border leading-none shrink-0",
                           member.role === "owner"
                             ? "bg-[#EDE9FE] text-[#5B21B6] border-[#5B21B6]/10"
                             : member.role === "admin"

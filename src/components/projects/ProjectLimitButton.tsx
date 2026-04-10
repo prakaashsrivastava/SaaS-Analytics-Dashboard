@@ -15,7 +15,7 @@ export function ProjectLimitButton({
 
   return (
     <Button
-      size="lg"
+      size="default"
       variant={isLimited ? "outline" : "default"}
       onClick={() => {
         if (isLimited) {
@@ -30,8 +30,8 @@ export function ProjectLimitButton({
       }}
       className={
         isLimited
-          ? "border-border font-bold text-text-secondary hover:bg-surface-hover rounded-xl h-11 px-6 transition-all"
-          : "bg-primary hover:bg-primary-dark text-white font-bold shadow-card rounded-xl h-11 px-6 transition-all hover:-translate-y-0.5 active:scale-95 tracking-tight"
+          ? "border-border font-bold text-text-secondary hover:bg-surface-hover rounded-xl h-9 sm:h-11 px-3 sm:px-6 transition-all text-xs sm:text-sm"
+          : "bg-primary hover:bg-primary-dark text-white font-bold shadow-card rounded-xl h-9 sm:h-11 px-3 sm:px-6 transition-all hover:-translate-y-0.5 active:scale-95 tracking-tight text-xs sm:text-sm"
       }
     >
       <PlusCircle className="mr-2 h-4 w-4" />
