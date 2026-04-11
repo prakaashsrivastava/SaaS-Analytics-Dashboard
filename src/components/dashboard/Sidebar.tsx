@@ -89,7 +89,7 @@ export function Sidebar({
   const canCreate = canDo(userRole, "create_project");
 
   return (
-    <aside className="w-64 bg-sidebar-bg border-r border-sidebar-border flex flex-col h-full shrink-0">
+    <aside className="w-full bg-sidebar-bg border-r border-sidebar-border flex flex-col h-full shrink-0">
       <div className="p-6">
         <div className="flex items-center gap-3 mb-8">
           {logoUrl ? (

@@ -60,18 +60,18 @@ export default async function ProjectDashboardPage({
     process.env.NEXT_URL || process.env.NEXTAUTH_URL || "http://localhost:3000";
 
   return (
-    <div className="py-8 px-6 space-y-10 bg-primary-subtle min-h-screen font-sans">
+    <div className="w-full py-6 px-6 md:py-8 md:px-8 space-y-6 md:space-y-8">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div className="flex items-center gap-6">
-          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
-            <Box className="w-8 h-8" />
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-primary-tint/20 rounded-2xl border border-primary/10 shrink-0 shadow-sm">
+            <Box className="w-6 h-6 text-primary" strokeWidth={2} />
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-premium tracking-tight">
+            <h2 className="text-2xl font-bold text-premium tracking-tight line-clamp-1">
               {project.name}
             </h2>
-            <div className="flex items-center gap-4 mt-2 font-semibold">
+            <div className="flex items-center gap-4 mt-1 font-semibold">
               <span className="text-text-secondary">
                 {project.domain || "No domain set"}
               </span>

@@ -49,6 +49,44 @@ export function RetentionChart({ data, loading }: RetentionChartProps) {
 
   const COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)"];
 
+  const isEmpty =
+    !data || data.length === 0 || data.every((d) => d.value === 0);
+
+  if (isEmpty) {
+    return (
+      <Card className="premium-card rounded-2xl overflow-hidden group">
+        <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-border">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-primary-subtle rounded-lg group-hover:bg-primary transition-colors duration-500">
+              <Users2 className="w-4 h-4 text-primary group-hover:text-white transition-colors" />
+            </div>
+            <div>
+              <CardTitle className="text-lg font-bold text-premium tracking-tight uppercase">
+                Retention Analytics
+              </CardTitle>
+              <p className="text-[10px] font-semibold text-text-muted uppercase tracking-widest leading-none mt-0.5">
+                Cohort Performance
+              </p>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="h-[340px] flex flex-col items-center justify-center p-8 text-center bg-surface-raised/30">
+          <div className="w-16 h-16 bg-surface-raised rounded-2xl flex items-center justify-center text-text-muted mb-4">
+            <Users2 className="w-8 h-8" />
+          </div>
+          <p className="text-text-secondary font-bold uppercase tracking-widest text-xs mb-2">
+            Cohorts Pending
+          </p>
+          <p className="text-text-muted text-sm max-w-[240px] mx-auto">
+            Retention cohorts require at least 30 days of historical data to
+            accurately track returning users. Check back once your project has
+            more history.
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="premium-card rounded-2xl overflow-hidden group">
       <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-border">

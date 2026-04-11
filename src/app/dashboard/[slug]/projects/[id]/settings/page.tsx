@@ -2,8 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
-import { Settings, ShieldCheck, Trash2, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Settings, ShieldCheck, Trash2 } from "lucide-react";
 import { ProjectSettingsForm } from "@/components/projects/ProjectSettingsForm";
 
 export default async function ProjectSettingsPage({
@@ -42,24 +41,22 @@ export default async function ProjectSettingsPage({
   }
 
   return (
-    <div className="py-10 px-6 space-y-10 font-sans">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-5">
-          <Link
-            href={`/dashboard/${slug}/projects/${id}`}
-            className="p-3 hover:bg-primary-tint/50 rounded-xl transition-all text-text-secondary hover:text-primary group border border-transparent hover:border-primary/10"
-          >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          </Link>
-          <div className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/10">
-            <Settings className="w-7 h-7" />
+    <div className="w-full py-6 px-6 md:py-8 md:px-8 space-y-6 md:space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-primary-tint/20 rounded-2xl border border-primary/10 shrink-0 shadow-sm">
+            <Settings className="w-6 h-6 text-primary" strokeWidth={2} />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-premium tracking-tight">
-              Settings
-            </h1>
-            <p className="text-text-secondary font-medium mt-1">
-              Configuration for {project.name}.
+            <h2 className="text-2xl font-bold text-premium tracking-tight">
+              Project Settings
+            </h2>
+            <p className="text-text-secondary font-medium">
+              Configuration for{" "}
+              <span className="text-text-primary font-bold">
+                {project.name}
+              </span>
+              .
             </p>
           </div>
         </div>

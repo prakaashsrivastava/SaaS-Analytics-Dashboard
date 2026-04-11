@@ -54,7 +54,16 @@ export async function GET(
     }
 
     const data = (results as RetentionResult[])[0];
-    const total = data.total_users || 1;
+
+    if (!data || !data.total_users) {
+      return NextResponse.json([
+        { name: "Day 1", value: 0, label: "Next Day Return" },
+        { name: "Day 7", value: 0, label: "Weekly Retention" },
+        { name: "Day 30", value: 0, label: "Monthly Retention" },
+      ]);
+    }
+
+    const total = data.total_users;
 
     const retentionData = [
       {

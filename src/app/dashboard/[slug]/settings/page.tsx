@@ -31,18 +31,20 @@ export default async function SettingsPage({
   }
 
   return (
-    <div className="py-10 px-6 space-y-10 font-sans">
-      <div className="flex items-center gap-4">
-        <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
-          <Settings className="w-7 h-7" />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold text-premium tracking-tight">
-            Organization Settings
-          </h1>
-          <p className="text-text-secondary font-medium mt-1">
-            Manage your brand assets and general workspace configuration.
-          </p>
+    <div className="w-full py-6 px-6 md:py-8 md:px-8 space-y-6 md:space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-primary-tint/20 rounded-2xl border border-primary/10 shrink-0 shadow-sm">
+            <Settings className="w-6 h-6 text-primary" strokeWidth={2} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-premium tracking-tight">
+              Settings
+            </h2>
+            <p className="text-text-secondary font-medium mt-1">
+              Manage your brand assets and general workspace configuration.
+            </p>
+          </div>
         </div>
       </div>
 
